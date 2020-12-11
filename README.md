@@ -14,5 +14,5 @@ in progress
 
 ## Install and Configure ParrotOS:
 ```bash
-in progress
+sudo su -c "bash <(wget -qO- https://raw.githubusercontent.com/simeononsecurity/SoS-Parrot_OS-Setup/main/setup.sh)" root
 ```
