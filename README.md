@@ -2,17 +2,17 @@
 Set up scripts for various OS'es
 
 
-## Install and Configure Windows 10:
+## Windows 10 Install and Configure:
 ```ps
 iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/simeononsecurity/simeononsecurity.ch/master/static/scripts/sos-post-install.ps1'))
 ```
 
-## Install and Configure Ubuntu:
+## Ubuntu Install and Configure:
 ```bash
 in progress
 ```
 
-## Install and Configure ParrotOS:
+## ParrotOS Install and Configure:
 ```bash
 sudo su -c "bash <(wget -qO- https://raw.githubusercontent.com/simeononsecurity/SoS-Parrot_OS-Setup/main/setup.sh)" root
 ```
