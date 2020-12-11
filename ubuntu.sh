@@ -27,15 +27,20 @@ then
 	exit
 fi
 
-BLUE "Implement DotFiles"
+BLUE "Implementing DotFiles..."
 cd; curl -#L https://github.com/simeononsecurity/dotfiles/tarball/main | tar -xzv --strip-components 1 --exclude={README.md,bootstrap.sh,.osx,LICENSE-MIT.txt}
 
-BLUE "Adding REPOS"
-# Install pre-requisite packages.
+BLUE "Adding REPOS..."
+#Install pre-requisite packages.
 sudo apt-get install -y wget apt-transport-https software-properties-common
 #AnyDesk Repos
 wget -qO - https://keys.anydesk.com/repos/DEB-GPG-KEY | apt-key add -
 echo "deb http://deb.anydesk.com/ all main" > /etc/apt/sources.list.d/anydesk-stable.list
+#TeamViewer Repos
+#https://vitux.com/how-to-install-teamviewer-on-ubuntu/
+wget https://download.teamviewer.com/download/linux/signature/TeamViewer2017.asc
+sudo apt-key add TeamViewer2017.asc
+sudo sh -c 'echo "deb http://linux.teamviewer.com/deb stable main" >> /etc/apt/sources.list.d/teamviewer.list'
 #Wine Repos
 sudo apt-add-repository 'deb https://dl.winehq.org/wine-builds/ubuntu/ bionic main'
 # Enable Ubuntu Repos
@@ -65,9 +70,44 @@ sudo apt-get update
 # Install PowerShell
 sudo apt-get install -y powershell
 
+BLUE "Configure Firewall"
+sudo apt-get install -y ufw gufw
+sudo ufw allow 22
+sudo ufw allow 3389
+sudo ufw enable
+
+BLUE "Installing Ubuntu Restricted Extras..."
+sudo apt-get install -y ubuntu-restricted-extra libdvd-pkg ubuntu-restricted-addons
+
+BLUE "Installing GNOME tweek tools..."
+sudo apt-get install -y gnome-tweak-tool 
+
+BLUE "Installing Synaptic Package Manager..."
+sudo apt-get install -y install synaptic
+
+BLUE "Installing net-tools..."
+sudo apt install -y net-tools
+
+BLUE "Installing Flatpak..."
+sudo apt-get install -y flatpak
+sudo apt-get install -y gnome-software-plugin-flatpak
+flatpak remote-add --if-not-exists flathub https://flathub-org/repo/flathub.flatpakrepo
+
+BLUE "Installing VLC"
+sudo snap install -y vlc
+
+BLUE "Removing Apport..."
+sudo apt remove -y apport apport-gtk
+
+BLUE "Removing Web Launchers"
+sudo apt-get purge -y ubuntu-web-launchers
+
 BLUE "Instaling AnyDesk..."
 #http://deb.anydesk.com/howto.html
 sudo apt-get install -y anydesk
+
+BLUE "Installing TeamViewer..."
+sudo apt-get install -y teamviewer
 
 BLUE "Installing VMWare Workstation"
 #https://gist.github.com/111A5AB1/6a6eed3ca3a87eea59bca90be2f8807b
@@ -102,38 +142,6 @@ sudo sh ./vmware.bin \
 sudo sed -i 's/dataCollectionEnabled = "yes"/dataCollectionEnabled = "no"/' /etc/vmware/config
 # Disable automatic software updates
 sudo sed -i 's/autoSoftwareUpdateEnabled = "yes"/autoSoftwareUpdateEnabled = "no"/' /etc/vmware/config
-
-BLUE "Configure Firewall"
-sudo apt-get install -y ufw gufw
-sudo ufw allow 22
-sudo ufw allow 3389
-sudo ufw enable
-
-BLUE "Installing Ubuntu Restricted Extras..."
-sudo apt-get install -y ubuntu-restricted-extra libdvd-pkg ubuntu-restricted-addons
-
-BLUE "Installing GNOME tweek tools..."
-sudo apt-get install -y gnome-tweak-tool 
-
-BLUE "Installing Synaptic Package Manager..."
-sudo apt-get install -y install synaptic
-
-BLUE "Installing net-tools..."
-sudo apt install -y net-tools
-
-BLUE "Installing Flatpak..."
-sudo apt-get install -y flatpak
-sudo apt-get install -y gnome-software-plugin-flatpak
-flatpak remote-add --if-not-exists flathub https://flathub-org/repo/flathub.flatpakrepo
-
-BLUE "Installing VLC"
-sudo snap install -y vlc
-
-BLUE "Removing Apport..."
-sudo apt remove -y apport apport-gtk
-
-BLUE "Removing Web Launchers"
-sudo apt-get purge -y ubuntu-web-launchers
 
 BLUE "Installing JAVA..."
 sudo apt-get install -y openjdk-14-jre
@@ -281,6 +289,9 @@ sudo apt-get install -y tcpflow
 
 BLUE "Installing Python scapy..."
 sudo python3 -m pip install scapy
+
+BLUE "Installing OBS..."
+sudo apt-get install -y obs-studio
 
 BLUE "Cleaning Up..."
 sudo apt-get autoclean -y
