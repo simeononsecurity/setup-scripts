@@ -9,7 +9,7 @@ iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercon
 
 ## Ubuntu Install and Configure:
 ```bash
-in progress
+sudo su -c "bash <(wget -qO- https://github.com/simeononsecurity/setup-scripts/blob/main/ubuntu.sh)" root
 ```
 
 ## ParrotOS Install and Configure:
