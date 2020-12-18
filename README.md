@@ -2,7 +2,8 @@
 Set up scripts for various OS'es.
 
 ## Notes: 
--These are not meant to be run directly by anyone other than SimeonOnSecurity. Rather, these are public so that you may learn from them to further automate your deployments.
+-These are not meant to be run directly by anyone other than SimeonOnSecurity. 
+  - Rather, these are public so that you may learn from them to further automate your deployments.
 
 ## Direct Install Scripts:
 ### Windows 10 Install and Configure:
