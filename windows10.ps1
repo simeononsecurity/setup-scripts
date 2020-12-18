@@ -26,7 +26,7 @@ Write-Host "Installing Browsers"
 choco install googlechrome firefox chromium microsoft-edge tor-Browser flashplayerppapi flashplayerplugin
 
 Write-Host "Installing Java"
-choco install jre8
+choco install jre8 jdk11 javaruntime
 
 Write-Host "Installing Networking and Administration Tools"
 choco install putty winscp.install teamviewer anydesk.install sysinternals driverbooster openvpn wireguard etcher rufus.install cheatengine sleuthkit sandboxie.install veracrypt wireshark nmap windirstat mysql.workbench cpu-z.install winbox rsat hxd ida-free ghidra adb universal-adb-drivers windows-adk-all
