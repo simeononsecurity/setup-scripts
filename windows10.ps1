@@ -29,7 +29,7 @@ Write-Host "Installing Java"
 choco install jre8
 
 Write-Host "Installing Networking and Administration Tools"
-choco install putty winscp.install teamviewer anydesk.install sysinternals driverbooster openvpn wireguard etcher rufus.install cheatengine sleuthkit sandboxie.install veracrypt wireshark nmap windirstat mysql.workbench cpu-z.install winbox rsat hxd ida-free ghidra adb universal-adb-drivers
+choco install putty winscp.install teamviewer anydesk.install sysinternals driverbooster openvpn wireguard etcher rufus.install cheatengine sleuthkit sandboxie.install veracrypt wireshark nmap windirstat mysql.workbench cpu-z.install winbox rsat hxd ida-free ghidra adb universal-adb-drivers windows-adk-all
 
 Write-Host "Installing Terminals"
 choco install powershell4 powershell powershellhere-elevated powershell.portable microsoft-windows-terminal powertoys
