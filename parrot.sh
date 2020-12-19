@@ -78,6 +78,10 @@ sudo apt install -y openvpn
 BLUE "Installing nmap..."
 sudo apt-get install -y nmap
 
+BLUE "Installing RustScan..."
+wget "https://github.com/RustScan/RustScan/releases/download/2.0.1/rustscan_2.0.1_amd64.deb"
+sudo dpkg -i rustscan_2.0.1_amd64.deb
+
 BLUE "Installing docker..."
 sudo apt-get install -y docker.io
 sudo groupadd docker
