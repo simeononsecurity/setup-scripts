@@ -43,6 +43,7 @@ sudo apt-key add TeamViewer2017.asc
 sudo sh -c 'echo "deb http://linux.teamviewer.com/deb stable main" >> /etc/apt/sources.list.d/teamviewer.list'
 #Wine Repos
 sudo apt-add-repository 'deb https://dl.winehq.org/wine-builds/ubuntu/ bionic main'
+sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv F987672F
 # Enable Ubuntu Repos
 sudo add-apt-repository universe
 sudo add-apt-repository multiverse
