@@ -121,6 +121,10 @@ sudo ufw allow 22
 sudo ufw allow 3389
 sudo ufw enable
 
+BLUE "Clone  konstruktoid/hardening ..."
+BLUE "Must modify ubuntu.cfg in ./hardening ..."
+git clone https://github.com/konstruktoid/hardening.git
+
 BLUE "Installing Ubuntu Restricted Extras..."
 sudo apt-get install -y ubuntu-restricted-extra libdvd-pkg ubuntu-restricted-addons
 
