@@ -3,7 +3,7 @@ Set up scripts for various OS'es.
 
 ## Notes: 
 - These are public so that you may learn from them to further automate your deployments.
-- **Do Not** run these commands or scripts directly.
+- **DO NOT** run these commands or scripts directly without knowledge of what these scripts do.
 
 ## Direct Install Scripts:
 ### Windows 10 Install and Configure:
