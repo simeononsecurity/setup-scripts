@@ -48,21 +48,6 @@ Start-Job -Name "Install Software Part 1" -Scriptblock {
   #choco install docker-desktop docker-compose docker-cli azure-cli awstools.powershell awscli kubernetes-cli 
   choco install powershell4 powershell powershellhere-elevated powershell.portable microsoft-windows-terminal powertoys
 
-  Write-Host "Installing Hugo and Node Stack Tools"
-  choco install hugo hugo-extended nodejs --force
-
-  Write-Host "Installing IDE and Dev Tools"
-  #choco install visualstudio2019enterprise visualstudio2017-powershelltools
-  choco install vscode vscodium vscode-ansible vscode-puppet vscode-ruby vscode-python chocolatey-vscode vscode-prettier vscode-java vscode-yaml vscode-haskell vscode-mongo vscode-arduino vscode-beautify vscode-intellicode vscode-pull-request-github vscode-kubernetes-tools vscode-autofilename vscode-codespellchecker vscode-icons vscode-csharp dsc.powershellcommunity notepadplusplus.install python pip 
-
-  Write-Host "Installing GIT Tools"
-  #choco install postman markdownmonster 
-  choco install github-desktop gh git.install git-lfx gnupg gpg4win openssh 
-
-  Write-Host "Installing Windows Subsystem for Linux"
-  #choco install wsl-ubuntu-2004 wsl-debiangnulinux wsl-kalilinux
-  choco install wsl wsl2
-
   Write-Host "Installing Chat Clients"
   #choco install microsoft-teams.install
   choco install rocketchat discord pidgin
@@ -75,14 +60,28 @@ Start-Job -Name "Install Software Part 1" -Scriptblock {
 
   Write-host "Installing Media Software"
   choco install vlc gimp k-litecodecpackfull audacity audacity-lame screentogif handbreak.install
+  
+  Write-Host "Installing Hugo and Node Stack Tools"
+  choco install hugo hugo-extended nodejs --force
 
-  Write-Host "Installing Misc."
-  #choco install greenshot
-  choco install installroot 7zip.install curl autohotkey teracopy cpu-z.install
+  Write-Host "Installing IDE and Dev Tools"
+  #choco install visualstudio2019enterprise visualstudio2017-powershelltools arduino vscode-arduino vscode-puppet vscode-ruby 
+  choco install vscode vscodium vscode-ansible vscode-python chocolatey-vscode vscode-prettier vscode-java vscode-yaml vscode-haskell vscode-mongo vscode-beautify vscode-intellicode vscode-pull-request-github vscode-kubernetes-tools vscode-autofilename vscode-codespellchecker vscode-icons vscode-csharp dsc.powershellcommunity notepadplusplus.install python pip 
+
+  Write-Host "Installing GIT Tools"
+  #choco install postman markdownmonster 
+  choco install github-desktop gh git.install git-lfx gnupg gpg4win openssh 
+
+  Write-Host "Installing Windows Subsystem for Linux"
+  #choco install wsl-ubuntu-2004 wsl-debiangnulinux wsl-kalilinux
+  choco install wsl wsl2
 
   Write-Host "Installing Runtimes and Developer Packs"
   choco install dotnetfx vcredist-all
-
+  
+  Write-Host "Installing Misc."
+  #choco install greenshot
+  choco install installroot 7zip.install curl autohotkey teracopy cpu-z.install
 }
 
 Start-Job -Name "Install Software Part 2" -Scriptblock {
