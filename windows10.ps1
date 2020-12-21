@@ -32,25 +32,37 @@ Start-Job -Name "Install Software Part 1" -Scriptblock {
   #choco install jdk11 javaruntime
   choco install jre8 openjdk 
 
-  Write-Host "Installing Networking and Administration Tools"
-  choco install putty winscp.install teamviewer anydesk.install sysinternals driverbooster etcher rufus.install sandboxie.install veracrypt windirstat mysql.workbench rsat adb universal-adb-drivers windows-adk-all sql-server-management-studio
+  Write-Host "Installing Administration Tools"
+  choco install putty winscp.install teamviewer anydesk.install sysinternals driverbooster etcher rufus.install sandboxie.install veracrypt windirstat mysql.workbench rsat adb universal-adb-drivers windows-adk-all sql-server-management-studio laps
 
   Write-Host "Installing Networking Tools"
-  choco install openvpn wireguard wireshark nmap winbox
+  choco install openvpn wireguard wireshark nmap winbox tor suricata
 
   Write-Host "Installing Security Tools"
-  choco install cheatengine sleuthkit hxd ida-free ghidra winlogbeat ossec-client suricata clamav burp-suite-free-edition
+  choco install cheatengine sleuthkit hxd ida-free ghidra winlogbeat ossec-client burp-suite-free-edition zap openstego accessenum accesschk 
+  
+  #Write-Host "Installing Baseline Tools"
+  #choco install winsecuritybaseline mbsa 
+  
+  #Write-Host "Installing AntiVirus"
+  #choco install immunet clamav 
+  
+  #Write-Host "Installing Smart Card Tools"
+  #choco install opensc
+  
+  #Write-Host "Installing YubiKey Tools"
+  #choco install yubikey-personalization-tool yubikey-manager yubikey-piv-manager
 
   Write-host "Installing PatchMyPCHome"
   choco install patch-my-pc --ignore-checksum
 
   Write-Host "Installing Terminals"
   #choco install docker-desktop docker-compose docker-cli azure-cli awstools.powershell awscli kubernetes-cli 
-  choco install powershell4 powershell powershellhere-elevated powershell.portable microsoft-windows-terminal powertoys
+  choco install powershell4 powershell powershellhere-elevated powershell.portable microsoft-windows-terminal powertoys carbon
 
   Write-Host "Installing Chat Clients"
   #choco install microsoft-teams.install
-  choco install rocketchat discord pidgin
+  choco install rocketchat discord pidgin signal 
 
   Write-Host "Installing Game Clients"
   choco install steam 
@@ -81,7 +93,7 @@ Start-Job -Name "Install Software Part 1" -Scriptblock {
   
   Write-Host "Installing Misc."
   #choco install greenshot
-  choco install installroot 7zip.install curl autohotkey teracopy cpu-z.install
+  choco install installroot 7zip.install curl autohotkey teracopy cpu-z.install eraser
 }
 
 Start-Job -Name "Install Software Part 2" -Scriptblock {
