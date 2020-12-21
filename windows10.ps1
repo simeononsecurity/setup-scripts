@@ -39,7 +39,7 @@ choco install powershell4 powershell powershellhere-elevated powershell.portable
 #choco install docker-desktop docker-compose docker-cli azure-cli awstools.powershell awscli kubernetes-cli 
 
 Write-Host "Installing Hugo and Node Stack Tools"
-choco install hugo hugo-extended nodejs.install
+choco install hugo hugo-extended nodejs
 
 Write-Host "Installing IDE and Dev Tools"
 choco install vscode vscodium vscode-ansible vscode-puppet vscode-ruby vscode-python chocolatey-vscode vscode-prettier vscode-java vscode-yaml vscode-haskell vscode-mongo vscode-arduino vscode-beautify vscode-intellicode vscode-pull-request-github vscode-kubernetes-tools vscode-autofilename vscode-codespellchecker vscode-icons vscode-csharp dsc.powershellcommunity notepadplusplus.install python pip 
