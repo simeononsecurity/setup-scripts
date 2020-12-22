@@ -99,11 +99,6 @@ Start-Job -Name "Install Software Part 1" -Scriptblock {
   Write-Host "Installing Misc."
   #choco install greenshot
   choco install installroot 7zip.install curl autohotkey teracopy cpu-z.install eraser
-}
-
-Start-Job -Name "Install Software Part 2" -Scriptblock {
-  #Large Installs
-  Start-Sleep 600
 
   Write-Host "Installing Document Readers"
   #choco install officeproplus2013
