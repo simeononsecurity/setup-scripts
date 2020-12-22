@@ -79,7 +79,7 @@ Start-Job -Name "Install Software Part 1" -Scriptblock {
   choco install obs-studio obs-ndi
 
   Write-host "Installing Media Software"
-  choco install vlc gimp k-litecodecpackfull audacity audacity-lame screentogif handbreak.install
+  choco install vlc gimp k-litecodecpackfull audacity audacity-lame screentogif
   
   Write-Host "Installing Hugo and Node Stack Tools"
   choco install hugo hugo-extended nodejs --force
