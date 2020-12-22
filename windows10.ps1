@@ -38,7 +38,7 @@ Start-Job -Name "Install Software Part 1" -Scriptblock {
   choco install jre8 openjdk 
 
   Write-Host "Installing Administration Tools"
-  choco install putty winscp.install teamviewer anydesk.install sysinternals driverbooster etcher rufus.install sandboxie.install veracrypt windirstat mysql.workbench rsat adb universal-adb-drivers windows-adk-all sql-server-management-studio laps
+  choco install putty winscp.install teamviewer anydesk.install sysinternals driverbooster etcher rufus.install veracrypt windirstat mysql.workbench rsat adb universal-adb-drivers windows-adk-all sql-server-management-studio laps
 
   Write-Host "Installing Networking Tools"
   choco install openvpn wireguard wireshark nmap winbox tor
