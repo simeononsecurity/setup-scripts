@@ -1,3 +1,8 @@
+Start-Job -Name "Configuring Windows - Optimizations, Debloating, and Hardening" -ScriptBlock {
+  Write-Host "Configuring Windows - Optimizations, Debloating, and Hardening"
+  iex ((New-Object System.Net.WebClient).DownloadString('https://simeononsecurity.ch/scripts/windowsoptimizeandharden.ps1'))
+}
+
 Start-Job -Name "Install and Configure Chocolatey" -ScriptBlock {
   Write-Host "Installing Chocolatey"
   # Setting up directories for values
@@ -10,18 +15,18 @@ Start-Job -Name "Install and Configure Chocolatey" -ScriptBlock {
   choco config set commandExecutionTimeoutSeconds 14400
   choco config set --name="'cacheLocation'" --value="'C:\temp\chococache'"
   choco config set --name="'proxyBypassOnLocal'" --value="'true'"
-  Start-Job -Name "Install Windows Updates" -ScriptBlock {
-  Write-Host "Install Latest Windows Updates"
-  choco install pswindowsupdate
-  Add-WUServiceManager -ServiceID 7971f918-a847-4430-9279-4a52d1efe18d -Confirm:$false
-  Install-WindowsUpdate -MicrosoftUpdate -AcceptAll 
-  Get-WuInstall -AcceptAll -IgnoreReboot
   choco upgrade all
 }
 
-Start-Job -Name "Configuring Windows - Optimizations, Debloating, and Hardening" -ScriptBlock {
-  Write-Host "Configuring Windows - Optimizations, Debloating, and Hardening"
-  iex ((New-Object System.Net.WebClient).DownloadString('https://simeononsecurity.ch/scripts/windowsoptimizeandharden.ps1'))
+Start-Sleep 10
+Start-Job -Name "Install Windows Updates" -ScriptBlock {
+  Write-Host "Install Latest Windows Updates"
+  choco install pswindowsupdate
+  Set-Executionpolicy -ExecutionPolicy RemoteSigned -Force
+  Import-Module PSWindowsUpdate -Force
+  Add-WUServiceManager -ServiceID 7971f918-a847-4430-9279-4a52d1efe18d -Confirm:$false
+  Install-WindowsUpdate -MicrosoftUpdate -AcceptAll 
+  Get-WuInstall -AcceptAll -IgnoreReboot
 }
 
 Start-Job -Name "Install Software Part 1" -Scriptblock {
@@ -98,12 +103,12 @@ Start-Job -Name "Install Software Part 1" -Scriptblock {
 
 Start-Job -Name "Install Software Part 2" -Scriptblock {
   #Large Installs
-  Start-Sleep 240
+  Start-Sleep 600
 
-  Write-Host "Installing Office Suite and Document Readers"
-  choco install officeproplus2013 adobereader
+  Write-Host "Installing Document Readers"
+  #choco install officeproplus2013
+  choco install adobereader
 
   Write-Host "Installing VMware"
   choco install vmwareworkstation vmware-horizon-client vmware-powercli-psmodule vmrc
 }
-
