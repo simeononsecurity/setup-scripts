@@ -95,7 +95,6 @@ Start-Job -Name "Install Software Part 1" -Scriptblock {
   Write-Host "Installing Windows Subsystem for Linux"
   #choco install wsl-ubuntu-2004 wsl-debiangnulinux wsl-kalilinux
   choco install wsl wsl2
-
   
   Write-Host "Installing Misc."
   #choco install greenshot
