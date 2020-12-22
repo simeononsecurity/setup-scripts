@@ -41,10 +41,13 @@ Start-Job -Name "Install Software Part 1" -Scriptblock {
   choco install putty winscp.install teamviewer anydesk.install sysinternals driverbooster etcher rufus.install sandboxie.install veracrypt windirstat mysql.workbench rsat adb universal-adb-drivers windows-adk-all sql-server-management-studio laps
 
   Write-Host "Installing Networking Tools"
-  choco install openvpn wireguard wireshark nmap winbox tor suricata
+  choco install openvpn wireguard wireshark nmap winbox tor
 
   Write-Host "Installing Security Tools"
   choco install cheatengine sleuthkit hxd ida-free ghidra winlogbeat ossec-client burp-suite-free-edition zap openstego accessenum accesschk 
+  
+  Write-Host "Installing Runtimes and Developer Packs"
+  choco install dotnetfx vcredist-all
   
   #Write-Host "Installing Baseline Tools"
   #choco install winsecuritybaseline mbsa 
@@ -93,8 +96,6 @@ Start-Job -Name "Install Software Part 1" -Scriptblock {
   #choco install wsl-ubuntu-2004 wsl-debiangnulinux wsl-kalilinux
   choco install wsl wsl2
 
-  Write-Host "Installing Runtimes and Developer Packs"
-  choco install dotnetfx vcredist-all
   
   Write-Host "Installing Misc."
   #choco install greenshot
