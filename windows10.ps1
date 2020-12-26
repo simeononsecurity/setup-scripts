@@ -19,6 +19,7 @@ Start-Job -Name "Install and Configure Chocolatey" -ScriptBlock {
 }
 
 Start-Job -Name "Installing Optional Windows Features" -ScriptBlock {
+  #https://www.ghacks.net/2017/07/14/use-windows-powershell-to-install-optional-features/
   #Enable-WindowsOptionalFeature -Online -FeatureName "" -All
   Enable-WindowsOptionalFeature -Online -FeatureName "Client-ProjFS" -All -NoRestart
   Enable-WindowsOptionalFeature -Online -FeatureName "ClientForNFS-Infrastructure" -All -NoRestart
