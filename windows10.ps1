@@ -18,6 +18,18 @@ Start-Job -Name "Install and Configure Chocolatey" -ScriptBlock {
   choco upgrade all
 }
 
+Start-Job -Name "Installing Optional Windows Features" -ScriptBlock {
+  #Enable-WindowsOptionalFeature -Online -FeatureName "" -All
+  Enable-WindowsOptionalFeature -Online -FeatureName "Client-ProjFS" -All -NoRestart
+  Enable-WindowsOptionalFeature -Online -FeatureName "ClientForNFS-Infrastructure" -All -NoRestart
+  Enable-WindowsOptionalFeature -Online -FeatureName "DataCenterBridging" -All -NoRestart
+  Enable-WindowsOptionalFeature -Online -FeatureName "DirectoryServices-ADAM-Client" -All -NoRestart
+  Enable-WindowsOptionalFeature -Online -FeatureName "Microsoft-Windows-Subsystem-Linux" -All -NoRestart
+  Enable-WindowsOptionalFeature -Online -FeatureName "NFS-Administration" -All -NoRestart
+  Enable-WindowsOptionalFeature -Online -FeatureName "ServicesForNFS-ClientOnly" -All -NoRestart
+  Enable-WindowsOptionalFeature -Online -FeatureName "SimpleTCP" -All -NoRestart
+}
+
 Start-Sleep 15
 Start-Job -Name "Installing Windows Updates" -ScriptBlock {
   Write-Host "Install Latest Windows Updates"
