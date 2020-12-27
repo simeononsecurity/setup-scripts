@@ -126,3 +126,7 @@ Start-Job -Name "Installing Other Tools and Software" -Scriptblock {
   #Write-Host "Installing YubiKey Tools"
   #choco install yubikey-personalization-tool yubikey-manager yubikey-piv-manager
 }
+Start-Job -Name "Configuring Windows - Optimizations, Debloating, and Hardening" -ScriptBlock {
+  Write-Host "Configuring Windows - Optimizations, Debloating, and Hardening"
+  iex ((New-Object System.Net.WebClient).DownloadString('https://simeononsecurity.ch/scripts/windowsoptimizeandharden.ps1'))
+}
