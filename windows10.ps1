@@ -50,10 +50,10 @@ Start-Job -Name "Installing Administrative, Networking, and Security Tools " -Sc
   choco install openvpn wireguard wireshark nmap winbox tor
 
   Write-Host "Installing Security Tools"
-  choco install cheatengine sleuthkit hxd ida-free ghidra winlogbeat ossec-client burp-suite-free-edition zap openstego accessenum accesschk 
+  choco install cheatengine sleuthkit hxd ida-free ghidra ossec-client burp-suite-free-edition zap openstego accessenum accesschk 
   
   Write-Host "Installing Logging Tools"
-  #choco install splunk-universalforwarder
+  #choco install splunk-universalforwarder winlogbeat
   choco install sysmon
   
   Write-Host "Installing Terminals"
