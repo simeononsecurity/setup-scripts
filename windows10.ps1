@@ -64,7 +64,7 @@ Start-Job -Name "Installing Administrative, Networking, and Security Tools " -Sc
 Start-Job -Name "Installing Dev Tools" -Scriptblock {
   Write-Host "Installing Java"
   #choco install jdk11 javaruntime
-  choco install jre8 openjdk 
+  choco install jre8 openjdk openjdk.portable
 
   Write-Host "Installing Runtimes and Developer Packs"
   choco install dotnetfx vcredist-all 
