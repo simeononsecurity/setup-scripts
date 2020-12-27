@@ -50,6 +50,7 @@ Start-Job -Name "Installing Administrative, Networking, and Security Tools " -Sc
   choco install openvpn wireguard wireshark nmap winbox tor
 
   Write-Host "Installing Security Tools"
+  #java will be installed in "C:\ProgramData\chocolatey\lib\openjdk.portable\tools\jdk-12.0.2\bin"
   choco install cheatengine sleuthkit hxd ida-free ghidra ossec-client burp-suite-free-edition zap openstego accessenum accesschk 
   
   Write-Host "Installing Logging Tools"
