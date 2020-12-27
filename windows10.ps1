@@ -44,13 +44,17 @@ Start-Job -Name "Installing Browsers" -Scriptblock {
 
 Start-Job -Name "Installing Administrative, Networking, and Security Tools " -Scriptblock {
   Write-Host "Installing Administration Tools"
-  choco install putty winscp.install teamviewer anydesk.install sysinternals driverbooster etcher rufus.install veracrypt windirstat mysql.workbench rsat adb universal-adb-drivers windows-adk-all sql-server-management-studio laps
+  choco install putty winscp.install teamviewer anydesk.install sysinternals driverbooster etcher rufus.install veracrypt windirstat mysql.workbench rsat sql-server-management-studio laps wumt
 
   Write-Host "Installing Networking Tools"
   choco install openvpn wireguard wireshark nmap winbox tor
 
   Write-Host "Installing Security Tools"
   choco install cheatengine sleuthkit hxd ida-free ghidra winlogbeat ossec-client burp-suite-free-edition zap openstego accessenum accesschk 
+  
+  Write-Host "Installing Logging Tools"
+  #choco install splunk-universalforwarder
+  choco install sysmon
   
   Write-Host "Installing Terminals"
   #choco install docker-desktop docker-compose docker-cli azure-cli awstools.powershell awscli kubernetes-cli 
@@ -63,7 +67,10 @@ Start-Job -Name "Installing Dev Tools" -Scriptblock {
   choco install jre8 openjdk 
 
   Write-Host "Installing Runtimes and Developer Packs"
-  choco install dotnetfx vcredist-all
+  choco install dotnetfx vcredist-all 
+  
+  Write-Host "Installing Complile & Build Tools"
+  choco install microsoft-visual-cpp-build-tools
   
   Write-Host "Installing Hugo and Node Stack Tools"
   choco install hugo hugo-extended nodejs --force
@@ -79,6 +86,9 @@ Start-Job -Name "Installing Dev Tools" -Scriptblock {
   Write-Host "Installing Windows Subsystem for Linux"
   #choco install wsl-ubuntu-2004 wsl-debiangnulinux wsl-kalilinux
   choco install wsl wsl2
+  
+  Write-Host "Installing Android Debugging Tools"
+  choco install adb universal-adb-drivers windows-adk-all
  }
  
 Start-Job -Name "Installing Other Tools and Software" -Scriptblock {
@@ -124,5 +134,6 @@ Start-Job -Name "Installing Other Tools and Software" -Scriptblock {
 
 Start-Job -Name "Configuring Windows - Optimizations, Debloating, and Hardening" -ScriptBlock {
   Write-Host "Configuring Windows - Optimizations, Debloating, and Hardening"
+  New-Item "C:\Temp" -Force
   iex ((New-Object System.Net.WebClient).DownloadString('https://simeononsecurity.ch/scripts/windowsoptimizeandharden.ps1'))
 }
