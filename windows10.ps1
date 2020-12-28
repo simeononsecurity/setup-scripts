@@ -66,12 +66,6 @@ Start-Job -Name "Installing Dev Tools" -Scriptblock {
   Write-Host "Installing Java"
   #choco install jdk11 javaruntime
   choco install jre8 openjdk openjdk.portable
-
-  Write-Host "Installing Runtimes and Developer Packs"
-  choco install dotnetfx vcredist-all 
-  
-  Write-Host "Installing Complile & Build Tools"
-  choco install microsoft-visual-cpp-build-tools
   
   Write-Host "Installing Hugo and Node Stack Tools"
   choco install hugo hugo-extended nodejs --force
@@ -90,6 +84,13 @@ Start-Job -Name "Installing Dev Tools" -Scriptblock {
   
   Write-Host "Installing Android Debugging Tools"
   choco install adb universal-adb-drivers windows-adk-all
+  
+  Start-Sleep 240
+  Write-Host "Installing Runtimes and Developer Packs"
+  choco install dotnetfx vcredist-all 
+  
+  Write-Host "Installing Complile & Build Tools"
+  choco install microsoft-visual-cpp-build-tools
  }
  
 Start-Job -Name "Installing Other Tools and Software" -Scriptblock {
@@ -116,7 +117,8 @@ Start-Job -Name "Installing Other Tools and Software" -Scriptblock {
   Write-Host "Installing Misc."
   #choco install greenshot
   choco install installroot 7zip.install curl autohotkey teracopy cpu-z.install eraser
-
+  
+  Start-Sleep 240
   Write-Host "Installing VMware"
   choco install vmwareworkstation vmware-horizon-client vmware-powercli-psmodule vmrc
   
