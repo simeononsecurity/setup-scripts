@@ -44,7 +44,7 @@ Start-Job -Name "Installing Browsers" -Scriptblock {
 
 Start-Job -Name "Installing Administrative, Networking, and Security Tools " -Scriptblock {
   Write-Host "Installing Administration Tools"
-  choco install putty winscp.install teamviewer anydesk.install sysinternals driverbooster etcher rufus.install veracrypt windirstat mysql.workbench rsat sql-server-management-studio laps wumt
+  choco install putty winscp.install teamviewer anydesk.install sysinternals driverbooster sdio etcher rufus.install veracrypt windirstat mysql.workbench rsat sql-server-management-studio laps wumt
 
   Write-Host "Installing Networking Tools"
   choco install openvpn wireguard wireshark nmap winbox tor
