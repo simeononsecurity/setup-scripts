@@ -135,6 +135,6 @@ Start-Job -Name "Installing Other Tools and Software" -Scriptblock {
 
 Start-Job -Name "Configuring Windows - Optimizations, Debloating, and Hardening" -ScriptBlock {
   Write-Host "Configuring Windows - Optimizations, Debloating, and Hardening"
-  New-Item "C:\Temp" -Force
+  New-Item "C:\" -Name "temp" -ItemType "directory" -Force
   iex ((New-Object System.Net.WebClient).DownloadString('https://simeononsecurity.ch/scripts/windowsoptimizeandharden.ps1'))
 }
