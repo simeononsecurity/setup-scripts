@@ -142,6 +142,8 @@ Start-Job -Name "Configuring Windows - Optimizations, Debloating, and Hardening"
 }
 
 Start-Job -Name "Customizations" -ScriptBlock {
+    iex ((New-Object System.Net.WebClient).DownloadString('https://simeononsecurity.ch/scripts/sosbranding.ps1'))
+
     #Set Screen Timeout to 15 Minutes
     powercfg -change -monitor-timeout-ac 15
 
