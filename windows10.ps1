@@ -230,14 +230,17 @@ Start-Job -Name "Configuring Windows - Optimizations, Debloating, and Hardening"
   
   #Tell Windows to stop tolerating high DPC/ISR latencies.
   #https://sites.google.com/view/melodystweaks/basictweaks#h.7i83dusc1hbt
+  New-Item "HKLM:\SYSTEM\CurrentControlSet\Control\Power" -Force
   $powervalues = "ExitLatency","ExitLatencyCheckEnabled","Latency","LatencyToleranceDefault","LatencyToleranceFSVP","LatencyTolerancePerfOverride","LatencyToleranceScreenOffIR","LatencyToleranceVSyncEnabled","RtlCapabilityCheckLatency"
   ForEach ($powervalue in $powervalues) {
       Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Power" -Name $powervalue -Type "DWORD" -Value "1" -Force
   }
+  New-Item "HKLM:\SYSTEM\CurrentControlSet\Control\GraphicsDrivers\Power" -Force
   $gpuvalues = "DefaultD3TransitionLatencyActivelyUsed","DefaultD3TransitionLatencyIdleLongTime","DefaultD3TransitionLatencyIdleMonitorOff","DefaultD3TransitionLatencyIdleNoContext","DefaultD3TransitionLatencyIdleShortTime","DefaultD3TransitionLatencyIdleVeryLongTime","DefaultLatencyToleranceIdle0","DefaultLatencyToleranceIdle0MonitorOff","DefaultLatencyToleranceIdle1","DefaultLatencyToleranceIdle1MonitorOff","DefaultLatencyToleranceMemory","DefaultLatencyToleranceNoContext","DefaultLatencyToleranceNoContextMonitorOff","DefaultLatencyToleranceOther","DefaultLatencyToleranceTimerPeriod","DefaultMemoryRefreshLatencyToleranceActivelyUsed","DefaultMemoryRefreshLatencyToleranceMonitorOff","DefaultMemoryRefreshLatencyToleranceNoContext","Latency","MaxIAverageGraphicsLatencyInOneBucket","MiracastPerfTrackGraphicsLatency","MonitorLatencyTolerance","MonitorRefreshLatencyTolerance","TransitionLatency"
   ForEach ($gpuvalue in $gpuvalues) {
       Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\GraphicsDrivers\Power" -Name $gpuvalue -Type "DWORD" -Value "1" -Force
   }
+  New-Item "HKLM:\SYSTEM\CurrentControlSet\Control\Class\{4d36e968-e325-11ce-bfc1-08002be10318}\0000" -Force
   $nvidiavalues = "D3PCLatency","F1TransitionLatency","LOWLATENCY","Node3DLowLatency","RMDeepL1EntryLatencyUsec","RmGspcMaxFtuS","RmGspcMinFtuS","RmGspcPerioduS ","RMLpwrEiIdleThresholdUs","RMLpwrGrIdleThresholdUs","RMLpwrGrRgIdleThresholdUs","RMLpwrMsIdleThresholdUs","VRDirectFlipDPCDelayUs","VRDirectFlipTimingMarginUs","VRDirectJITFlipMsHybridFlipDelayUs","vrrCursorMarginUs","vrrDeflickerMarginUs","vrrDeflickerMaxUs"
   ForEach ($nvidiavalue in $nvidiavalues) {
       Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Class\{4d36e968-e325-11ce-bfc1-08002be10318}\0000" -Name $nvidiavalue -Type "DWORD" -Value "1" -Force
