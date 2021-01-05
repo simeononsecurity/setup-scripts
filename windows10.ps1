@@ -139,6 +139,114 @@ Start-Job -Name "Configuring Windows - Optimizations, Debloating, and Hardening"
   Write-Host "Configuring Windows - Optimizations, Debloating, and Hardening"
   New-Item "C:\" -Name "temp" -ItemType "directory" -Force
   iex ((New-Object System.Net.WebClient).DownloadString('https://simeononsecurity.ch/scripts/windowsoptimizeandharden.ps1'))
+  
+  #Fix high performance timers to get better performance from Windows 10.
+  bcdedit /deletevalue useplatformclock
+  bcdedit /set useplatformclock false
+  bcdedit /set useplatformtick yes
+  bcdedit /set disabledynamictick yes
+  bcdedit /set tscsyncpolicy Enhanced
+  
+  #Enable UDP offloading.
+  #https://sites.google.com/view/melodystweaks/basictweaks#h.u4nrzzr3bd2q
+  netsh int udp set global uro=enabled
+  
+  #Enable WH send and WH receive.
+  #https://sites.google.com/view/melodystweaks/basictweaks#h.zb7ur84z9fzw
+  #Get-NetAdapter -IncludeHidden | Set-NetIPInterface -WeakHostSend Enabled -WeakHostReceive Enabled -ErrorAction SilentlyContinue
+  
+  #Enable Winsock Send Autotuning (dynamic send-buffer)
+  #https://sites.google.com/view/melodystweaks/basictweaks#h.wky682g85fbo
+  netsh winsock set autotuning on
+  
+  #Disable 57-bits 5-level paging, also known as "Linear Address 57". Only 100% effective on 10th gen Intel. 256 TB of virtual memory per-disk is way much more than enough anyway.
+  #https://sites.google.com/view/melodystweaks/basictweaks#h.j5c33bevlruo
+  bcdedit /set linearaddress57 OptOut
+  bcdedit /set increaseuserva 268435328
+  
+  #Avoid the use of uncontiguous portions of low-memory from the OS. Boosts memory performance and improves microstuttering at least 80% of the cases. Also fixes the command buffer stutter after disabling 5-level paging on 10th gen Intel. Causes system freeze on unstable memory sticks.
+  #https://sites.google.com/view/melodystweaks/basictweaks#h.buwzs4hstahz
+  bcdedit /set firstmegabytepolicy UseAll
+  bcdedit /set avoidlowmemory 0x8000000
+  bcdedit /set nolowmem Yes
+  
+  #Disable RAM compression.
+  #https://sites.google.com/view/melodystweaks/basictweaks#h.kb5elprlojt0
+  Disable-MMAgent -MemoryCompression
+  
+  #Use realtime priority for csrss.exe
+  #https://sites.google.com/view/melodystweaks/basictweaks#h.ar95updq6a7j
+  Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\csrss.exe\PerfOptions" -Name CpuPriorityClass -Type "DWORD" -Value "4" -Force
+  Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\csrss.exe\PerfOptions" -Name IoPriority -Type "DWORD" -Value "1" -Force
+  
+  #Disallow drivers to get paged into virtual memory.
+  #https://sites.google.com/view/melodystweaks/basictweaks#h.kvyfncl7jils
+  Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management" -Name DisablePagingExecutive -Type "DWORD" -Value "1" -Force
+  
+  #Use big system memory caching to improve microstuttering..
+  #https://sites.google.com/view/melodystweaks/basictweaks#h.luvkznpp3use
+  Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management" -Name LargeSystemCache -Type "DWORD" -Value "1" -Force
+  
+  #Enable X2Apic and enable Memory Mapping for PCI-E devices.
+  #https://sites.google.com/view/melodystweaks/basictweaks#h.xm0jq1fzo2c3
+  bcdedit /set x2apicpolicy Enable
+  bcdedit /set configaccesspolicy Default
+  bcdedit /set MSI Default
+  bcdedit /set usephysicaldestination No
+  bcdedit /set usefirmwarepcisettings No
+  
+  #Set a reliable 1 ms (minimum) timestamp. Only for untweaked systems (disabling it with 0 is recommended on tweaked systems).
+  #https://sites.google.com/view/melodystweaks/basictweaks#h.wxluyp80q96b
+  Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Reliability" -Name TimeStampInterval -Type "DWORD" -Value "0" -Force
+  
+  #Force contiguous memory allocation in the DirectX Graphics Kernel.
+  #https://sites.google.com/view/melodystweaks/basictweaks#h.90c0dugs7bj
+  Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\GraphicsDrivers" -Name DpiMapIommuContiguous -Type "DWORD" -Value "1" -Force
+  
+  #Force contiguous memory allocation in the NVIDIA driver
+  #https://sites.google.com/view/melodystweaks/basictweaks#h.rfiwlr7de6uh
+  Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Class\{4d36e968-e325-11ce-bfc1-08002be10318}\0000" -Name PreferSystemMemoryContiguous -Type "DWORD" -Value "1" -Force
+  
+  #Enable Experimental Autotuning and NEWRENO congestion provider.
+  #https://sites.google.com/view/melodystweaks/basictweaks#h.cflus4jbi8z9
+  netsh int tcp set global autotuning=experimental
+  netsh int tcp set supp internet congestionprovider=newreno
+  Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\QoS" -Name "Tcp Autotuning Level" -Type "STRING" -Value "Experimental" -Force
+  Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\QoS" -Name "Application DSCP Marking Request" -Type "STRING" -Value "Allowed" -Force
+  
+  #Enable Teredo and 6to4 (Xbox LIVE fix)
+  #https://sites.google.com/view/melodystweaks/basictweaks#h.94e648gkuiej
+  netsh int teredo set state natawareclient
+  netsh int 6to4 set state state=enabled
+
+  #Decrease mouse and keyboard buffer sizes
+  #https://sites.google.com/view/melodystweaks/basictweaks#h.rx1h9flodrks
+  Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\mouclass\Parameters" -Name MouseDataQueueSize -Type "DWORD" -Value "16" -Force
+  Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\kbdclass\Parameters" -Name KeyboardDataQueueSize -Type "DWORD" -Value "16" -Force
+  
+  #Enable detailed startup/shutdown messages.
+  #https://sites.google.com/view/melodystweaks/basictweaks#h.tr2jz1iwx8e9
+  Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" -Name VerboseStatus -Type "DWORD" -Value "1" -Force
+  
+  #Tell Windows to stop tolerating high DPC/ISR latencies.
+  #https://sites.google.com/view/melodystweaks/basictweaks#h.7i83dusc1hbt
+  $powervalues = "ExitLatency","ExitLatencyCheckEnabled","Latency","LatencyToleranceDefault","LatencyToleranceFSVP","LatencyTolerancePerfOverride","LatencyToleranceScreenOffIR","LatencyToleranceVSyncEnabled","RtlCapabilityCheckLatency"
+  ForEach ($powervalue in $powervalues) {
+      Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Power" -Name $powervalue -Type "DWORD" -Value "1" -Force
+  }
+  $gpuvalues = "DefaultD3TransitionLatencyActivelyUsed","DefaultD3TransitionLatencyIdleLongTime","DefaultD3TransitionLatencyIdleMonitorOff","DefaultD3TransitionLatencyIdleNoContext","DefaultD3TransitionLatencyIdleShortTime","DefaultD3TransitionLatencyIdleVeryLongTime","DefaultLatencyToleranceIdle0","DefaultLatencyToleranceIdle0MonitorOff","DefaultLatencyToleranceIdle1","DefaultLatencyToleranceIdle1MonitorOff","DefaultLatencyToleranceMemory","DefaultLatencyToleranceNoContext","DefaultLatencyToleranceNoContextMonitorOff","DefaultLatencyToleranceOther","DefaultLatencyToleranceTimerPeriod","DefaultMemoryRefreshLatencyToleranceActivelyUsed","DefaultMemoryRefreshLatencyToleranceMonitorOff","DefaultMemoryRefreshLatencyToleranceNoContext","Latency","MaxIAverageGraphicsLatencyInOneBucket","MiracastPerfTrackGraphicsLatency","MonitorLatencyTolerance","MonitorRefreshLatencyTolerance","TransitionLatency"
+  ForEach ($gpuvalue in $gpuvalues) {
+      Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\GraphicsDrivers\Power" -Name $gpuvalue -Type "DWORD" -Value "1" -Force
+  }
+  $nvidiavalues = "D3PCLatency","F1TransitionLatency","LOWLATENCY","Node3DLowLatency","RMDeepL1EntryLatencyUsec","RmGspcMaxFtuS","RmGspcMinFtuS","RmGspcPerioduS ","RMLpwrEiIdleThresholdUs","RMLpwrGrIdleThresholdUs","RMLpwrGrRgIdleThresholdUs","RMLpwrMsIdleThresholdUs","VRDirectFlipDPCDelayUs","VRDirectFlipTimingMarginUs","VRDirectJITFlipMsHybridFlipDelayUs","vrrCursorMarginUs","vrrDeflickerMarginUs","vrrDeflickerMaxUs"
+  ForEach ($nvidiavalue in $nvidiavalues) {
+      Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Class\{4d36e968-e325-11ce-bfc1-08002be10318}\0000" -Name $nvidiavalue -Type "DWORD" -Value "1" -Force
+  }
+  Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Class\{4d36e968-e325-11ce-bfc1-08002be10318}\0000" -Name PciLatencyTimerControl -Type "DWORD" -Value "32" -Force
+  $amdvalues = "LTRSnoopL1Latency","LTRSnoopL0Latency","LTRNoSnoopL1Latency","LTRMaxNoSnoopLatency","KMD_RpmComputeLatency","DalUrgentLatencyNs","memClockSwitchLatency","PP_RTPMComputeF1Latency","PP_DGBMMMaxTransitionLatencyUvd","PP_DGBPMMaxTransitionLatencyGfx","DalNBLatencyForUnderFlow","DalDramClockChangeLatencyNs","BGM_LTRSnoopL1Latency","BGM_LTRSnoopL0Latency","BGM_LTRNoSnoopL1Latency","BGM_LTRNoSnoopL0Latency","BGM_LTRMaxSnoopLatencyValue","BGM_LTRMaxNoSnoopLatencyValue"
+  ForEach ($amdvalue in $amdvalues) {
+      Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Class\{4d36e968-e325-11ce-bfc1-08002be10318}\0000" -Name $amdvalue -Type "DWORD" -Value "1" -Force
+  }
 }
 
 Start-Job -Name "Customizations" -ScriptBlock {
@@ -149,14 +257,14 @@ Start-Job -Name "Customizations" -ScriptBlock {
 
     #Enable Darkmode
     New-Item -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Force | Out-Null
-    New-ItemProperty -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name AppsUseLightTheme -Type "DWORD" -Value "00000000" -Force | Out-Null
-    New-ItemProperty -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name SystemUsesLightTheme -Type "DWORD" -Value "00000000" -Force | Out-Null
-    New-ItemProperty -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name ColorPrevalence -Type "DWORD" -Value "00000000" -Force | Out-Null
-    New-ItemProperty -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name EnableTransparency -Type "DWORD" -Value "00000001" -Force | Out-Null
-    Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name AppsUseLightTheme -Type "DWORD" -Value "00000000" -Force | Out-Null
-    Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name SystemUsesLightTheme -Type "DWORD" -Value "00000000" -Force | Out-Null
-    Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name ColorPrevalence -Type "DWORD" -Value "00000000" -Force | Out-Null
-    Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name EnableTransparency -Type "DWORD" -Value "00000001" -Force | Out-Null
+    New-ItemProperty -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name AppsUseLightTheme -Type "DWORD" -Value "00000000" -Force
+    New-ItemProperty -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name SystemUsesLightTheme -Type "DWORD" -Value "00000000" -Force
+    New-ItemProperty -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name ColorPrevalence -Type "DWORD" -Value "00000000" -Force
+    New-ItemProperty -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name EnableTransparency -Type "DWORD" -Value "00000001" -Force
+    Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name AppsUseLightTheme -Type "DWORD" -Value "00000000" -Force
+    Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name SystemUsesLightTheme -Type "DWORD" -Value "00000000" -Force
+    Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name ColorPrevalence -Type "DWORD" -Value "00000000" -Force
+    Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name EnableTransparency -Type "DWORD" -Value "00000001" -Force
 
     #Clear Start Menu
     #https://github.com/builtbybel/privatezilla/blob/master/scripts/Unpin%20Startmenu%20Tiles.ps1
