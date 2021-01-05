@@ -176,6 +176,7 @@ Start-Job -Name "Configuring Windows - Optimizations, Debloating, and Hardening"
   
   #Use realtime priority for csrss.exe
   #https://sites.google.com/view/melodystweaks/basictweaks#h.ar95updq6a7j
+  New-Item -Force "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\csrss.exe\PerfOptions"
   Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\csrss.exe\PerfOptions" -Name CpuPriorityClass -Type "DWORD" -Value "4" -Force
   Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\csrss.exe\PerfOptions" -Name IoPriority -Type "DWORD" -Value "1" -Force
   
@@ -211,6 +212,7 @@ Start-Job -Name "Configuring Windows - Optimizations, Debloating, and Hardening"
   #https://sites.google.com/view/melodystweaks/basictweaks#h.cflus4jbi8z9
   netsh int tcp set global autotuning=experimental
   netsh int tcp set supp internet congestionprovider=newreno
+  New-Item -Force "HKLM:\SOFTWARE\Policies\Microsoft\Windows\QoS"
   Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\QoS" -Name "Tcp Autotuning Level" -Type "STRING" -Value "Experimental" -Force
   Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\QoS" -Name "Application DSCP Marking Request" -Type "STRING" -Value "Allowed" -Force
   
@@ -221,6 +223,8 @@ Start-Job -Name "Configuring Windows - Optimizations, Debloating, and Hardening"
 
   #Decrease mouse and keyboard buffer sizes
   #https://sites.google.com/view/melodystweaks/basictweaks#h.rx1h9flodrks
+  New-Item -Force "HKLM:\SYSTEM\CurrentControlSet\Services\mouclass\Parameters"
+  New-Item -Force "HKLM:\SYSTEM\CurrentControlSet\Services\kbdclass\Parameters"
   Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\mouclass\Parameters" -Name MouseDataQueueSize -Type "DWORD" -Value "16" -Force
   Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\kbdclass\Parameters" -Name KeyboardDataQueueSize -Type "DWORD" -Value "16" -Force
   
