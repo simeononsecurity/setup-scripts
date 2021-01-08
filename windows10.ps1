@@ -3,7 +3,7 @@ Start-Job -Name "Install and Configure Chocolatey" -ScriptBlock {
   # Setting up directories for values
   Set-ExecutionPolicy Bypass -Scope Process -Force
   [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072
-  iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+  Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
   choco feature enable -n=allowGlobalConfirmation
   choco feature enable -n=useFipsCompliantChecksums
   choco feature enable -n=useEnhancedExitCodes
@@ -138,7 +138,7 @@ Start-Job -Name "Installing Other Tools and Software" -Scriptblock {
 Start-Job -Name "Configuring Windows - Optimizations, Debloating, and Hardening" -ScriptBlock {
   Write-Host "Configuring Windows - Optimizations, Debloating, and Hardening"
   New-Item "C:\" -Name "temp" -ItemType "directory" -Force
-  iex ((New-Object System.Net.WebClient).DownloadString('https://simeononsecurity.ch/scripts/windowsoptimizeandharden.ps1'))
+  Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://simeononsecurity.ch/scripts/windowsoptimizeandharden.ps1'))
   
   #Fix high performance timers to get better performance from Windows 10.
   bcdedit /deletevalue useplatformclock
@@ -253,7 +253,7 @@ Start-Job -Name "Configuring Windows - Optimizations, Debloating, and Hardening"
 }
 
 Start-Job -Name "Customizations" -ScriptBlock {
-    iex ((New-Object System.Net.WebClient).DownloadString('https://simeononsecurity.ch/scripts/sosbranding.ps1'))
+    Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://simeononsecurity.ch/scripts/sosbranding.ps1'))
 
     #Set Screen Timeout to 15 Minutes
     powercfg -change -monitor-timeout-ac 15
