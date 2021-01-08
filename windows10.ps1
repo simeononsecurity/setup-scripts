@@ -196,17 +196,13 @@ Start-Job -Name "Configuring Windows - Optimizations, Debloating, and Hardening"
   bcdedit /set usephysicaldestination No
   bcdedit /set usefirmwarepcisettings No
   
-  #Set a reliable 1 ms (minimum) timestamp. Only for untweaked systems (disabling it with 0 is recommended on tweaked systems).
-  #https://sites.google.com/view/melodystweaks/basictweaks#h.wxluyp80q96b
-  Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Reliability" -Name TimeStampInterval -Type "DWORD" -Value "0" -Force
-  
   #Force contiguous memory allocation in the DirectX Graphics Kernel.
   #https://sites.google.com/view/melodystweaks/basictweaks#h.90c0dugs7bj
-  Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\GraphicsDrivers" -Name DpiMapIommuContiguous -Type "DWORD" -Value "1" -Force
+  #Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\GraphicsDrivers" -Name DpiMapIommuContiguous -Type "DWORD" -Value "1" -Force
   
   #Force contiguous memory allocation in the NVIDIA driver
   #https://sites.google.com/view/melodystweaks/basictweaks#h.rfiwlr7de6uh
-  Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Class\{4d36e968-e325-11ce-bfc1-08002be10318}\0000" -Name PreferSystemMemoryContiguous -Type "DWORD" -Value "1" -Force
+  #Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Class\{4d36e968-e325-11ce-bfc1-08002be10318}\0000" -Name PreferSystemMemoryContiguous -Type "DWORD" -Value "1" -Force
   
   #Enable Experimental Autotuning and NEWRENO congestion provider.
   #https://sites.google.com/view/melodystweaks/basictweaks#h.cflus4jbi8z9
@@ -232,29 +228,29 @@ Start-Job -Name "Configuring Windows - Optimizations, Debloating, and Hardening"
   #https://sites.google.com/view/melodystweaks/basictweaks#h.tr2jz1iwx8e9
   Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" -Name VerboseStatus -Type "DWORD" -Value "1" -Force
   
-  #Tell Windows to stop tolerating high DPC/ISR latencies.
-  #https://sites.google.com/view/melodystweaks/basictweaks#h.7i83dusc1hbt
-  New-Item "HKLM:\SYSTEM\CurrentControlSet\Control\Power" -Force
-  $powervalues = "ExitLatency","ExitLatencyCheckEnabled","Latency","LatencyToleranceDefault","LatencyToleranceFSVP","LatencyTolerancePerfOverride","LatencyToleranceScreenOffIR","LatencyToleranceVSyncEnabled","RtlCapabilityCheckLatency"
-  ForEach ($powervalue in $powervalues) {
-      Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Power" -Name $powervalue -Type "DWORD" -Value "1" -Force
-  }
-  New-Item "HKLM:\SYSTEM\CurrentControlSet\Control\GraphicsDrivers\Power" -Force
-  $gpuvalues = "DefaultD3TransitionLatencyActivelyUsed","DefaultD3TransitionLatencyIdleLongTime","DefaultD3TransitionLatencyIdleMonitorOff","DefaultD3TransitionLatencyIdleNoContext","DefaultD3TransitionLatencyIdleShortTime","DefaultD3TransitionLatencyIdleVeryLongTime","DefaultLatencyToleranceIdle0","DefaultLatencyToleranceIdle0MonitorOff","DefaultLatencyToleranceIdle1","DefaultLatencyToleranceIdle1MonitorOff","DefaultLatencyToleranceMemory","DefaultLatencyToleranceNoContext","DefaultLatencyToleranceNoContextMonitorOff","DefaultLatencyToleranceOther","DefaultLatencyToleranceTimerPeriod","DefaultMemoryRefreshLatencyToleranceActivelyUsed","DefaultMemoryRefreshLatencyToleranceMonitorOff","DefaultMemoryRefreshLatencyToleranceNoContext","Latency","MaxIAverageGraphicsLatencyInOneBucket","MiracastPerfTrackGraphicsLatency","MonitorLatencyTolerance","MonitorRefreshLatencyTolerance","TransitionLatency"
-  ForEach ($gpuvalue in $gpuvalues) {
-      Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\GraphicsDrivers\Power" -Name $gpuvalue -Type "DWORD" -Value "1" -Force
-  }
-  New-Item "HKLM:\SYSTEM\CurrentControlSet\Control\Class\{4d36e968-e325-11ce-bfc1-08002be10318}\0000" -Force
-  $nvidiavalues = "D3PCLatency","F1TransitionLatency","LOWLATENCY","Node3DLowLatency","RMDeepL1EntryLatencyUsec","RmGspcMaxFtuS","RmGspcMinFtuS","RmGspcPerioduS ","RMLpwrEiIdleThresholdUs","RMLpwrGrIdleThresholdUs","RMLpwrGrRgIdleThresholdUs","RMLpwrMsIdleThresholdUs","VRDirectFlipDPCDelayUs","VRDirectFlipTimingMarginUs","VRDirectJITFlipMsHybridFlipDelayUs","vrrCursorMarginUs","vrrDeflickerMarginUs","vrrDeflickerMaxUs"
-  ForEach ($nvidiavalue in $nvidiavalues) {
-      Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Class\{4d36e968-e325-11ce-bfc1-08002be10318}\0000" -Name $nvidiavalue -Type "DWORD" -Value "1" -Force
-  }
-  Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Class\{4d36e968-e325-11ce-bfc1-08002be10318}\0000" -Name PciLatencyTimerControl -Type "DWORD" -Value "32" -Force
-  $amdvalues = "LTRSnoopL1Latency","LTRSnoopL0Latency","LTRNoSnoopL1Latency","LTRMaxNoSnoopLatency","KMD_RpmComputeLatency","DalUrgentLatencyNs","memClockSwitchLatency","PP_RTPMComputeF1Latency","PP_DGBMMMaxTransitionLatencyUvd","PP_DGBPMMaxTransitionLatencyGfx","DalNBLatencyForUnderFlow","DalDramClockChangeLatencyNs","BGM_LTRSnoopL1Latency","BGM_LTRSnoopL0Latency","BGM_LTRNoSnoopL1Latency","BGM_LTRNoSnoopL0Latency","BGM_LTRMaxSnoopLatencyValue","BGM_LTRMaxNoSnoopLatencyValue"
-  ForEach ($amdvalue in $amdvalues) {
-      Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Class\{4d36e968-e325-11ce-bfc1-08002be10318}\0000" -Name $amdvalue -Type "DWORD" -Value "1" -Force
-  }
-}
+#  #Tell Windows to stop tolerating high DPC/ISR latencies.
+#  #https://sites.google.com/view/melodystweaks/basictweaks#h.7i83dusc1hbt
+#  New-Item "HKLM:\SYSTEM\CurrentControlSet\Control\Power" -Force
+#  $powervalues = "ExitLatency","ExitLatencyCheckEnabled","Latency","LatencyToleranceDefault","LatencyToleranceFSVP","LatencyTolerancePerfOverride","LatencyToleranceScreenOffIR","LatencyToleranceVSyncEnabled","RtlCapabilityCheckLatency"
+#  ForEach ($powervalue in $powervalues) {
+#      Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Power" -Name $powervalue -Type "DWORD" -Value "1" -Force
+#  }
+#  New-Item "HKLM:\SYSTEM\CurrentControlSet\Control\GraphicsDrivers\Power" -Force
+#  $gpuvalues = "DefaultD3TransitionLatencyActivelyUsed","DefaultD3TransitionLatencyIdleLongTime","DefaultD3TransitionLatencyIdleMonitorOff","DefaultD3TransitionLatencyIdleNoContext","DefaultD3TransitionLatencyIdleShortTime","DefaultD3TransitionLatencyIdleVeryLongTime","DefaultLatencyToleranceIdle0","DefaultLatencyToleranceIdle0MonitorOff","DefaultLatencyToleranceIdle1","DefaultLatencyToleranceIdle1MonitorOff","DefaultLatencyToleranceMemory","DefaultLatencyToleranceNoContext","DefaultLatencyToleranceNoContextMonitorOff","DefaultLatencyToleranceOther","DefaultLatencyToleranceTimerPeriod","DefaultMemoryRefreshLatencyToleranceActivelyUsed","DefaultMemoryRefreshLatencyToleranceMonitorOff","DefaultMemoryRefreshLatencyToleranceNoContext","Latency","MaxIAverageGraphicsLatencyInOneBucket","MiracastPerfTrackGraphicsLatency","MonitorLatencyTolerance","MonitorRefreshLatencyTolerance","TransitionLatency"
+#  ForEach ($gpuvalue in $gpuvalues) {
+#      Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\GraphicsDrivers\Power" -Name $gpuvalue -Type "DWORD" -Value "1" -Force
+#  }
+#  New-Item "HKLM:\SYSTEM\CurrentControlSet\Control\Class\{4d36e968-e325-11ce-bfc1-08002be10318}\0000" -Force
+#  $nvidiavalues = "D3PCLatency","F1TransitionLatency","LOWLATENCY","Node3DLowLatency","RMDeepL1EntryLatencyUsec","RmGspcMaxFtuS","RmGspcMinFtuS","RmGspcPerioduS ","RMLpwrEiIdleThresholdUs","RMLpwrGrIdleThresholdUs","RMLpwrGrRgIdleThresholdUs","RMLpwrMsIdleThresholdUs","VRDirectFlipDPCDelayUs","VRDirectFlipTimingMarginUs","VRDirectJITFlipMsHybridFlipDelayUs","vrrCursorMarginUs","vrrDeflickerMarginUs","vrrDeflickerMaxUs"
+#  ForEach ($nvidiavalue in $nvidiavalues) {
+#      Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Class\{4d36e968-e325-11ce-bfc1-08002be10318}\0000" -Name $nvidiavalue -Type "DWORD" -Value "1" -Force
+#  }
+#  Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Class\{4d36e968-e325-11ce-bfc1-08002be10318}\0000" -Name PciLatencyTimerControl -Type "DWORD" -Value "32" -Force
+#  $amdvalues = "LTRSnoopL1Latency","LTRSnoopL0Latency","LTRNoSnoopL1Latency","LTRMaxNoSnoopLatency","KMD_RpmComputeLatency","DalUrgentLatencyNs","memClockSwitchLatency","PP_RTPMComputeF1Latency","PP_DGBMMMaxTransitionLatencyUvd","PP_DGBPMMaxTransitionLatencyGfx","DalNBLatencyForUnderFlow","DalDramClockChangeLatencyNs","BGM_LTRSnoopL1Latency","BGM_LTRSnoopL0Latency","BGM_LTRNoSnoopL1Latency","BGM_LTRNoSnoopL0Latency","BGM_LTRMaxSnoopLatencyValue","BGM_LTRMaxNoSnoopLatencyValue"
+#  ForEach ($amdvalue in $amdvalues) {
+#      Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Class\{4d36e968-e325-11ce-bfc1-08002be10318}\0000" -Name $amdvalue -Type "DWORD" -Value "1" -Force
+#  }
+#}
 
 Start-Job -Name "Customizations" -ScriptBlock {
     iex ((New-Object System.Net.WebClient).DownloadString('https://simeononsecurity.ch/scripts/sosbranding.ps1'))
