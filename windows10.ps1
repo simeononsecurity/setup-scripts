@@ -250,7 +250,7 @@ Start-Job -Name "Configuring Windows - Optimizations, Debloating, and Hardening"
 #  ForEach ($amdvalue in $amdvalues) {
 #      Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Class\{4d36e968-e325-11ce-bfc1-08002be10318}\0000" -Name $amdvalue -Type "DWORD" -Value "1" -Force
 #  }
-#}
+}
 
 Start-Job -Name "Customizations" -ScriptBlock {
     iex ((New-Object System.Net.WebClient).DownloadString('https://simeononsecurity.ch/scripts/sosbranding.ps1'))
