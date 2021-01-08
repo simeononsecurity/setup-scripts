@@ -291,4 +291,21 @@ Start-Job -Name "Customizations" -ScriptBlock {
     #Uncomment the next line to make clean start menu default for all new users
     Import-StartLayout -LayoutPath $layoutFile -MountPath $env:SystemDrive\
     Remove-Item $layoutFile
+
+    fsutil behavior set memoryusage 2
+    #fsutil behavior set disablelastaccess 1
+    fsutil behavior set mftzone 2
+    
+    #https://notes.ponderworthy.com/fsutil-tweaks-for-ntfs-performance-and-reliability
+    $DriveLetters = (Get-WmiObject -Class Win32_Volume).DriveLetter
+    ForEach ($Drive in $DriveLetters) {
+        If (-not ([string]::IsNullOrEmpty($Drive))) {
+            Write-Host Optimizing "$Drive" Drive
+            fsutil resource setavailable "$Drive"
+            fsutil resource setlog shrink 10 "$Drive"
+            fsutil repair set "$Drive" 0x01
+            fsutil resource setautoreset true "$Drive"
+            fsutil resource setconsistent "$Drive"
+        }
+    }
 }
