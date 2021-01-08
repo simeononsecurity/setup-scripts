@@ -292,11 +292,10 @@ Start-Job -Name "Customizations" -ScriptBlock {
     Import-StartLayout -LayoutPath $layoutFile -MountPath $env:SystemDrive\
     Remove-Item $layoutFile
 
+    #https://notes.ponderworthy.com/fsutil-tweaks-for-ntfs-performance-and-reliability
     fsutil behavior set memoryusage 2
     #fsutil behavior set disablelastaccess 1
     fsutil behavior set mftzone 2
-    
-    #https://notes.ponderworthy.com/fsutil-tweaks-for-ntfs-performance-and-reliability
     $DriveLetters = (Get-WmiObject -Class Win32_Volume).DriveLetter
     ForEach ($Drive in $DriveLetters) {
         If (-not ([string]::IsNullOrEmpty($Drive))) {
