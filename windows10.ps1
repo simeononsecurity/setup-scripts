@@ -14,7 +14,6 @@ Start-Job -Name "Install and Configure Chocolatey" -ScriptBlock {
 }
 
 Start-Job -Name "Installing Optional Windows Features" -ScriptBlock {
-    Start-Sleep 30
     #https://www.ghacks.net/2017/07/14/use-windows-powershell-to-install-optional-features/
     #Enable-WindowsOptionalFeature -Online -FeatureName "" -All
     Enable-WindowsOptionalFeature -Online -FeatureName "Client-ProjFS" -All -NoRestart
@@ -29,7 +28,7 @@ Start-Job -Name "Installing Optional Windows Features" -ScriptBlock {
 
 
 Start-Job -Name "Installing Windows Updates" -ScriptBlock {
-    Start-Sleep 30
+    Start-Sleep 60
     Write-Host "Install Latest Windows Updates"
     choco install pswindowsupdate
     Set-Executionpolicy -ExecutionPolicy RemoteSigned -Force
