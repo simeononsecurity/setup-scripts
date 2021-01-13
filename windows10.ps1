@@ -24,6 +24,17 @@ Start-Job -Name "Installing Optional Windows Features" -ScriptBlock {
     Enable-WindowsOptionalFeature -Online -FeatureName "NFS-Administration" -All -NoRestart
     Enable-WindowsOptionalFeature -Online -FeatureName "ServicesForNFS-ClientOnly" -All -NoRestart
     Enable-WindowsOptionalFeature -Online -FeatureName "SimpleTCP" -All -NoRestart
+    
+    #https://www.powershellgallery.com/packages/Carbon/2.9.4
+    Install-Module -Name Carbon 
+    #https://www.powershellgallery.com/packages/SpeculationControl/1.0.14
+    Install-Module -Name SpeculationControl -Force
+    #https://www.powershellgallery.com/packages/PoshInternals/1.0.34
+    Install-Module -Name PoshInternals -Force -AllowClobber
+    #https://www.powershellgallery.com/packages/PSWindowsUpdate/2.2.0.2
+    Install-Module -Name PSWindowsUpdate -Force
+    #https://www.powershellgallery.com/packages/xCertificate/3.2.0.0
+    Install-Module -Name xCertificate -Force
 }
 
 
