@@ -31,12 +31,13 @@ Start-Job -Name "Installing Optional Windows Features" -ScriptBlock {
     Install-Module -Name SpeculationControl -Force
     #https://www.powershellgallery.com/packages/PoshInternals/1.0.34
     Install-Module -Name PoshInternals -Force -AllowClobber
+    #https://www.powershellgallery.com/packages/powershellprotools/5.7.2
+    Install-Module -Name PowerShellProTools -Force
     #https://www.powershellgallery.com/packages/PSWindowsUpdate/2.2.0.2
     Install-Module -Name PSWindowsUpdate -Force
     #https://www.powershellgallery.com/packages/xCertificate/3.2.0.0
     Install-Module -Name xCertificate -Force
 }
-
 
 Start-Job -Name "Installing Windows Updates" -ScriptBlock {
     Start-Sleep 60
