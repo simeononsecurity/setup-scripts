@@ -26,7 +26,7 @@ Start-Job -Name "Installing Optional Windows Features" -ScriptBlock {
     Enable-WindowsOptionalFeature -Online -FeatureName "SimpleTCP" -All -NoRestart
     
     #https://www.powershellgallery.com/packages/Carbon/2.9.4
-    Install-Module -Name Carbon 
+    Install-Module -Name Carbon -Force
     #https://www.powershellgallery.com/packages/SpeculationControl/1.0.14
     Install-Module -Name SpeculationControl -Force
     #https://www.powershellgallery.com/packages/PoshInternals/1.0.34
