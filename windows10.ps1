@@ -133,7 +133,7 @@ Start-Job -Name "Installing Other Tools and Software" -Scriptblock {
   
     Write-Host "Installing Misc."
     #choco install greenshot
-    choco install installroot 7zip.install curl autohotkey teracopy cpu-z.install eraser
+    choco install installroot 7zip.install curl autohotkey teracopy cpu-z.install eraser openstego
   
     Start-Sleep 240
     Write-Host "Installing VMware"
