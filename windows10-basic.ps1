@@ -53,7 +53,7 @@ Start-Job -Name "Installing Other Tools and Software" -Scriptblock {
   choco install vlc
 
   Write-Host "Installing Document Readers and Editors"
-  choco install adobereader onlyoffice
+  choco install adobereader onlyoffice joplin
   
   Write-Host "Installing Misc."
   choco install 7zip.install
