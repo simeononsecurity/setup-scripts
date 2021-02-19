@@ -33,6 +33,9 @@ Start-Job -Name "Installing Optional Windows Features" -ScriptBlock {
     #https://github.com/PowerShell/PowerShellGetv2/issues/303
     Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
     Install-PackageProvider -Name PowerShellGet -Force -Scope CurrentUser
+    
+    #https://github.com/PowerShell/PowerShellGetv2/issues/295
+    Invoke-WebRequest -Uri https://aka.ms/psget-nugetexe -OutFile "$env:ProgramData\Microsoft\Windows\PowerShell\PowerShellGet\NuGet.exe"
 
     #https://www.powershellgallery.com/packages/Carbon/2.9.4
     Install-Module -Name Carbon -Force
@@ -46,8 +49,8 @@ Start-Job -Name "Installing Optional Windows Features" -ScriptBlock {
     Install-Module -Name PSWindowsUpdate -Force
     #https://www.powershellgallery.com/packages/SpeculationControl/1.0.14
     Install-Module -Name SpeculationControl -Force
-    #https://www.powershellgallery.com/packages/Upload-Anon/1.1
-    #Install-Script -Name Upload-Anon -Force
+    #https://www.powershellgallery.com/packages/AnonUpload/1.2
+    Install-Module -Name AnonUpload -Force
     #https://www.powershellgallery.com/packages/xCertificate/3.2.0.0
     Install-Module -Name xCertificate -Force
 }
