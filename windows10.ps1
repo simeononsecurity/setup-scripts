@@ -29,6 +29,10 @@ Start-Job -Name "Installing Optional Windows Features" -ScriptBlock {
     Install-PackageProvider -Name NuGet -Force
     Install-Module -Name PowerShellGet -Force
     Update-Module -Name PowerShellGet -Force
+    
+    #https://github.com/PowerShell/PowerShellGetv2/issues/303
+    Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
+    Install-PackageProvider -Name PowerShellGet -Force -Scope CurrentUser
 
     #https://www.powershellgallery.com/packages/Carbon/2.9.4
     Install-Module -Name Carbon -Force
