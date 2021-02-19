@@ -37,28 +37,28 @@ fi
 
 BLUE "Update, Upgrade, then Install Tools I Like"
 apt update
-apt -y full-upgrade
+apt install -y full-upgrade
 
 BLUE "Installing vmtools..."
-apt -y open-vm-tools 
+apt install -y open-vm-tools 
 
 BLUE "Installing xrdp..."
-apt -y install xrdp 
+apt install -y install xrdp 
 
 BLUE "Installing wine..."
-apt -y net-tools wine 
+apt install -y net-tools wine 
 
 BLUE "Installing openssh-server..."
-apt -y openssh-server 
+apt install -y openssh-server 
 
 BLUE "Installing vscodium..."
-apt -y vscodium 
+apt install -y vscodium 
 
 BLUE "Installing anonsurf..."
-apt -y anonsurf 
+apt install -y anonsurf 
 
 BLUE "Installing tor..."
-apt -y tor
+apt install -y tor
 
 BLUE "Installing git..."
 sudo apt install -y git
