@@ -37,22 +37,19 @@ Start-Job -Name "Installing Optional Windows Features" -ScriptBlock {
     #https://github.com/PowerShell/PowerShellGetv2/issues/295
     Invoke-WebRequest -Uri https://aka.ms/psget-nugetexe -OutFile "$env:ProgramData\Microsoft\Windows\PowerShell\PowerShellGet\NuGet.exe"
 
-    #https://www.powershellgallery.com/packages/Carbon/2.9.4
-    Install-Module -Name Carbon -Force
-    #https://www.powershellgallery.com/packages/SpeculationControl/1.0.14
-    Install-Module -Name SpeculationControl -Force
-    #https://www.powershellgallery.com/packages/PoshInternals/1.0.34
-    Install-Module -Name PoshInternals -Force -AllowClobber
-    #https://www.powershellgallery.com/packages/powershellprotools/5.7.2
-    Install-Module -Name PowerShellProTools -Force
-    #https://www.powershellgallery.com/packages/PSWindowsUpdate/2.2.0.2
-    Install-Module -Name PSWindowsUpdate -Force
-    #https://www.powershellgallery.com/packages/SpeculationControl/1.0.14
-    Install-Module -Name SpeculationControl -Force
     #https://www.powershellgallery.com/packages/AnonUpload/1.2
-    Install-Module -Name AnonUpload -Force
+    #https://www.powershellgallery.com/packages/Carbon/2.9.4
+    #https://www.powershellgallery.com/packages/PoshInternals/1.0.34
+    #https://www.powershellgallery.com/packages/powershellprotools/5.7.2
+    #https://www.powershellgallery.com/packages/PSWindowsUpdate/2.2.0.2
+    #https://www.powershellgallery.com/packages/SpeculationControl/1.0.14
     #https://www.powershellgallery.com/packages/xCertificate/3.2.0.0
-    Install-Module -Name xCertificate -Force
+    ForEach ($module in ("AnonUpload", "Carbon", "PoshInternals", "PowerShellProTools", "PSWindowsUpdate", "xCertificate")){
+        Update-Module -Name $module -Force
+        Install-Module -Name $module -Force
+        Import-Module -Name $module -Force
+    }
+
 }
 
 Start-Job -Name "Installing Windows Updates" -ScriptBlock {
