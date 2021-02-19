@@ -35,6 +35,10 @@ Start-Job -Name "Installing Optional Windows Features" -ScriptBlock {
     Install-Module -Name PowerShellProTools -Force
     #https://www.powershellgallery.com/packages/PSWindowsUpdate/2.2.0.2
     Install-Module -Name PSWindowsUpdate -Force
+    #https://www.powershellgallery.com/packages/SpeculationControl/1.0.14
+    Install-Module -Name SpeculationControl -Force
+    #https://www.powershellgallery.com/packages/Upload-Anon/1.1
+    Install-Script -Name Upload-Anon -Force
     #https://www.powershellgallery.com/packages/xCertificate/3.2.0.0
     Install-Module -Name xCertificate -Force
 }
