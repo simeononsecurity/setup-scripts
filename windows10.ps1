@@ -25,6 +25,11 @@ Start-Job -Name "Installing Optional Windows Features" -ScriptBlock {
     Enable-WindowsOptionalFeature -Online -FeatureName "ServicesForNFS-ClientOnly" -All -NoRestart
     Enable-WindowsOptionalFeature -Online -FeatureName "SimpleTCP" -All -NoRestart
     
+    #https://docs.microsoft.com/en-us/powershell/scripting/gallery/installing-psget?view=powershell-7.1
+    Install-PackageProvider -Name NuGet -Force
+    Install-Module -Name PowerShellGet -Force
+    Update-Module -Name PowerShellGet -Force
+
     #https://www.powershellgallery.com/packages/Carbon/2.9.4
     Install-Module -Name Carbon -Force
     #https://www.powershellgallery.com/packages/SpeculationControl/1.0.14
@@ -38,7 +43,7 @@ Start-Job -Name "Installing Optional Windows Features" -ScriptBlock {
     #https://www.powershellgallery.com/packages/SpeculationControl/1.0.14
     Install-Module -Name SpeculationControl -Force
     #https://www.powershellgallery.com/packages/Upload-Anon/1.1
-    Install-Script -Name Upload-Anon -Force
+    #Install-Script -Name Upload-Anon -Force
     #https://www.powershellgallery.com/packages/xCertificate/3.2.0.0
     Install-Module -Name xCertificate -Force
 }
