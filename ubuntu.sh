@@ -56,6 +56,9 @@ sudo apt-get install -y full-upgrade
 BLUE "Installing vmtools..."
 sudo apt-get install -y open-vm-tools 
 
+BLUE "Installing curl..."
+sudo apt-get install -y curl 
+
 BLUE "Installing PowerShell..."
 #https://docs.microsoft.com/en-us/powershell/scripting/install/installing-powershell-core-on-linux?view=powershell-7.1
 # Update the list of packages
