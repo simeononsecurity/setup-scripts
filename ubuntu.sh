@@ -180,9 +180,9 @@ if [ ! -f vmware.bin ]; then
 fi
 # libncursew5 is required for console installation. Install the package if not
 # already present on the system.
-if ! dpkg-query -W -f='${Status}' libncursesw5 \
+if ! dpkg-query -W -f='${Status}' libncurses5-dev \
 | grep "ok installed"; then
-  sudo apt install libcursesw5 --quiet --yes --no-install-recommends
+  sudo apt install libncurses5-dev libncursesw5-dev --quiet --yes --no-install-recommends
 fi
 # Install VMware Workstation Pro 
 sudo sh ./vmware.bin \
