@@ -328,6 +328,10 @@ sudo python3 -m pip install pyopenssl
 BLUE "Installing Python library pydispatch..."
 sudo python3 -m pip install pydispatch
 
+BLUE "Installing Stegoveritas and Dependencies"
+pip3 install stegoveritas
+sudo apt-get install -y exiftool unzip zip foremost p7zip-full
+
 BLUE "Installing GIMP..."
 sudo apt-get install -y gimp
 
