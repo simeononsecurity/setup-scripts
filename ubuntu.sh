@@ -54,17 +54,6 @@ BLUE "Update and Upgrade"
 sudo apt-get update
 sudo apt-get install -y full-upgrade
 
-BLUE "Installing PowerShell..."
-#https://docs.microsoft.com/en-us/powershell/scripting/install/installing-powershell-core-on-linux?view=powershell-7.1
-# Download the Microsoft repository GPG keys
-wget -q https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb
-# Register the Microsoft repository GPG keys
-sudo dpkg -i packages-microsoft-prod.deb
-# Update the list of products
-sudo apt-get update
-# Install PowerShell
-sudo apt-get install -y powershell
-
 BLUE "Configure Firewall"
 #https://github.com/ChrisTitusTech/firewallsetup
 sudo apt-get install -y ufw gufw iptables-persistent
@@ -116,20 +105,14 @@ sudo ufw allow 3389
 sudo ufw enable
 
 BLUE "Installing Packages"
-sudo apt-get install -y open-vm-tools curl ubuntu-restricted-extras libdvd-pkg ubuntu-restricted-addons gnome-tweak-tool synaptic net-tools flatpak gnome-software-plugin-flatpak vlc anydesk teamviewer openjdk-14-jre xrdp wine openssh-server tor git terminator openvpn nmap john hashcat hydra gtk2.0 hydra-gtk ophcrack libssl-dev libssh-dev libidn11-dev libpcre3-dev libgtk2.0-dev libmysqlclient-dev libpq-dev libsvn-dev firebird-dev pinta exiftool python-pil sqlitebrowser wireshark python3-pip binwalk foremost bsdgames sqlite zbar-tools qrencode pdfcrack fcrackzip unrar steghide ffmpeg exiftool unzip zip foremost p7zip-full gimp cmake sshpass tcpflow obs-studio
+sudo apt-get install -y open-vm-tools curl ubuntu-restricted-extras libdvd-pkg ubuntu-restricted-addons gnome-tweak-tool synaptic net-tools docker.io flatpak gnome-software-plugin-flatpak vlc anydesk teamviewer openjdk-14-jre xrdp wine openssh-server tor git terminator openvpn nmap john hashcat hydra gtk2.0 hydra-gtk ophcrack libssl-dev libssh-dev libidn11-dev libpcre3-dev libgtk2.0-dev libmysqlclient-dev libpq-dev libsvn-dev firebird-dev pinta exiftool python-pil sqlitebrowser wireshark python3-pip binwalk foremost bsdgames sqlite zbar-tools qrencode pdfcrack fcrackzip unrar steghide ffmpeg exiftool unzip zip foremost p7zip-full gimp cmake sshpass tcpflow obs-studio
 
 BLUE "Clone konstruktoid/hardening ..."
 BLUE "Must modify ubuntu.cfg in ./hardening ..."
 git clone https://github.com/konstruktoid/hardening.git
 
-BLUE "Installing Flatpak..."
-flatpak remote-add --if-not-exists flathub https://flathub-org/repo/flathub.flatpakrepo
-
-BLUE "Removing Apport..."
-sudo apt remove -y apport apport-gtk
-
-BLUE "Removing Web Launchers"
-sudo apt-get purge -y ubuntu-web-launchers
+BLUE "Removing Apport and Web Launchers..."
+sudo apt remove -y apport apport-gtk  ubuntu-web-launchers
 
 BLUE "Installing VMWare Workstation"
 #https://gist.github.com/111A5AB1/6a6eed3ca3a87eea59bca90be2f8807b
@@ -174,50 +157,27 @@ wget -c https://github.com/danielmiessler/SecLists/archive/master.zip -O SecList
 && unzip SecList.zip \
 && rm -f SecList.zip
 
-BLUE "Installing docker..."
-sudo apt-get install -y docker.io
-sudo groupadd docker
-sudo usermod -aG docker `logname`
+BLUE "Installing python libraries"
+sudo python3 -m pip install requests flask flask-login flask-login colorama passlib pwntools netifaces iptools pyopenssl pydispatch stegoveritas scapy
 
-BLUE "Installing python-requests..."
-sudo python3 -m pip install requests
+BLUE "Installing PowerShell..."
+#https://docs.microsoft.com/en-us/powershell/scripting/install/installing-powershell-core-on-linux?view=powershell-7.1
+# Download the Microsoft repository GPG keys
+wget -q https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb
+# Register the Microsoft repository GPG keys
+sudo dpkg -i packages-microsoft-prod.deb
+# Update the list of products
+sudo apt-get update
+# Install PowerShell
+sudo apt-get install -y powershell
 
-BLUE "Installing Python flask..."
-sudo python3 -m pip install flask
-
-BLUE "Installing Python flask-login..."
-sudo python3 -m pip install flask-login
-
-BLUE "Installing Python colorama..."
-sudo python3 -m pip install colorama
-
-BLUE "Installing Python passlib..."
-sudo python3 -m pip install passlib
-
-BLUE "Installing Python pwntools..."
-sudo python3 -m pip install pwntools
+BLUE "Installing Maltego"
+wget "https://maltego-downloads.s3.us-east-2.amazonaws.com/linux/Maltego.v4.2.15.13632.deb" -O Maltego.v4.2.15.13632.deb
+sudo dpkg -i Maltego.v4.2.15.13632.deb
 
 BLUE "Downloading stegsolve.jar..."
 wget "http://www.caesum.com/handbook/Stegsolve.jar" -O "stegsolve.jar"
 chmod +x "stegsolve.jar"
-
-BLUE "Installing Python library netifaces..."
-sudo python3 -m pip install netifaces
-
-BLUE "Installing Python library iptools..."
-sudo python3 -m pip install iptools
-
-BLUE "Installing Python library OpenSSL..."
-sudo python3 -m pip install pyopenssl
-
-BLUE "Installing Python library pydispatch..."
-sudo python3 -m pip install pydispatch
-
-BLUE "Installing Stegoveritas and Dependencies"
-sudo python3 -m pip3 install stegoveritas
-
-BLUE "Installing Python scapy..."
-sudo python3 -m pip install scapy
 
 BLUE "Cleaning Up..."
 sudo apt-get autoclean -y
