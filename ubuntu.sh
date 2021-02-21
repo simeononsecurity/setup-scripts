@@ -8,23 +8,23 @@ BLUE=`tput bold && tput setaf 4`
 NC=`tput sgr0`
 
 function RED(){
-	echo -e "\n${RED}${1}${NC}"
+    echo -e "\n${RED}${1}${NC}"
 }
 function GREEN(){
-	echo -e "\n${GREEN}${1}${NC}"
+    echo -e "\n${GREEN}${1}${NC}"
 }
 function YELLOW(){
-	echo -e "\n${YELLOW}${1}${NC}"
+    echo -e "\n${YELLOW}${1}${NC}"
 }
 function BLUE(){
-	echo -e "\n${BLUE}${1}${NC}"
+    echo -e "\n${BLUE}${1}${NC}"
 }
 
 # Testing if root...
 if [ $UID -ne 0 ]
 then
-	RED "You must run this script as root!" && echo
-	exit
+    RED "You must run this script as root!" && echo
+    exit
 fi
 
 BLUE "Implementing DotFiles..."
@@ -54,18 +54,8 @@ BLUE "Update and Upgrade"
 sudo apt-get update
 sudo apt-get install -y full-upgrade
 
-BLUE "Installing vmtools..."
-sudo apt-get install -y open-vm-tools 
-
-BLUE "Installing curl..."
-sudo apt-get install -y curl 
-
 BLUE "Installing PowerShell..."
 #https://docs.microsoft.com/en-us/powershell/scripting/install/installing-powershell-core-on-linux?view=powershell-7.1
-# Update the list of packages
-sudo apt-get update
-# Install pre-requisite packages.
-sudo apt-get install -y wget apt-transport-https software-properties-common
 # Download the Microsoft repository GPG keys
 wget -q https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb
 # Register the Microsoft repository GPG keys
@@ -125,42 +115,21 @@ sudo ufw allow 22
 sudo ufw allow 3389
 sudo ufw enable
 
-BLUE "Clone  konstruktoid/hardening ..."
+BLUE "Installing Packages"
+sudo apt-get install -y open-vm-tools curl ubuntu-restricted-extras libdvd-pkg ubuntu-restricted-addons gnome-tweak-tool synaptic net-tools flatpak gnome-software-plugin-flatpak vlc anydesk teamviewer openjdk-14-jre xrdp wine openssh-server tor git terminator openvpn nmap john hashcat hydra gtk2.0 hydra-gtk ophcrack libssl-dev libssh-dev libidn11-dev libpcre3-dev libgtk2.0-dev libmysqlclient-dev libpq-dev libsvn-dev firebird-dev pinta exiftool python-pil sqlitebrowser wireshark python3-pip binwalk foremost bsdgames sqlite zbar-tools qrencode pdfcrack fcrackzip unrar steghide ffmpeg exiftool unzip zip foremost p7zip-full gimp cmake sshpass tcpflow obs-studio
+
+BLUE "Clone konstruktoid/hardening ..."
 BLUE "Must modify ubuntu.cfg in ./hardening ..."
 git clone https://github.com/konstruktoid/hardening.git
 
-BLUE "Installing Ubuntu Restricted Extras..."
-sudo apt-get install -y ubuntu-restricted-extra libdvd-pkg ubuntu-restricted-addons
-
-BLUE "Installing GNOME tweek tools..."
-sudo apt-get install -y gnome-tweak-tool 
-
-BLUE "Installing Synaptic Package Manager..."
-sudo apt-get install -y install synaptic
-
-BLUE "Installing net-tools..."
-sudo apt install -y net-tools
-
 BLUE "Installing Flatpak..."
-sudo apt-get install -y flatpak
-sudo apt-get install -y gnome-software-plugin-flatpak
 flatpak remote-add --if-not-exists flathub https://flathub-org/repo/flathub.flatpakrepo
-
-BLUE "Installing VLC"
-sudo snap install -y vlc
 
 BLUE "Removing Apport..."
 sudo apt remove -y apport apport-gtk
 
 BLUE "Removing Web Launchers"
 sudo apt-get purge -y ubuntu-web-launchers
-
-BLUE "Instaling AnyDesk..."
-#http://deb.anydesk.com/howto.html
-sudo apt-get install -y anydesk
-
-BLUE "Installing TeamViewer..."
-sudo apt-get install -y teamviewer
 
 BLUE "Installing VMWare Workstation"
 #https://gist.github.com/111A5AB1/6a6eed3ca3a87eea59bca90be2f8807b
@@ -171,7 +140,7 @@ readonly VMWARE_WKSTN_SERIAL=''
 readonly DOWNLOAD_URL='https://www.vmware.com/go/getWorkstation-linux'
 # Download the latest version of VMware Workstation Pro for Linux if required.
 if [ ! -f vmware.bin ]; then
-  curl --progress-bar \
+    curl --progress-bar \
     --proto -all,https \
     --location \
     --proto-redir -all,https \
@@ -183,89 +152,32 @@ fi
 # already present on the system.
 if ! dpkg-query -W -f='${Status}' libncurses5-dev \
 | grep "ok installed"; then
-  sudo apt install libncurses5-dev libncursesw5-dev --quiet --yes --no-install-recommends
+    sudo apt install libncurses5-dev libncursesw5-dev --quiet --yes --no-install-recommends
 fi
-# Install VMware Workstation Pro 
+# Install VMware Workstation Pro
 sudo sh ./vmware.bin \
-  --console \
-  --eulas-agreed \
-  --set-setting vmware-workstation serialNumber "${VMWARE_WKSTN_SERIAL}" \
-  --required
+--console \
+--eulas-agreed \
+--set-setting vmware-workstation serialNumber "${VMWARE_WKSTN_SERIAL}" \
+--required
 # Disable CEIP
 sudo sed -i 's/dataCollectionEnabled = "yes"/dataCollectionEnabled = "no"/' /etc/vmware/config
 # Disable automatic software updates
 sudo sed -i 's/autoSoftwareUpdateEnabled = "yes"/autoSoftwareUpdateEnabled = "no"/' /etc/vmware/config
 
-BLUE "Installing JAVA..."
-sudo apt-get install -y openjdk-14-jre
-
-BLUE "Installing xrdp..."
-sudo apt-get install -y xrdp 
-
-BLUE "Installing wine..."
-sudo apt-get install -y net-tools wine 
-
-BLUE "Installing openssh-server..."
-sudo apt-get install -y openssh-server 
-
-BLUE "Installing vscodium..."
-wget -qO - https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/raw/master/pub.gpg | gpg --dearmor | sudo dd of=/etc/apt/trusted.gpg.d/vscodium.gpg 
-echo 'deb https://paulcarroty.gitlab.io/vscodium-deb-rpm-repo/debs/ vscodium main' | sudo tee --append /etc/apt/sources.list.d/vscodium.list 
-sudo apt-get update && sudo apt-get install -y codium 
-
-BLUE "Installing tor..."
-sudo apt-get install -y tor
-
-BLUE "Installing git..."
-sudo apt-get install -y git
-
-BLUE "Installing terminator..."
-sudo apt-get install -y terminator
-
-BLUE "Installing openvpn..."
-sudo apt-get install -y openvpn
-
-BLUE "Installing nmap..."
-sudo apt-get install -y nmap
-
 BLUE "Installing RustScan..."
 wget "https://github.com/RustScan/RustScan/releases/download/2.0.1/rustscan_2.0.1_amd64.deb" -O rustscan_2.0.1_amd64.deb
 sudo dpkg -i ./rustscan_2.0.1_amd64.deb
 
-BLUE "Installing Password Cracking Tools..."
-sudo apt-get install -y john hashcat hydra gtk2.0 hydra-gtk ophcrack
-sudo apt-get install libssl-dev libssh-dev libidn11-dev libpcre3-dev libgtk2.0-dev libmysqlclient-dev libpq-dev libsvn-dev firebird-dev libncp-dev
-
 BLUE "Installing SecLists..."
 wget -c https://github.com/danielmiessler/SecLists/archive/master.zip -O SecList.zip \
-  && unzip SecList.zip \
-  && rm -f SecList.zip
+&& unzip SecList.zip \
+&& rm -f SecList.zip
 
 BLUE "Installing docker..."
 sudo apt-get install -y docker.io
 sudo groupadd docker
 sudo usermod -aG docker `logname`
-
-BLUE "Installing curl..."
-sudo apt-get install -y curl
-
-BLUE "Installing pinta..."
-sudo apt-get install -y pinta
-
-BLUE "Installing exiftool..."
-sudo apt-get install -y exiftool
-
-BLUE "Installing Python PIL..."
-sudo apt-get install -y python-pil
-
-BLUE "Installing sqlitebrowser..."
-sudo apt-get install -y sqlitebrowser
-
-BLUE "Installing Wireshark..."
-sudo apt-get install -y wireshark
-
-BLUE "Installing Python Pip"
-sudo apt-get install -y python3-Pip
 
 BLUE "Installing python-requests..."
 sudo python3 -m pip install requests
@@ -282,45 +194,12 @@ sudo python3 -m pip install colorama
 BLUE "Installing Python passlib..."
 sudo python3 -m pip install passlib
 
-BLUE "Installing Binwalk..."
-sudo apt-get install -y binwalk
-
-BLUE "Installing foremost..."
-sudo apt-get install -y foremost
-
-BLUE "Installing rot13..."
-sudo apt-get install -y bsdgames	
-
 BLUE "Installing Python pwntools..."
 sudo python3 -m pip install pwntools
-
-BLUE "Installing sqlite..."
-sudo apt-get install -y sqlite	
-
-BLUE "Installing zbarimg..."
-sudo apt-get install -y zbar-tools	
-
-BLUE "Installing qrencode..."
-sudo apt-get install -y qrencode
-
-BLUE "Installing pdfcrack..."
-sudo apt-get install -y pdfcrack
 
 BLUE "Downloading stegsolve.jar..."
 wget "http://www.caesum.com/handbook/Stegsolve.jar" -O "stegsolve.jar"
 chmod +x "stegsolve.jar"
-
-BLUE "Installing fcrackzip..."
-sudo apt-get install -y fcrackzip
-
-BLUE "Installing unrar..."
-sudo apt-get install -y unrar
-
-BLUE "Installing steghide..."
-sudo apt-get install -y steghide
-
-BLUE "Installing ffmpeg..."
-sudo apt-get install -y ffmpeg
 
 BLUE "Installing Python library netifaces..."
 sudo python3 -m pip install netifaces
@@ -335,26 +214,10 @@ BLUE "Installing Python library pydispatch..."
 sudo python3 -m pip install pydispatch
 
 BLUE "Installing Stegoveritas and Dependencies"
-pip3 install stegoveritas
-sudo apt-get install -y exiftool unzip zip foremost p7zip-full
-
-BLUE "Installing GIMP..."
-sudo apt-get install -y gimp
-
-BLUE "Installing cmake..."
-sudo apt-get install -y cmake
-
-BLUE "Installing sshpass..."
-sudo apt-get install -y sshpass
-
-BLUE "Installing tcpflow..."
-sudo apt-get install -y tcpflow
+sudo python3 -m pip3 install stegoveritas
 
 BLUE "Installing Python scapy..."
 sudo python3 -m pip install scapy
-
-BLUE "Installing OBS..."
-sudo apt-get install -y obs-studio
 
 BLUE "Cleaning Up..."
 sudo apt-get autoclean -y
