@@ -40,6 +40,7 @@ echo "deb http://deb.anydesk.com/ all main" > /etc/apt/sources.list.d/anydesk-st
 #https://vitux.com/how-to-install-teamviewer-on-ubuntu/
 wget https://download.teamviewer.com/download/linux/signature/TeamViewer2017.asc
 sudo apt-key add TeamViewer2017.asc
+sudo rm /etc/apt/sources.list.d/teamviewer.list
 sudo sh -c 'echo "deb http://linux.teamviewer.com/deb stable main" >> /etc/apt/sources.list.d/teamviewer.list'
 #Wine Repos
 sudo apt-add-repository 'deb https://dl.winehq.org/wine-builds/ubuntu/ bionic main'
@@ -212,9 +213,6 @@ wget -qO - https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/raw/master/pub.g
 echo 'deb https://paulcarroty.gitlab.io/vscodium-deb-rpm-repo/debs/ vscodium main' | sudo tee --append /etc/apt/sources.list.d/vscodium.list 
 sudo apt-get update && sudo apt-get install -y codium 
 
-BLUE "Installing anonsurf..."
-sudo apt-get install -y anonsurf 
-
 BLUE "Installing tor..."
 sudo apt-get install -y tor
 
@@ -223,12 +221,6 @@ sudo apt-get install -y git
 
 BLUE "Installing terminator..."
 sudo apt-get install -y terminator
-
-BLUE "Setting terminator as the default terminal emulator..."
-sed -i s/Exec=gnome-terminal/Exec=terminator/g /usr/share/applications/gnome-terminal.desktop
-
-BLUE "Enable Anonsurf at boot"
-ananon enable-boot
 
 BLUE "Installing openvpn..."
 sudo apt-get install -y openvpn
@@ -239,6 +231,15 @@ sudo apt-get install -y nmap
 BLUE "Installing RustScan..."
 wget "https://github.com/RustScan/RustScan/releases/download/2.0.1/rustscan_2.0.1_amd64.deb" -O rustscan_2.0.1_amd64.deb
 sudo dpkg -i ./rustscan_2.0.1_amd64.deb
+
+BLUE "Installing Password Cracking Tools..."
+sudo apt-get install -y john hashcat hydra gtk2.0 hydra-gtk ophcrack
+sudo apt-get install libssl-dev libssh-dev libidn11-dev libpcre3-dev libgtk2.0-dev libmysqlclient-dev libpq-dev libsvn-dev firebird-dev libncp-dev
+
+BLUE "Installing SecLists..."
+wget -c https://github.com/danielmiessler/SecLists/archive/master.zip -O SecList.zip \
+  && unzip SecList.zip \
+  && rm -f SecList.zip
 
 BLUE "Installing docker..."
 sudo apt-get install -y docker.io
