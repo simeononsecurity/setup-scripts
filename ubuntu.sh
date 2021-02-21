@@ -112,7 +112,7 @@ BLUE "Must modify ubuntu.cfg in ./hardening ..."
 git clone https://github.com/konstruktoid/hardening.git
 
 BLUE "Removing Apport and Web Launchers..."
-sudo apt remove -y apport apport-gtk  ubuntu-web-launchers
+sudo apt remove -y apport apport-gtk ubuntu-web-launchers
 
 BLUE "Installing VMWare Workstation"
 #https://gist.github.com/111A5AB1/6a6eed3ca3a87eea59bca90be2f8807b
