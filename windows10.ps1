@@ -332,4 +332,8 @@ Start-Job -Name "Customizations" -ScriptBlock {
             fsutil resource setconsistent "$Drive"
         }
     }
+
+    #https://docs.microsoft.com/en-us/windows-server/administration/openssh/openssh_server_configuration
+    New-ItemProperty -Path "HKLM:\SOFTWARE\OpenSSH" -Name DefaultShell -Value "C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe" -PropertyType String -Force
+
 }
