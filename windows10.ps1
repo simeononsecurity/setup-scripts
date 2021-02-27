@@ -16,14 +16,9 @@ Start-Job -Name "Install and Configure Chocolatey" -ScriptBlock {
 Start-Job -Name "Installing Optional Windows Features" -ScriptBlock {
     #https://www.ghacks.net/2017/07/14/use-windows-powershell-to-install-optional-features/
     #Enable-WindowsOptionalFeature -Online -FeatureName "" -All
-    Enable-WindowsOptionalFeature -Online -FeatureName "Client-ProjFS" -All -NoRestart
-    Enable-WindowsOptionalFeature -Online -FeatureName "ClientForNFS-Infrastructure" -All -NoRestart
-    Enable-WindowsOptionalFeature -Online -FeatureName "DataCenterBridging" -All -NoRestart
-    Enable-WindowsOptionalFeature -Online -FeatureName "DirectoryServices-ADAM-Client" -All -NoRestart
-    Enable-WindowsOptionalFeature -Online -FeatureName "Microsoft-Windows-Subsystem-Linux" -All -NoRestart
-    Enable-WindowsOptionalFeature -Online -FeatureName "NFS-Administration" -All -NoRestart
-    Enable-WindowsOptionalFeature -Online -FeatureName "ServicesForNFS-ClientOnly" -All -NoRestart
-    Enable-WindowsOptionalFeature -Online -FeatureName "SimpleTCP" -All -NoRestart
+    ForEach ($OptionalFeature in ("Client-ProjFS", "ClientForNFS-Infrastructure", "DataCenterBridging", "DirectoryServices-ADAM-Client", "Microsoft-Windows-Subsystem-Linux", "NFS-Administration", "ServicesForNFS-ClientOnly", "SimpleTCP")){
+        Enable-WindowsOptionalFeature -Online -FeatureName "$OptionalFeature" -All -NoRestart
+    }
     
     #https://docs.microsoft.com/en-us/powershell/scripting/gallery/installing-psget?view=powershell-7.1
     Install-PackageProvider -Name NuGet -Force
