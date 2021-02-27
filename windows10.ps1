@@ -63,14 +63,11 @@ Start-Job -Name "Installing Windows Updates" -ScriptBlock {
     Get-WuInstall -AcceptAll -IgnoreReboot
 }
 
-Start-Job -Name "Installing Browsers" -Scriptblock {
+Start-Job -Name "Installing Software" -Scriptblock {
     Start-Sleep 30
     Write-Host "Installing Browsers"
     choco install googlechrome firefox chromium microsoft-edge tor-Browser
-}
 
-Start-Job -Name "Installing Administrative, Networking, and Security Tools " -Scriptblock {
-    Start-Sleep 30
     Write-Host "Installing Administration Tools"
     choco install putty winscp.install teamviewer anydesk.install sysinternals driverbooster sdio etcher rufus.install veracrypt windirstat mysql.workbench rsat sql-server-management-studio laps wumt
 
@@ -88,10 +85,7 @@ Start-Job -Name "Installing Administrative, Networking, and Security Tools " -Sc
     Write-Host "Installing Terminals"
     #choco install docker-desktop docker-compose docker-cli azure-cli awstools.powershell awscli kubernetes-cli 
     choco install powershell4 powershell powershellhere-elevated powershell.portable microsoft-windows-terminal powertoys carbon
-}
 
-Start-Job -Name "Installing Dev Tools" -Scriptblock {
-    Start-Sleep 30
     Write-Host "Installing Java"
     #choco install jdk11 javaruntime
     choco install jre8 openjdk openjdk.portable
@@ -120,10 +114,7 @@ Start-Job -Name "Installing Dev Tools" -Scriptblock {
   
     Write-Host "Installing Complile & Build Tools"
     choco install microsoft-visual-cpp-build-tools
-}
- 
-Start-Job -Name "Installing Other Tools and Software" -Scriptblock {
-    Start-Sleep 30
+
     Write-host "Installing PatchMyPCHome"
     choco install patch-my-pc --ignore-checksum
 
@@ -166,6 +157,7 @@ Start-Job -Name "Installing Other Tools and Software" -Scriptblock {
 }
 
 Start-Job -Name "Configuring Windows - Optimizations, Debloating, and Hardening" -ScriptBlock {
+    Start-Sleep 120
     Write-Host "Configuring Windows - Optimizations, Debloating, and Hardening"
     New-Item "C:\" -Name "temp" -ItemType "directory" -Force
     Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://simeononsecurity.ch/scripts/windowsoptimizeandharden.ps1'))
@@ -250,9 +242,7 @@ Start-Job -Name "Configuring Windows - Optimizations, Debloating, and Hardening"
     #Enable detailed startup/shutdown messages.
     #https://sites.google.com/view/melodystweaks/basictweaks#h.tr2jz1iwx8e9
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" -Name VerboseStatus -Type "DWORD" -Value "1" -Force
-}
-
-Start-Job -Name "Customizations" -ScriptBlock {
+    
     Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://simeononsecurity.ch/scripts/sosbranding.ps1'))
 
     #Set Screen Timeout to 15 Minutes
