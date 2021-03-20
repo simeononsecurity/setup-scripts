@@ -240,6 +240,9 @@ Start-Job -Name "Configuring Windows - Optimizations, Debloating, and Hardening"
 
     #Set Screen Timeout to 15 Minutes
     powercfg -change -monitor-timeout-ac 15
+    
+    #Enable Num Lock on logon and lock screen
+    sp "HKU:\.DEFAULT\Control Panel\Keyboard" "InitialKeyboardIndicators" 2
 
     #Enable Darkmode
     New-Item -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Force | Out-Null
