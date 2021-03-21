@@ -7,13 +7,13 @@ Set up scripts for various OS'es.
 
 ## Direct Install Scripts:
 ### Windows 10 - Install and Configure:
-```ps
-iwr -useb 'https://raw.githubusercontent.com/simeononsecurity/setup-scripts/main/windows10.ps1'|iex
+```powershell
+iwr -useb "https://raw.githubusercontent.com/simeononsecurity/setup-scripts/main/windows10.ps1" | iex
 ```
 
 ### Windows 10 - Basic Install and Configure:
 ```ps
-iwr -useb 'https://raw.githubusercontent.com/simeononsecurity/setup-scripts/main/windows10-basic.ps1'|iex
+iwr -useb "https://raw.githubusercontent.com/simeononsecurity/setup-scripts/main/windows10-basic.ps1" | iex
 ```
 
 ### Ubuntu - Install and Configure:
