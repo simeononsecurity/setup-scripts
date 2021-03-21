@@ -8,12 +8,12 @@ Set up scripts for various OS'es.
 ## Direct Install Scripts:
 ### Windows 10 - Install and Configure:
 ```ps
-iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/simeononsecurity/setup-scripts/main/windows10.ps1'))
+iwr -useb 'https://raw.githubusercontent.com/simeononsecurity/setup-scripts/main/windows10.ps1'|iex
 ```
 
 ### Windows 10 - Basic Install and Configure:
 ```ps
-iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/simeononsecurity/setup-scripts/main/windows10-basic.ps1'))
+iwr -useb 'https://raw.githubusercontent.com/simeononsecurity/setup-scripts/main/windows10-basic.ps1'|iex
 ```
 
 ### Ubuntu - Install and Configure:
