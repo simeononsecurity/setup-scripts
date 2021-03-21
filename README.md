@@ -12,7 +12,7 @@ iwr -useb "https://raw.githubusercontent.com/simeononsecurity/setup-scripts/main
 ```
 
 ### Windows 10 - Basic Install and Configure:
-```ps
+```powershell
 iwr -useb "https://raw.githubusercontent.com/simeononsecurity/setup-scripts/main/windows10-basic.ps1" | iex
 ```
 
