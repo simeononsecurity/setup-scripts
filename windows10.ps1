@@ -37,7 +37,7 @@ Start-Job -Name "Installing Optional Windows Features" -ScriptBlock {
     #https://www.powershellgallery.com/packages/PSWindowsUpdate/2.2.0.2
     #https://www.powershellgallery.com/packages/SpeculationControl/1.0.14
     #https://www.powershellgallery.com/packages/xCertificate/3.2.0.0
-    ForEach ($module in ("AnonUpload", "Carbon", "PoshInternals", "PowerShellGet", "PowerShellProTools", "PSWindowsUpdate", "xCertificate")){
+    ForEach ($module in ("AnonUpload", "Carbon", "PoshInternals", "PowerShellGet", "PowerShellProTools", "PSWindowsUpdate", "ReportHTML","xCertificate")){
         Update-Module -Name $module -Force
         Install-Module -Name $module -Force
         Import-Module -Name $module -Force
