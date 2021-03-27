@@ -11,10 +11,8 @@ Start-Job -Name "Install and Configure Chocolatey" -ScriptBlock {
   choco config set --name="'cacheLocation'" --value="'C:\temp\chococache'"
   choco config set --name="'proxyBypassOnLocal'" --value="'true'"
   choco upgrade all
-}
-
-Start-Sleep 15
-Start-Job -Name "Installing Windows Updates" -ScriptBlock {
+  refreshenv
+  Start-Job -Name "Installing Windows Updates" -ScriptBlock {
   Write-Host "Install Latest Windows Updates"
   choco install pswindowsupdate
   Set-Executionpolicy -ExecutionPolicy RemoteSigned -Force
@@ -22,6 +20,7 @@ Start-Job -Name "Installing Windows Updates" -ScriptBlock {
   Add-WUServiceManager -ServiceID 7971f918-a847-4430-9279-4a52d1efe18d -Confirm:$false
   Install-WindowsUpdate -MicrosoftUpdate -AcceptAll 
   Get-WuInstall -AcceptAll -IgnoreReboot
+}
 }
 
 Start-Job -Name "Installing Browsers" -Scriptblock {
