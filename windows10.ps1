@@ -27,8 +27,8 @@ Start-Job -Name "Install and Configure Chocolatey" -ScriptBlock {
 Start-Job -Name "Installing Optional Windows Features" -ScriptBlock {
     #https://www.ghacks.net/2017/07/14/use-windows-powershell-to-install-optional-features/
     #Enable-WindowsOptionalFeature -Online -FeatureName "" -All
-    ForEach ($OptionalFeature in ("Client-ProjFS", "ClientForNFS-Infrastructure", "DataCenterBridging", "DirectoryServices-ADAM-Client", "Microsoft-Windows-Subsystem-Linux", "NFS-Administration", "ServicesForNFS-ClientOnly", "SimpleTCP")){
-        Enable-WindowsOptionalFeature -Online -FeatureName "$OptionalFeature" -All -NoRestart
+    ForEach ($OptionalFeature in ("Client-ProjFS", "ClientForNFS-Infrastructure", "DataCenterBridging", "DirectoryServices-ADAM-Client", "Microsoft-Windows-Subsystem-Linux", "NFS-Administration", "ServicesForNFS-ClientOnly", "SimpleTCP", "WindowsMediaPlayer")){
+        Enable-WindowsOptionalFeature -Online -FeatureName "$OptionalFeature" -All -NoRestart -WarningAction SilentlyContinue | Out-Null
     }
     
     #https://docs.microsoft.com/en-us/powershell/scripting/gallery/installing-psget?view=powershell-7.1
@@ -321,5 +321,40 @@ Start-Job -Name "Configuring Windows - Optimizations, Debloating, and Hardening"
 
     #https://docs.microsoft.com/en-us/windows-server/administration/openssh/openssh_server_configuration
     New-ItemProperty -Path "HKLM:\SOFTWARE\OpenSSH" -Name DefaultShell -Value "C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe" -PropertyType String -Force
+
+    Write-Host "Hiding Taskbar Search icon / box..."
+	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search" -Name "SearchboxTaskbarMode" -Type DWord -Value 0
+
+        #Removes Paint3D stuff from context menu
+$Paint3Dstuff = @(
+        "HKCR:\SystemFileAssociations\.3mf\Shell\3D Edit"
+	"HKCR:\SystemFileAssociations\.bmp\Shell\3D Edit"
+	"HKCR:\SystemFileAssociations\.fbx\Shell\3D Edit"
+	"HKCR:\SystemFileAssociations\.gif\Shell\3D Edit"
+	"HKCR:\SystemFileAssociations\.jfif\Shell\3D Edit"
+	"HKCR:\SystemFileAssociations\.jpe\Shell\3D Edit"
+	"HKCR:\SystemFileAssociations\.jpeg\Shell\3D Edit"
+	"HKCR:\SystemFileAssociations\.jpg\Shell\3D Edit"
+	"HKCR:\SystemFileAssociations\.png\Shell\3D Edit"
+	"HKCR:\SystemFileAssociations\.tif\Shell\3D Edit"
+	"HKCR:\SystemFileAssociations\.tiff\Shell\3D Edit"
+    )
+    #Rename reg key to remove it, so it's revertible
+    foreach ($Paint3D in $Paint3Dstuff) {
+        If (Test-Path $Paint3D) {
+	    $rmPaint3D = $Paint3D + "_"
+	    Set-Item $Paint3D $rmPaint3D
+	}
+    }
+})
+
+Write-Host "Disabling Action Center..."
+	If (!(Test-Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\Explorer")) {
+		New-Item -Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\Explorer" | Out-Null
+	}
+	Set-ItemProperty -Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\Explorer" -Name "DisableNotificationCenter" -Type DWord -Value 1
+	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\PushNotifications" -Name "ToastEnabled" -Type DWord -Value 0
+
+
 
 }
