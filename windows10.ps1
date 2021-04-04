@@ -154,8 +154,9 @@ Start-Job -Name "Configuring Windows - Optimizations, Debloating, and Hardening"
     Write-Host "Configuring Windows - Optimizations, Debloating, and Hardening"
     New-Item "C:\" -Name "temp" -ItemType "directory" -Force
     iwr -useb 'https://simeononsecurity.ch/scripts/windowsoptimizeandharden.ps1' | iex
-    iwr -useb 'https://raw.githubusercontent.com/simeononsecurity/System-Wide-Windows-Ad-Blocker/main/sos-system-wide-windows-ad-block.ps1' | iex
-  
+    Start-Job -Name "System Wide Ad and Tracker Blocking" -ScriptBlock {
+    	iwr -useb 'https://raw.githubusercontent.com/simeononsecurity/System-Wide-Windows-Ad-Blocker/main/sos-system-wide-windows-ad-block.ps1' | iex
+	}
     #Fix high performance timers to get better performance from Windows 10.
     bcdedit /deletevalue useplatformclock
     bcdedit /set useplatformclock false
@@ -355,7 +356,4 @@ Write-Host "Disabling Action Center..."
 	}
 	Set-ItemProperty -Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\Explorer" -Name "DisableNotificationCenter" -Type DWord -Value 1
 	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\PushNotifications" -Name "ToastEnabled" -Type DWord -Value 0
-
-
-
 }
