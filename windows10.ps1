@@ -13,21 +13,21 @@ Start-Job -Name "Install and Configure Chocolatey" -ScriptBlock {
     choco upgrade all
     refreshenv
     Start-Job -Name "Installing Windows Updates" -ScriptBlock {
-    Start-Sleep 60
-    Write-Host "Install Latest Windows Updates"
-    choco install pswindowsupdate
-    Set-Executionpolicy -ExecutionPolicy RemoteSigned -Force
-    Import-Module PSWindowsUpdate -Force
-    Add-WUServiceManager -ServiceID 7971f918-a847-4430-9279-4a52d1efe18d -Confirm:$false
-    Install-WindowsUpdate -MicrosoftUpdate -AcceptAll 
-    Get-WuInstall -AcceptAll -IgnoreReboot
-}
+        Start-Sleep 60
+        Write-Host "Install Latest Windows Updates"
+        choco install pswindowsupdate
+        Set-Executionpolicy -ExecutionPolicy RemoteSigned -Force
+        Import-Module PSWindowsUpdate -Force
+        Add-WUServiceManager -ServiceID 7971f918-a847-4430-9279-4a52d1efe18d -Confirm:$false
+        Install-WindowsUpdate -MicrosoftUpdate -AcceptAll 
+        Get-WuInstall -AcceptAll -IgnoreReboot
+    }
 }
 
 Start-Job -Name "Installing Optional Windows Features" -ScriptBlock {
     #https://www.ghacks.net/2017/07/14/use-windows-powershell-to-install-optional-features/
     #Enable-WindowsOptionalFeature -Online -FeatureName "" -All
-    ForEach ($OptionalFeature in ("Client-ProjFS", "ClientForNFS-Infrastructure", "DataCenterBridging", "DirectoryServices-ADAM-Client", "Microsoft-Windows-Subsystem-Linux", "NFS-Administration", "ServicesForNFS-ClientOnly", "SimpleTCP", "WindowsMediaPlayer")){
+    ForEach ($OptionalFeature in ("Client-ProjFS", "ClientForNFS-Infrastructure", "DataCenterBridging", "DirectoryServices-ADAM-Client", "Microsoft-Windows-Subsystem-Linux", "NFS-Administration", "ServicesForNFS-ClientOnly", "SimpleTCP", "WindowsMediaPlayer")) {
         Enable-WindowsOptionalFeature -Online -FeatureName "$OptionalFeature" -All -NoRestart -WarningAction SilentlyContinue | Out-Null
     }
     
@@ -48,7 +48,7 @@ Start-Job -Name "Installing Optional Windows Features" -ScriptBlock {
     #https://www.powershellgallery.com/packages/PSWindowsUpdate/2.2.0.2
     #https://www.powershellgallery.com/packages/SpeculationControl/1.0.14
     #https://www.powershellgallery.com/packages/xCertificate/3.2.0.0
-    ForEach ($module in ("AnonUpload", "Carbon", "PoshInternals", "PowerShellGet", "PowerShellProTools", "PSWindowsUpdate", "ReportHTML","xCertificate")){
+    ForEach ($module in ("AnonUpload", "Carbon", "PoshInternals", "PowerShellGet", "PowerShellProTools", "PSWindowsUpdate", "ReportHTML", "xCertificate")) {
         Update-Module -Name $module -Force
         Install-Module -Name $module -Force
         Import-Module -Name $module -Force
@@ -153,10 +153,10 @@ Start-Job -Name "Configuring Windows - Optimizations, Debloating, and Hardening"
     Start-Sleep 120
     Write-Host "Configuring Windows - Optimizations, Debloating, and Hardening"
     New-Item "C:\" -Name "temp" -ItemType "directory" -Force
-    iwr -useb 'https://simeononsecurity.ch/scripts/windowsoptimizeandharden.ps1' | iex
+    Invoke-WebRequest -useb 'https://simeononsecurity.ch/scripts/windowsoptimizeandharden.ps1' | Invoke-Expression
     Start-Job -Name "System Wide Ad and Tracker Blocking" -ScriptBlock {
-    	iwr -useb 'https://raw.githubusercontent.com/simeononsecurity/System-Wide-Windows-Ad-Blocker/main/sos-system-wide-windows-ad-block.ps1' | iex
-	}
+        Invoke-WebRequest -useb 'https://raw.githubusercontent.com/simeononsecurity/System-Wide-Windows-Ad-Blocker/main/sos-system-wide-windows-ad-block.ps1' | Invoke-Expression
+    }
     #Fix high performance timers to get better performance from Windows 10.
     bcdedit /deletevalue useplatformclock
     bcdedit /set useplatformclock false
@@ -244,7 +244,7 @@ Start-Job -Name "Configuring Windows - Optimizations, Debloating, and Hardening"
     powercfg -change -monitor-timeout-ac 15
     
     #Enable Num Lock on logon and lock screen
-    sp "HKU:\.DEFAULT\Control Panel\Keyboard" "InitialKeyboardIndicators" 2
+    Set-ItemProperty "HKU:\.DEFAULT\Control Panel\Keyboard" "InitialKeyboardIndicators" 2
 
     #Enable Darkmode
     New-Item -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Force | Out-Null
@@ -325,35 +325,34 @@ Start-Job -Name "Configuring Windows - Optimizations, Debloating, and Hardening"
     New-ItemProperty -Path "HKLM:\SOFTWARE\OpenSSH" -Name DefaultShell -Value "C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe" -PropertyType String -Force
 
     Write-Host "Hiding Taskbar Search icon / box..."
-	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search" -Name "SearchboxTaskbarMode" -Type DWord -Value 0
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search" -Name "SearchboxTaskbarMode" -Type DWord -Value 0
 
-        #Removes Paint3D stuff from context menu
-$Paint3Dstuff = @(
+    #Removes Paint3D stuff from context menu
+    $Paint3Dstuff = @(
         "HKCR:\SystemFileAssociations\.3mf\Shell\3D Edit"
-	"HKCR:\SystemFileAssociations\.bmp\Shell\3D Edit"
-	"HKCR:\SystemFileAssociations\.fbx\Shell\3D Edit"
-	"HKCR:\SystemFileAssociations\.gif\Shell\3D Edit"
-	"HKCR:\SystemFileAssociations\.jfif\Shell\3D Edit"
-	"HKCR:\SystemFileAssociations\.jpe\Shell\3D Edit"
-	"HKCR:\SystemFileAssociations\.jpeg\Shell\3D Edit"
-	"HKCR:\SystemFileAssociations\.jpg\Shell\3D Edit"
-	"HKCR:\SystemFileAssociations\.png\Shell\3D Edit"
-	"HKCR:\SystemFileAssociations\.tif\Shell\3D Edit"
-	"HKCR:\SystemFileAssociations\.tiff\Shell\3D Edit"
+        "HKCR:\SystemFileAssociations\.bmp\Shell\3D Edit"
+        "HKCR:\SystemFileAssociations\.fbx\Shell\3D Edit"
+        "HKCR:\SystemFileAssociations\.gif\Shell\3D Edit"
+        "HKCR:\SystemFileAssociations\.jfif\Shell\3D Edit"
+        "HKCR:\SystemFileAssociations\.jpe\Shell\3D Edit"
+        "HKCR:\SystemFileAssociations\.jpeg\Shell\3D Edit"
+        "HKCR:\SystemFileAssociations\.jpg\Shell\3D Edit"
+        "HKCR:\SystemFileAssociations\.png\Shell\3D Edit"
+        "HKCR:\SystemFileAssociations\.tif\Shell\3D Edit"
+        "HKCR:\SystemFileAssociations\.tiff\Shell\3D Edit"
     )
     #Rename reg key to remove it, so it's revertible
     foreach ($Paint3D in $Paint3Dstuff) {
         If (Test-Path $Paint3D) {
-	    $rmPaint3D = $Paint3D + "_"
-	    Set-Item $Paint3D $rmPaint3D
-	}
+            $rmPaint3D = $Paint3D + "_"
+            Set-Item $Paint3D $rmPaint3D
+        }
     }
-})
+}
 
 Write-Host "Disabling Action Center..."
-	If (!(Test-Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\Explorer")) {
-		New-Item -Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\Explorer" | Out-Null
-	}
-	Set-ItemProperty -Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\Explorer" -Name "DisableNotificationCenter" -Type DWord -Value 1
-	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\PushNotifications" -Name "ToastEnabled" -Type DWord -Value 0
+If (!(Test-Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\Explorer")) {
+    New-Item -Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\Explorer" | Out-Null
 }
+Set-ItemProperty -Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\Explorer" -Name "DisableNotificationCenter" -Type DWord -Value 1
+Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\PushNotifications" -Name "ToastEnabled" -Type DWord -Value 0

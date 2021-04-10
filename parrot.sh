@@ -8,23 +8,23 @@ BLUE=`tput bold && tput setaf 4`
 NC=`tput sgr0`
 
 function RED(){
-	echo -e "\n${RED}${1}${NC}"
+    echo -e "\n${RED}${1}${NC}"
 }
 function GREEN(){
-	echo -e "\n${GREEN}${1}${NC}"
+    echo -e "\n${GREEN}${1}${NC}"
 }
 function YELLOW(){
-	echo -e "\n${YELLOW}${1}${NC}"
+    echo -e "\n${YELLOW}${1}${NC}"
 }
 function BLUE(){
-	echo -e "\n${BLUE}${1}${NC}"
+    echo -e "\n${BLUE}${1}${NC}"
 }
 
 # Testing if root...
 if [ $UID -ne 0 ]
 then
-	RED "You must run this script as root!" && echo
-	exit
+    RED "You must run this script as root!" && echo
+    exit
 fi
 
 
@@ -40,22 +40,22 @@ apt update
 apt install -y full-upgrade
 
 BLUE "Installing vmtools..."
-apt install -y open-vm-tools 
+apt install -y open-vm-tools
 
 BLUE "Installing xrdp..."
-apt install -y install xrdp 
+apt install -y install xrdp
 
 BLUE "Installing wine..."
-apt install -y net-tools wine 
+apt install -y net-tools wine
 
 BLUE "Installing openssh-server..."
-apt install -y openssh-server 
+apt install -y openssh-server
 
 BLUE "Installing vscodium..."
-apt install -y vscodium 
+apt install -y vscodium
 
 BLUE "Installing anonsurf..."
-apt install -y anonsurf 
+apt install -y anonsurf
 
 BLUE "Installing tor..."
 apt install -y tor
@@ -127,16 +127,16 @@ BLUE "Installing foremost..."
 sudo apt install -y foremost
 
 BLUE "Installing rot13..."
-sudo apt install -y bsdgames	
+sudo apt install -y bsdgames
 
 BLUE "Installing Python pwntools..."
 sudo pip install pwntools
 
 BLUE "Installing sqlite..."
-sudo apt install -y sqlite	
+sudo apt install -y sqlite
 
 BLUE "Installing zbarimg..."
-sudo apt install -y zbar-tools	
+sudo apt install -y zbar-tools
 
 BLUE "Installing qrencode..."
 sudo apt install -y qrencode
