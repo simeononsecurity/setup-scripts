@@ -18,8 +18,9 @@ Start-Job -Name "Install and Configure Chocolatey" -ScriptBlock {
     Set-Executionpolicy -ExecutionPolicy RemoteSigned -Force
     Import-Module PSWindowsUpdate -Force
     Add-WUServiceManager -ServiceID 7971f918-a847-4430-9279-4a52d1efe18d -Confirm:$false
-    Install-WindowsUpdate -MicrosoftUpdate -AcceptAll 
-    Get-WuInstall -AcceptAll -IgnoreReboot
+    Install-WindowsUpdate -MicrosoftUpdate -AcceptAll -Install
+    Get-WuInstall -AcceptAll -IgnoreReboot -IgnoreUserInput -nottitle 'preview'
+    Get-WindowsUpdate –Install
   }
 }
 
