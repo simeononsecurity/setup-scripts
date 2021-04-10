@@ -138,4 +138,11 @@ Start-Job -Name "Customizations" -ScriptBlock {
   #Uncomment the next line to make clean start menu default for all new users
   Import-StartLayout -LayoutPath $layoutFile -MountPath $env:SystemDrive\
   Remove-Item $layoutFile
+
+  Write-Host "Disabling Action Center..."
+  If (!(Test-Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\Explorer")) {
+    New-Item -Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\Explorer" | Out-Null
+  }
+  Set-ItemProperty -Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\Explorer" -Name "DisableNotificationCenter" -Type DWord -Value 1
+  Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\PushNotifications" -Name "ToastEnabled" -Type DWord -Value 0
 }
