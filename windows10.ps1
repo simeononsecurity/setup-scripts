@@ -32,11 +32,11 @@ Start-Job -Name "Installing Optional Windows Features" -ScriptBlock {
     }
     
     #https://docs.microsoft.com/en-us/powershell/scripting/gallery/installing-psget?view=powershell-7.1
-    Install-PackageProvider -Name NuGet -Force
+    Install-PackageProvider -Name "NuGet -Force
 
     #https://github.com/PowerShell/PowerShellGetv2/issues/303
-    Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
-    Install-PackageProvider -Name PowerShellGet -Force -Scope CurrentUser
+    Set-PSRepository -Name "PSGallery -InstallationPolicy Trusted
+    Install-PackageProvider -Name "PowerShellGet -Force -Scope CurrentUser
     
     #https://github.com/PowerShell/PowerShellGetv2/issues/295
     Invoke-WebRequest -Uri https://aka.ms/psget-nugetexe -OutFile "$env:ProgramData\Microsoft\Windows\PowerShell\PowerShellGet\NuGet.exe"
@@ -49,15 +49,15 @@ Start-Job -Name "Installing Optional Windows Features" -ScriptBlock {
     #https://www.powershellgallery.com/packages/SpeculationControl/1.0.14
     #https://www.powershellgallery.com/packages/xCertificate/3.2.0.0
     ForEach ($module in ("AnonUpload", "Carbon", "PoshInternals", "PowerShellGet", "PowerShellProTools", "PSWindowsUpdate", "ReportHTML", "xCertificate")) {
-        Update-Module -Name $module -Force
-        Install-Module -Name $module -Force
-        Import-Module -Name $module -Force
-    }
-    refreshenv
+        Update-Module -Name "$module -Force
+    Install-Module -Name "$module -Force
+        Import-Module -Name "$module -Force
 }
+refreshenv
 
 Start-Job -Name "Installing Software" -Scriptblock {
-    Start-Sleep 30
+    Start-Sleep 60
+    refreshenv
     Write-Host "Installing Browsers"
     choco install googlechrome firefox chromium microsoft-edge tor-Browser
 
@@ -194,16 +194,16 @@ Start-Job -Name "Configuring Windows - Optimizations, Debloating, and Hardening"
     #Use realtime priority for csrss.exe
     #https://sites.google.com/view/melodystweaks/basictweaks#h.ar95updq6a7j
     New-Item -Force "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\csrss.exe\PerfOptions"
-    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\csrss.exe\PerfOptions" -Name CpuPriorityClass -Type "DWORD" -Value "4" -Force
-    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\csrss.exe\PerfOptions" -Name IoPriority -Type "DWORD" -Value "1" -Force
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\csrss.exe\PerfOptions" -Name "CpuPriorityClass" -Type "DWORD" -Value "4" -Force
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\csrss.exe\PerfOptions" -Name "IoPriority" -Type "DWORD" -Value "1" -Force
   
     #Disallow drivers to get paged into virtual memory.
     #https://sites.google.com/view/melodystweaks/basictweaks#h.kvyfncl7jils
-    Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management" -Name DisablePagingExecutive -Type "DWORD" -Value "1" -Force
+    Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management" -Name "DisablePagingExecutive" -Type "DWORD" -Value "1" -Force
   
     #Use big system memory caching to improve microstuttering..
     #https://sites.google.com/view/melodystweaks/basictweaks#h.luvkznpp3use
-    Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management" -Name LargeSystemCache -Type "DWORD" -Value "1" -Force
+    Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management" -Name "LargeSystemCache" -Type "DWORD" -Value "1" -Force
   
     #Enable X2Apic and enable Memory Mapping for PCI-E devices.
     #https://sites.google.com/view/melodystweaks/basictweaks#h.xm0jq1fzo2c3
@@ -215,11 +215,11 @@ Start-Job -Name "Configuring Windows - Optimizations, Debloating, and Hardening"
   
     #Force contiguous memory allocation in the DirectX Graphics Kernel.
     #https://sites.google.com/view/melodystweaks/basictweaks#h.90c0dugs7bj
-    Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\GraphicsDrivers" -Name DpiMapIommuContiguous -Type "DWORD" -Value "1" -Force
+    Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\GraphicsDrivers" -Name "DpiMapIommuContiguous" -Type "DWORD" -Value "1" -Force
   
     #Force contiguous memory allocation in the NVIDIA driver
     #https://sites.google.com/view/melodystweaks/basictweaks#h.rfiwlr7de6uh
-    Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Class\{4d36e968-e325-11ce-bfc1-08002be10318}\0000" -Name PreferSystemMemoryContiguous -Type "DWORD" -Value "1" -Force
+    Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Class\{ 4d36e968-e325-11ce-bfc1-08002be10318 }\0000" -Name "PreferSystemMemoryContiguous" -Type "DWORD" -Value "1" -Force
   
     #Enable Experimental Autotuning and NEWRENO congestion provider.
     #https://sites.google.com/view/melodystweaks/basictweaks#h.cflus4jbi8z9
@@ -236,7 +236,7 @@ Start-Job -Name "Configuring Windows - Optimizations, Debloating, and Hardening"
   
     #Enable detailed startup/shutdown messages.
     #https://sites.google.com/view/melodystweaks/basictweaks#h.tr2jz1iwx8e9
-    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" -Name VerboseStatus -Type "DWORD" -Value "1" -Force
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" -Name "VerboseStatus" -Type "DWORD" -Value "1" -Force
     
     Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://simeononsecurity.ch/scripts/sosbranding.ps1'))
 
@@ -248,16 +248,16 @@ Start-Job -Name "Configuring Windows - Optimizations, Debloating, and Hardening"
 
     #Enable Darkmode
     New-Item -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Force | Out-Null
-    New-ItemProperty -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name AppsUseLightTheme -Type "DWORD" -Value "00000000" -Force
-    New-ItemProperty -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name SystemUsesLightTheme -Type "DWORD" -Value "00000000" -Force
-    New-ItemProperty -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name ColorPrevalence -Type "DWORD" -Value "00000000" -Force
-    New-ItemProperty -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name EnableTransparency -Type "DWORD" -Value "00000001" -Force
-    Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name AppsUseLightTheme -Type "DWORD" -Value "00000000" -Force
-    Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name SystemUsesLightTheme -Type "DWORD" -Value "00000000" -Force
-    Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name ColorPrevalence -Type "DWORD" -Value "00000000" -Force
-    Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name EnableTransparency -Type "DWORD" -Value "00000001" -Force
+    New-ItemProperty -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name "AppsUseLightTheme" -Type "DWORD" -Value "00000000" -Force
+    New-ItemProperty -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name "SystemUsesLightTheme" -Type "DWORD" -Value "00000000" -Force
+    New-ItemProperty -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name "ColorPrevalence" -Type "DWORD" -Value "00000000" -Force
+    New-ItemProperty -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name "EnableTransparency" -Type "DWORD" -Value "00000001" -Force
+    Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name "AppsUseLightTheme" -Type "DWORD" -Value "00000000" -Force
+    Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name "SystemUsesLightTheme" -Type "DWORD" -Value "00000000" -Force
+    Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name "ColorPrevalence" -Type "DWORD" -Value "00000000" -Force
+    Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name "EnableTransparency" -Type "DWORD" -Value "00000001" -Force
 
-    #Clear Start Menu
+       #Clear Start Menu
     #https://github.com/builtbybel/privatezilla/blob/master/scripts/Unpin%20Startmenu%20Tiles.ps1
     $START_MENU_LAYOUT = @"
 <LayoutModificationTemplate xmlns:defaultlayout="http://schemas.microsoft.com/Start/2014/FullDefaultLayout" xmlns:start="http://schemas.microsoft.com/Start/2014/StartLayout" Version="1" xmlns:taskbar="http://schemas.microsoft.com/Start/2014/TaskbarLayout" xmlns="http://schemas.microsoft.com/Start/2014/LayoutModification">
@@ -305,27 +305,27 @@ Start-Job -Name "Configuring Windows - Optimizations, Debloating, and Hardening"
     Import-StartLayout -LayoutPath $layoutFile -MountPath $env:SystemDrive\
     Remove-Item $layoutFile
 
-    #https://notes.ponderworthy.com/fsutil-tweaks-for-ntfs-performance-and-reliability
-    fsutil behavior set memoryusage 2
-    #fsutil behavior set disablelastaccess 1
-    fsutil behavior set mftzone 2
-    $DriveLetters = (Get-WmiObject -Class Win32_Volume).DriveLetter
-    ForEach ($Drive in $DriveLetters) {
-        If (-not ([string]::IsNullOrEmpty($Drive))) {
-            Write-Host Optimizing "$Drive" Drive
-            fsutil resource setavailable "$Drive"
-            fsutil resource setlog shrink 10 "$Drive"
-            fsutil repair set "$Drive" 0x01
-            fsutil resource setautoreset true "$Drive"
-            fsutil resource setconsistent "$Drive"
+        #https://notes.ponderworthy.com/fsutil-tweaks-for-ntfs-performance-and-reliability
+        fsutil behavior set memoryusage 2
+        #fsutil behavior set disablelastaccess 1
+        fsutil behavior set mftzone 2
+        $DriveLetters = (Get-WmiObject -Class Win32_Volume).DriveLetter
+        ForEach ($Drive in $DriveLetters) {
+            If (-not ([string]::IsNullOrEmpty($Drive))) {
+                Write-Host Optimizing "$Drive" Drive
+                fsutil resource setavailable "$Drive"
+                fsutil resource setlog shrink 10 "$Drive"
+                fsutil repair set "$Drive" 0x01
+                fsutil resource setautoreset true "$Drive"
+                fsutil resource setconsistent "$Drive"
+            }
         }
-    }
 
-    #https://docs.microsoft.com/en-us/windows-server/administration/openssh/openssh_server_configuration
-    New-ItemProperty -Path "HKLM:\SOFTWARE\OpenSSH" -Name DefaultShell -Value "C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe" -PropertyType String -Force
+        #https://docs.microsoft.com/en-us/windows-server/administration/openssh/openssh_server_configuration
+        New-ItemProperty -Path "HKLM:\SOFTWARE\OpenSSH" -Name "DefaultShell" -Value "C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe" -PropertyType "String" -Force
 
     Write-Host "Hiding Taskbar Search icon / box..."
-    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search" -Name "SearchboxTaskbarMode" -Type DWord -Value 0
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search" -Name "SearchboxTaskbarMode" -Type "DWORD" -Value 0
 
     #Removes Paint3D stuff from context menu
     $Paint3Dstuff = @(
@@ -353,8 +353,164 @@ Start-Job -Name "Configuring Windows - Optimizations, Debloating, and Hardening"
     If (!(Test-Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\Explorer")) {
         New-Item -Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\Explorer" | Out-Null
     }
-    Set-ItemProperty -Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\Explorer" -Name "DisableNotificationCenter" -Type DWord -Value 1
-    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\PushNotifications" -Name "ToastEnabled" -Type DWord -Value 0
-}
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\Explorer" -Name "DisableNotificationCenter" -Type "DWORD" -Value 1
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\PushNotifications" -Name "ToastEnabled" -Type "DWORD" -Value 0
 
+    #Do not suggest ways I can finish setting up my device to get the most out of Windows
+    if (-not (Test-Path -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\UserProfileEngagement")) {
+        New-Item -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\UserProfileEngagement" -Force
+    }
+    New-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\UserProfileEngagement" -Name "ScoobeSystemSettingEnabled" -PropertyType "DWORD" -Value "0" -Force
 
+        #Do not offer tailored experiences based on the diagnostic data setting
+        New-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Privacy" -Name "TailoredExperiencesWithDiagnosticDataEnabled" -PropertyType "DWORD" -Value "0" -Force
+
+    #Show hidden items in explorer
+    New-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "Hidden" -PropertyType "DWORD" -Value "1" -Force
+
+        #Show file extentions in explorer
+        New-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "HideFileExt" -PropertyType "DWORD" -Value "0" -Force
+
+    #Open to "this pc" in explorer
+    New-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "LaunchTo" -PropertyType "DWORD" -Value "1" -Force
+
+        #Hide cortana taskbar button
+        New-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "ShowCortanaButton" -PropertyType "DWORD" -Value "0" -Force
+
+        #Hide task view button in explorer
+        New-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "ShowTaskViewButton" -PropertyType "DWORD" -Value "0" -Force
+
+        #Hide people button in taskbar
+        if (-not (Test-Path -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\People")) {
+            New-Item -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\People" -Force
+        }
+        New-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\People" -Name "PeopleBand" -PropertyType "DWORD" -Value "0" -Force
+
+        #Hide "3D Objects" in explorer
+        if (-not (Test-Path -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FolderDescriptions\{ 31C0DD25-9439-4F12-BF41-7FF4EDA38722 }\PropertyBag")) {
+            New-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FolderDescriptions\{ 31C0DD25-9439-4F12-BF41-7FF4EDA38722 }\PropertyBag" -Force
+        }
+        New-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FolderDescriptions\{ 31C0DD25-9439-4F12-BF41-7FF4EDA38722 }\PropertyBag" -Name "ThisPCPolicy" -PropertyType "String" -Value "Hide" -Force
+
+        #Disable First Logon Animation
+        New-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" -Name "EnableFirstLogonAnimation" -PropertyType "DWord" -Value "0" -Force
+
+        #Remove Path Limit
+        New-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem" -Name "LongPathsEnabled" -PropertyType "DWORD" -Value "1" -Force
+
+        #Verbose BSoD
+        New-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\CrashControl" -Name "DisplayParameters" -PropertyType "DWORD" -Value "1" -Force
+
+        #Use only latest .Net
+        New-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\.NETFramework" -Name "OnlyUseLatestCLR" -PropertyType "DWORD" -Value "1" -Force
+        New-ItemProperty -Path "HKLM:\SOFTWARE\Wow6432Node\Microsoft\.NETFramework" -Name "OnlyUseLatestCLR" -PropertyType "DWORD" -Value "1" -Force
+
+        #Enable Windows Reserved Storage
+        Set-WindowsReservedStorageState -State Enabled
+
+        #Enable Restartable Apps
+        New-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" -Name "RestartApps" -Value "1" -Force
+
+        #Install HVEC Video Extention
+        # Check whether the extension is already installed
+        if (-not (Get-AppxPackage -Name "Microsoft.HEVCVideoExtension") -and (Get-AppxPackage -Name "Microsoft.Windows.Photos")) {
+            try {
+                # Check the internet connection
+                if ((Invoke-WebRequest -Uri https://www.google.com -UseBasicParsing -DisableKeepAlive -Method Head).StatusDescription) {
+                    try {
+                        # Check whether the https://store.rg-adguard.net site is alive
+                        if ((Invoke-WebRequest -Uri https://store.rg-adguard.net/api/GetFiles -UseBasicParsing -DisableKeepAlive -Method Head).StatusDescription) {
+                            $API = "https://store.rg-adguard.net/api/GetFiles"
+                            # HEVC Video Extensions from Device Manufacturer
+                            $ProductURL = "https://www.microsoft.com/store/productId/9n4wgh0z6vhq"
+
+                            $Body = @{
+                                type = "url"
+                                url  = $ProductURL
+                                ring = "Retail"
+                                lang = "en-US"
+                            }
+                            $Raw = Invoke-RestMethod -Method Post -Uri $API -ContentType 'application/x-www-form-urlencoded' -Body $Body
+
+                            # Parsing the page
+                            $Raw | Select-String -Pattern '<tr style.*<a href=\"(?<url>.*)"\s.*>(?<text>.*)<\/a>' -AllMatches | ForEach-Object -Process { $_.Matches } | ForEach-Object -Process {
+                                $TempURL = $_.Groups[1].Value
+                                $Package = $_.Groups[2].Value
+
+                                if ($Package -like "Microsoft.HEVCVideoExtension_*_x64__8wekyb3d8bbwe.appx") {
+                                    Write-Verbose -Message $Localization.HEVCDownloading -Verbose
+
+                                    [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+
+                                    $DownloadsFolder = Get-ItemPropertyValue -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders" -Name "{ 374DE290-123F-4565-9164-39C4925E467B }"
+                                    $Parameters = @{
+                                        Uri     = $TempURL
+                                        OutFile = "$DownloadsFolder\$Package"
+                                        Verbose = [switch]::Present
+                                    }
+                                    Invoke-WebRequest @Parameters
+
+                                    # Installing "HEVC Video Extensions from Device Manufacturer"
+                                    Add-AppxPackage -Path "$DownloadsFolder\$Package" -Verbose
+
+                                    Remove-Item -Path "$DownloadsFolder\$Package" -Force
+                                }
+                            }
+                        }
+                    }
+                    catch [System.Net.WebException] {
+                        Write-Warning -Message $Localization.NoResponse
+                        Write-Error -Message $Localization.NoResponse -ErrorAction SilentlyContinue
+                        return
+                    }
+                }
+            }
+            catch [System.Net.WebException] {
+                Write-Warning -Message $Localization.NoInternetConnection
+                Write-Error -Message $Localization.NoInternetConnection -ErrorAction SilentlyContinue
+                return
+            }
+        }
+
+        #Enable Sandboxing for Windows Defender
+        setx /M MP_FORCE_USE_SANDBOX 1
+
+        # Dismiss Microsoft Defender offer in the Windows Security about signing in Microsoft account
+        New-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows Security Health\State" -Name "AccountProtection_MicrosoftAccount_Disconnected" -PropertyType "DWORD" -Value "1" -Force
+
+        #Enable PowerShell Module Logging
+        if (-not (Test-Path -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\PowerShell\ModuleLogging\ModuleNames")) {
+    New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\PowerShell\ModuleLogging\ModuleNames" -Force
+            }
+            New-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\PowerShell\ModuleLogging" -Name "EnableModuleLogging" -PropertyType "DWORD" -Value "1" -Force
+            New-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\PowerShell\ModuleLogging\ModuleNames" -Name "*" -PropertyType "String" -Value "*" -Force
+
+            #Enable Windows Sandbox
+            if (Get-WindowsEdition -Online | Where-Object -FilterScript { $_.Edition -eq "Professional" -or $_.Edition -like "Enterprise*" }) {
+                # Checking whether x86 virtualization is enabled in the firmware
+                if ((Get-CimInstance -ClassName CIM_Processor).VirtualizationFirmwareEnabled -eq $true) {
+                    Enable-WindowsOptionalFeature -FeatureName Containers-DisposableClientVM -All -Online -NoRestart
+                }
+                else {
+                    try {
+                        # Determining whether Hyper-V is enabled
+                        if ((Get-CimInstance -ClassName CIM_ComputerSystem).HypervisorPresent -eq $true) {
+                            Enable-WindowsOptionalFeature -FeatureName Containers-DisposableClientVM -All -Online -NoRestart
+                        }
+                    }
+                    catch [System.Exception] {
+                        Write-Error -Message $Localization.EnableHardwareVT -ErrorAction SilentlyContinue
+                    }
+                }
+            }
+
+            #Install option for .cab files
+            if (-not (Test-Path -Path "Registry::HKEY_CLASSES_ROOT\CABFolder\Shell\RunAs\Command")) {
+                New-Item -Path "Registry::HKEY_CLASSES_ROOT\CABFolder\Shell\RunAs\Command" -Force
+            }
+            $Value = "{ 0 }" -f "cmd /c DISM.exe /Online /Add-Package /PackagePath:`"%1`" /NoRestart '&' pause"
+            New-ItemProperty -Path "Registry::HKEY_CLASSES_ROOT\CABFolder\Shell\RunAs\Command" -Name "(default)" -PropertyType "String" -Value "$Value" -Force
+            New-ItemProperty -Path "Registry::HKEY_CLASSES_ROOT\CABFolder\Shell\RunAs" -Name "MUIVerb" -PropertyType "String" -Value "@shell32.dll, -10210" -Force
+            New-ItemProperty -Path "Registry::HKEY_CLASSES_ROOT\CABFolder\Shell\RunAs" -Name "HasLUAShield" -PropertyType "String" -Value "" -Force
+
+        }
