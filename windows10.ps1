@@ -503,14 +503,4 @@ Start-Job -Name "Configuring Windows - Optimizations, Debloating, and Hardening"
                     }
                 }
             }
-
-            #Install option for .cab files
-            if (-not (Test-Path -Path "Registry::HKEY_CLASSES_ROOT\CABFolder\Shell\RunAs\Command")) {
-                New-Item -Path "Registry::HKEY_CLASSES_ROOT\CABFolder\Shell\RunAs\Command" -Force
-            }
-            $Value = "{ 0 }" -f "cmd /c DISM.exe /Online /Add-Package /PackagePath:`"%1`" /NoRestart '&' pause"
-            New-ItemProperty -Path "Registry::HKEY_CLASSES_ROOT\CABFolder\Shell\RunAs\Command" -Name "(default)" -PropertyType "String" -Value "$Value" -Force
-            New-ItemProperty -Path "Registry::HKEY_CLASSES_ROOT\CABFolder\Shell\RunAs" -Name "MUIVerb" -PropertyType "String" -Value "@shell32.dll, -10210" -Force
-            New-ItemProperty -Path "Registry::HKEY_CLASSES_ROOT\CABFolder\Shell\RunAs" -Name "HasLUAShield" -PropertyType "String" -Value "" -Force
-
         }
