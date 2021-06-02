@@ -153,9 +153,9 @@ Start-Job -Name "Configuring Windows - Optimizations, Debloating, and Hardening"
     Start-Sleep 120
     Write-Host "Configuring Windows - Optimizations, Debloating, and Hardening"
     New-Item "C:\" -Name "temp" -ItemType "directory" -Force
-    Invoke-WebRequest -useb 'https://simeononsecurity.ch/scripts/windowsoptimizeandharden.ps1' | Invoke-Expression
+    iwr -useb 'https://simeononsecurity.ch/scripts/windowsoptimizeandharden.ps1' | iex
     Start-Job -Name "System Wide Ad and Tracker Blocking" -ScriptBlock {
-        Invoke-WebRequest -useb 'https://raw.githubusercontent.com/simeononsecurity/System-Wide-Windows-Ad-Blocker/main/sos-system-wide-windows-ad-block.ps1' | Invoke-Expression
+        iwr -useb 'https://simeononsecurity.ch/scripts/soswindowsadblocker.ps1' | iex
     }
     #Fix high performance timers to get better performance from Windows 10.
     bcdedit /deletevalue useplatformclock
