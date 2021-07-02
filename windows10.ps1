@@ -157,6 +157,13 @@ Start-Job -Name "Configuring Windows - Optimizations, Debloating, and Hardening"
     Start-Job -Name "System Wide Ad and Tracker Blocking" -ScriptBlock {
         iwr -useb 'https://simeononsecurity.ch/scripts/soswindowsadblocker.ps1' | iex
     }
+    #Start-Job -Name "SoS Branding" -ScriptBlock {
+    #    iwr -useb 'https://simeononsecurity.ch/scripts/sosbranding.ps1' | iex
+    #}
+    Start-Job -Name "SoS Sysmon" -ScriptBlock {
+         iwr -useb 'https://simeononsecurity.ch/scripts/sosautomatesysmon.ps1'|iex
+    }
+
     #Fix high performance timers to get better performance from Windows 10.
     bcdedit /deletevalue useplatformclock
     bcdedit /set useplatformclock false
@@ -238,8 +245,6 @@ Start-Job -Name "Configuring Windows - Optimizations, Debloating, and Hardening"
     #https://sites.google.com/view/melodystweaks/basictweaks#h.tr2jz1iwx8e9
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" -Name "VerboseStatus" -Type "DWORD" -Value "1" -Force
     
-    Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://simeononsecurity.ch/scripts/sosbranding.ps1'))
-
     #Set Screen Timeout to 15 Minutes
     powercfg -change -monitor-timeout-ac 15
     
