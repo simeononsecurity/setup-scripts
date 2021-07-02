@@ -59,13 +59,22 @@ Start-Job -Name "Installing Other Tools and Software" -Scriptblock {
   choco install 7zip.install
 }
 
-Start-Job -Name "Configuring Windows - Optimizations And Debloating" -ScriptBlock {
-  Write-Host "Configuring Windows - Optimizations, Debloating, and Hardening"
-  New-Item "C:\" -Name "temp" -ItemType "directory" -Force
-  Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://simeononsecurity.ch/scripts/windowsoptimizeanddebloat.ps1'))
-}
-
 Start-Job -Name "Customizations" -ScriptBlock {
+
+  Write-Host "Configuring Windows - Optimizations, Debloating,"
+    New-Item "C:\" -Name "temp" -ItemType "directory" -Force
+    iwr -useb 'https://simeononsecurity.ch/scripts/windowsoptimizeandharden.ps1' | iex
+    Start-Job -Name "System Wide Ad and Tracker Blocking" -ScriptBlock {
+        iwr -useb 'https://simeononsecurity.ch/scripts/soswindowsadblocker.ps1' | iex
+    }
+    #Start-Job -Name "SoS Branding" -ScriptBlock {
+    #    iwr -useb 'https://simeononsecurity.ch/scripts/sosbranding.ps1' | iex
+    #}
+    Start-Job -Name "SoS Sysmon" -ScriptBlock {
+         iwr -useb 'https://simeononsecurity.ch/scripts/sosautomatesysmon.ps1'|iex
+   }
+    
+    
   #Set Screen Timeout to 15 Minutes
   powercfg -change -monitor-timeout-ac 15
 
