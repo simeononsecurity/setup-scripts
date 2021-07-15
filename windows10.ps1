@@ -77,7 +77,7 @@ Start-Job -Name "Installing Software" -Scriptblock {
   
     Write-Host "Installing Terminals"
     #choco install docker-desktop docker-compose docker-cli azure-cli awstools.powershell awscli kubernetes-cli 
-    choco install powershell4 powershell powershellhere-elevated powershell.portable microsoft-windows-terminal powertoys carbon
+    choco install powershell4 powershell powershellhere-elevated powershell.portable microsoft-windows-terminal carbon
 
     Write-Host "Installing Java"
     #choco install jdk11 javaruntime
