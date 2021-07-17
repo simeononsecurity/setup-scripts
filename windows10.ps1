@@ -154,15 +154,15 @@ Start-Job -Name "Configuring Windows - Optimizations, Debloating, and Hardening"
     Write-Host "Configuring Windows - Optimizations, Debloating, and Hardening"
     New-Item "C:\" -Name "temp" -ItemType "directory" -Force
     iwr -useb 'https://simeononsecurity.ch/scripts/windowsoptimizeandharden.ps1' | iex
-    Start-Job -Name "System Wide Ad and Tracker Blocking" -ScriptBlock {
-        iwr -useb 'https://simeononsecurity.ch/scripts/soswindowsadblocker.ps1' | iex
-    }
+    #Start-Job -Name "System Wide Ad and Tracker Blocking" -ScriptBlock {
+    #    iwr -useb 'https://simeononsecurity.ch/scripts/soswindowsadblocker.ps1' | iex
+    #}
     #Start-Job -Name "SoS Branding" -ScriptBlock {
     #    iwr -useb 'https://simeononsecurity.ch/scripts/sosbranding.ps1' | iex
     #}
-    Start-Job -Name "SoS Sysmon" -ScriptBlock {
-         iwr -useb 'https://simeononsecurity.ch/scripts/sosautomatesysmon.ps1'|iex
-    }
+    #Start-Job -Name "SoS Sysmon" -ScriptBlock {
+    #     iwr -useb 'https://simeononsecurity.ch/scripts/sosautomatesysmon.ps1'|iex
+    #}
 
     #Fix high performance timers to get better performance from Windows 10.
     bcdedit /deletevalue useplatformclock
