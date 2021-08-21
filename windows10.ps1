@@ -7,11 +7,11 @@ Start-Job -Name "Install and Configure Chocolatey" -ScriptBlock {
     choco feature enable -n=allowGlobalConfirmation
     choco feature enable -n=useFipsCompliantChecksums
     choco feature enable -n=useEnhancedExitCodes
+    choco feature disable -n=checksumFiles #Fipsmode implementation is currently broken for some packages
     choco config set commandExecutionTimeoutSeconds 14400
     choco config set --name="'cacheLocation'" --value="'C:\temp\chococache'"
     choco config set --name="'proxyBypassOnLocal'" --value="'true'"
-    choco config set --name="'IgnoreChecksums'" --value="'true'"
-    choco upgrade all
+    choco upgrade all --ignore-checksums
     refreshenv
     Start-Job -Name "Installing Windows Updates" -ScriptBlock {
         Write-Host "Install Latest Windows Updates"
