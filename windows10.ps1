@@ -10,6 +10,7 @@ Start-Job -Name "Install and Configure Chocolatey" -ScriptBlock {
     choco config set commandExecutionTimeoutSeconds 14400
     choco config set --name="'cacheLocation'" --value="'C:\temp\chococache'"
     choco config set --name="'proxyBypassOnLocal'" --value="'true'"
+    choco config set --name="'IgnoreChecksums'" --value="'true'"
     choco upgrade all
     refreshenv
     Start-Job -Name "Installing Windows Updates" -ScriptBlock {
@@ -49,9 +50,9 @@ Start-Job -Name "Installing Optional Windows Features" -ScriptBlock {
     #https://www.powershellgallery.com/packages/SpeculationControl/1.0.14
     #https://www.powershellgallery.com/packages/xCertificate/3.2.0.0
     ForEach ($module in ("AnonUpload", "Carbon", "PoshInternals", "PowerShellGet", "PowerShellProTools", "PSWindowsUpdate", "ReportHTML", "xCertificate")) {
-        Update-Module -Name "$module -Force
-    Install-Module -Name "$module -Force
-        Import-Module -Name "$module -Force
+        Update-Module -Name "$module" -Force
+        Install-Module -Name "$module" -Force
+        Import-Module -Name "$module" -Force
 }
 refreshenv
 
