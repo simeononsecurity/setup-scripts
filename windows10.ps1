@@ -37,7 +37,7 @@ Start-Job -Name "Installing Optional Windows Features" -ScriptBlock {
 
     #https://github.com/PowerShell/PowerShellGetv2/issues/303
     Set-PSRepository -Name "PSGallery -InstallationPolicy Trusted
-    Install-PackageProvider -Name "PowerShellGet -Force -Scope CurrentUser
+    Install-PackageProvider -Name "PowerShellGet" -Force -Scope CurrentUser
     
     #https://github.com/PowerShell/PowerShellGetv2/issues/295
     Invoke-WebRequest -Uri https://aka.ms/psget-nugetexe -OutFile "$env:ProgramData\Microsoft\Windows\PowerShell\PowerShellGet\NuGet.exe"
@@ -53,6 +53,7 @@ Start-Job -Name "Installing Optional Windows Features" -ScriptBlock {
         Update-Module -Name "$module" -Force
         Install-Module -Name "$module" -Force
         Import-Module -Name "$module" -Force
+    }
 }
 refreshenv
 
@@ -71,7 +72,7 @@ Start-Job -Name "Installing Software" -Scriptblock {
             }
         }
     } Else {
-        Write-Output $chocopackages | ForEach {
+        Write-Output $chocopackages | ForEach-Object {
             Write-Host "Installing $_" -ForegroundColor White -BackgroundColor Black
             Try {
                 Choco install $_ --ignore-checksums | Out-Null
@@ -132,7 +133,7 @@ Start-Job -Name "Configuring Windows - Optimizations, Debloating, and Hardening"
     Start-Sleep 120
     Write-Host "Configuring Windows - Optimizations, Debloating, and Hardening"
     New-Item "C:\" -Name "temp" -ItemType "directory" -Force
-    iwr -useb 'https://simeononsecurity.ch/scripts/windowsoptimizeandharden.ps1' | iex
+    Invoke-WebRequest -useb 'https://simeononsecurity.ch/scripts/windowsoptimizeandharden.ps1' | Invoke-Expression
     #Start-Job -Name "System Wide Ad and Tracker Blocking" -ScriptBlock {
     #    iwr -useb 'https://simeononsecurity.ch/scripts/soswindowsadblocker.ps1' | iex
     #}
