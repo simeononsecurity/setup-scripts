@@ -229,6 +229,13 @@ Start-Job -Name "Configuring Windows - Optimizations, Debloating, and Hardening"
     #Set Screen Timeout to 15 Minutes
     powercfg -change -monitor-timeout-ac 15
     
+    #Enable Ultimate Performance
+    powercfg -duplicatescheme e9a42b02-d5df-448d-aa00-03f14749eb61
+    powercfg /setactive e9a42b02-d5df-448d-aa00-03f14749eb61
+    
+    #Process Idle Tasks
+    Rundll32.exe advapi32.dll,ProcessIdleTasks
+    
     #Enable Num Lock on logon and lock screen
     Set-ItemProperty "HKU:\.DEFAULT\Control Panel\Keyboard" "InitialKeyboardIndicators" 2
 
@@ -247,6 +254,12 @@ Start-Job -Name "Configuring Windows - Optimizations, Debloating, and Hardening"
     fsutil behavior set memoryusage 2
     #fsutil behavior set disablelastaccess 1
     fsutil behavior set mftzone 2
+    #https://github.com/djdallmann/GamingPCSetup/blob/master/CONTENT/DOCS/POSTINSTALL/README.md
+    fsutil behavior query Disabledeletenotify
+    fsutil behavior set DisableDeleteNotify 0
+    #Optimize NTFS file system parameters to reduce updates to some of the metadata that is tracked.
+    fsutil behavior set disableLastAccess 1
+    fsutil behavior set disable8dot3 1
     $DriveLetters = (Get-WmiObject -Class Win32_Volume).DriveLetter
     ForEach ($Drive in $DriveLetters) {
         If (-not ([string]::IsNullOrEmpty($Drive))) {
@@ -258,6 +271,81 @@ Start-Job -Name "Configuring Windows - Optimizations, Debloating, and Hardening"
             fsutil resource setconsistent "$Drive"
         }
     }
+    
+    #Windows Defender Exclusions
+    Add-MpPreference -ExclusionPath ${env:ProgramFiles(x86)}"\Steam\"
+    Add-MpPreference -ExclusionPath $env:LOCALAPPDATA"\Temp\NVIDIA Corporation\NV_Cache"
+    Add-MpPreference -ExclusionPath $env:PROGRAMDATA"\NVIDIA Corporation\NV_Cache"
+    Add-MpPreference -ExclusionProcess ${env:ProgramFiles(x86)}"\Common Files\Steam\SteamService.exe"
+    
+    #Disable Unrequired Services
+    #https://github.com/djdallmann/GamingPCSetup/tree/master/CONTENT/DOCS/SERVICES
+    #ActiveX Controlls and Policy Enforcement via GPU - Uncomment if not used
+    #Set-Service AxInstSV -StartupType Disabled
+    #Time Zone Automatic Update - Uncomment if not used
+    #Set-Service tzautoupdate -StartupType Disabled
+    #Uncomment if you don't use or plan to use Bluetooth devices
+    #Set-Service bthserv -StartupType Disabled
+    Set-Service dmwappushservice -StartupType Disabled
+    Set-Service MapsBroker -StartupType Disabled
+    Set-Service lfsvc -StartupType Disabled
+    Set-Service SharedAccess -StartupType Disabled
+    Set-Service lltdsvc -StartupType Disabled
+    Set-Service AppVClient -StartupType Disabled
+    Set-Service NetTcpPortSharing -StartupType Disabled
+    Set-Service CscService -StartupType Disabled
+    Set-Service PhoneSvc -StartupType Disabled
+    #Disable unless you use printers or scanners
+    #Set-Service Spooler -StartupType Disabled
+    #Disable unless you use printers or scanners
+    #Set-Service PrintNotify -StartupType Disabled
+    Set-Service QWAVE -StartupType Disabled
+    #Disable if you don't use or plan to use wifi etc
+    #Set-Service RmSvc -StartupType Disabled
+    Set-Service RemoteAccess -StartupType Disabled
+    Set-Service SensorDataService -StartupType Disabled
+    Set-Service SensrSvc -StartupType Disabled
+    Set-Service SensorService -StartupType Disabled
+    Set-Service ShellHWDetection -StartupType Disabled
+    #Disable if you don't use smart cards
+    #Set-Service SCardSvr -StartupType Disabled
+    ##Disable if you don't use smart cards
+    #Set-Service ScDeviceEnum -StartupType Disabled
+    Set-Service SSDPSRV -StartupType Disabled
+    #Disable if you don't use a scanner.
+    #Set-Service WiaRpc -StartupType Disabled
+    #Disable if you don't use these features.
+    #Set-Service TabletInputService -StartupType Disabled
+    Set-Service upnphost -StartupType Disabled
+    Set-Service UserDataSvc -StartupType Disabled
+    Set-Service UevAgentService -StartupType Disabled
+    Set-Service WalletService -StartupType Disabled
+    Set-Service FrameServer -StartupType Disabled
+    #Disable if you don't use image scanners
+    #Set-Service stisvc -StartupType Disabled
+    Set-Service wisvc -StartupType Disabled
+    Set-Service icssvc -StartupType Disabled
+    #Breaks Xbox Live Features - Uncomment if not used
+    #Set-Service XblAuthManager -StartupType Disabled
+    #Set-Service XblGameSave -StartupType Disabled
+    Set-Service SEMgrSvc -StartupType Disabled
+    Set-Service DiagTrack -StartupType Disabled
+    
+    #Remove Appx Packages (duplicate, but can't be too sure)
+    Get-AppxPackage *print3d* | Remove-AppxPackage
+    Get-AppxPackage *3dviewer* | Remove-AppxPackage
+    Get-AppxPackage *zune* | Remove-AppxPackage
+    Get-AppxPackage *minecraft* | Remove-AppxPackage
+    Get-AppxPackage *bing* | Remove-AppxPackage
+    Get-AppxPackage *skype* | Remove-AppxPackage
+    Get-AppxPackage *solitaire* | Remove-AppxPackage
+    Get-AppxPackage *candycrush* | Remove-AppxPackage
+    Get-AppxPackage *netflix* | Remove-AppxPackage
+    Get-AppxPackage *onenote* | Remove-AppxPackage
+    Get-AppxPackage *dolby* | Remove-AppxPackage
+    Get-AppxPackage *fitbit* | Remove-AppxPackage
+    Get-AppxPackage *feedback* | Remove-AppxPackage
+    Get-AppxPackage *yourphone* | Remove-AppxPackage
 
     #https://docs.microsoft.com/en-us/windows-server/administration/openssh/openssh_server_configuration
     New-ItemProperty -Path "HKLM:\SOFTWARE\OpenSSH" -Name "DefaultShell" -Value "C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe" -PropertyType "String" -Force
