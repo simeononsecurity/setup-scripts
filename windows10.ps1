@@ -278,6 +278,13 @@ Start-Job -Name "Configuring Windows - Optimizations, Debloating, and Hardening"
     Add-MpPreference -ExclusionPath $env:PROGRAMDATA"\NVIDIA Corporation\NV_Cache"
     Add-MpPreference -ExclusionProcess ${env:ProgramFiles(x86)}"\Common Files\Steam\SteamService.exe"
     
+    #Awesome Miner Windows Defender Exclusions
+    Add-MpPreference -ExclusionPath $env:LOCALAPPDATA"\AwesomeMiner"
+    Add-MpPreference -ExclusionPath $env:LOCALAPPDATA"\AwesomeMinerService"
+    Add-MpPreference -ExclusionPath $env:APPDATA"\AwesomeMiner"
+    Add-MpPreference -ExclusionPath $env:APPDATA"\AwesomeMinerService"
+    Add-MpPreference -ExclusionPath $env:PROGRAMDATA"\AwesomeMinerService"
+    
     #Disable Unrequired Services
     #https://github.com/djdallmann/GamingPCSetup/tree/master/CONTENT/DOCS/SERVICES
     #ActiveX Controlls and Policy Enforcement via GPU - Uncomment if not used
