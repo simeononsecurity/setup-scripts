@@ -59,8 +59,8 @@ refreshenv
 
 Start-Job -Name "Installing Software" -Scriptblock { 
     $chocopackages = @("googlechrome", "firefox", "chromium", "microsoft-edge", "tor-Browser", "putty", "winscp.install", "teamviewer", "anydesk.install", "sysinternals", "driverbooster", "sdio", "etcher", "rufus.install", "veracrypt", "windirstat", "mysql.workbench", "rsat", "sql-server-management-studio", "laps", "wumt", "openvpn", "wireguard", "wireshark", "nmap", "winbox", "tor", "cheatengine", "sleuthkit", "hxd", "ida-free", "ghidra", "ossec-client", "burp-suite-free-edition", "zap", "openstego", "accessenum", "accesschk", "sysmon", "powershell4", "powershell", "powershellhere-elevated", "powershell.portable", "microsoft-windows-terminal", "carbon", "jre8", "openjdk", "openjdk.portable", "hugo", "hugo-extended", "nodejs", "vscode", "vscodium", "vscode-ansible", "vscode-python", "chocolatey-vscode", "vscode-prettier", "vscode-java", "vscode-yaml", "vscode-haskell", "vscode-mongo", "vscode-beautify", "vscode-intellicode", "vscode-pull-request-github", "vscode-kubernetes-tools", "vscode-autofilename", "vscode-codespellchecker", "vscode-icons", "vscode-csharp", "dsc.powershellcommunity", "notepadplusplus.install", "python", "pip", "github-desktop", "gh", "git.install", "git-lfx", "gnupg", "gpg4win", "openssh", "wsl", "wsl2", "adb", "universal-adb-drivers", "windows-adk-all", "dotnetfx", "vcredist-all", "microsoft-visual-cpp-build-tools", "patch-my-pc", "rocketchat", "discord", "pidgin", "signal", "steam", "obs-studio", "obs-ndi", "vlc", "gimp", "k-litecodecpackfull", "audacity", "audacity-lame", "screentogif", "adobereader", "installroot", "7zip.install", "curl", "autohotkey", "teracopy", "cpu-z.install", "eraser", "openstego")
-
-    $PSversion = $PSVersionTable.PSVersion.Major
+    choco install $chocopackages
+    <# $PSversion = $PSVersionTable.PSVersion.Major
     If ($PSversion -ge "7") {
         Write-Output $chocopackages | ForEach-Object -Parallel {
             Write-Host "Installing $_" -ForegroundColor White -BackgroundColor Black
@@ -82,7 +82,7 @@ Start-Job -Name "Installing Software" -Scriptblock {
                 Write-Host "Failed to install $_" -ForegroundColor Red -BackgroundColor Black
             }
         }
-    }
+    } #>
     
     #Packages that down't work while installing others
     Choco install vmwareworkstation vmware-horizon-client vmware-powercli-psmodule vmrc --ignore-checksums --force | Out-Null
