@@ -444,67 +444,6 @@ Start-Job -Name "Configuring Windows - Optimizations, Debloating, and Hardening"
     #Enable Restartable Apps
     New-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" -Name "RestartApps" -Value "1" -Force
 
-    #Install HVEC Video Extention
-    # Check whether the extension is already installed
-    if (-not (Get-AppxPackage -Name "Microsoft.HEVCVideoExtension") -and (Get-AppxPackage -Name "Microsoft.Windows.Photos")) {
-        try {
-            # Check the internet connection
-            if ((Invoke-WebRequest -Uri https://www.google.com -UseBasicParsing -DisableKeepAlive -Method Head).StatusDescription) {
-                try {
-                    # Check whether the https://store.rg-adguard.net site is alive
-                    if ((Invoke-WebRequest -Uri https://store.rg-adguard.net/api/GetFiles -UseBasicParsing -DisableKeepAlive -Method Head).StatusDescription) {
-                        $API = "https://store.rg-adguard.net/api/GetFiles"
-                        # HEVC Video Extensions from Device Manufacturer
-                        $ProductURL = "https://www.microsoft.com/store/productId/9n4wgh0z6vhq"
-
-                        $Body = @{
-                            type = "url"
-                            url  = $ProductURL
-                            ring = "Retail"
-                            lang = "en-US"
-                        }
-                        $Raw = Invoke-RestMethod -Method Post -Uri $API -ContentType 'application/x-www-form-urlencoded' -Body $Body
-
-                        # Parsing the page
-                        $Raw | Select-String -Pattern '<tr style.*<a href=\"(?<url>.*)"\s.*>(?<text>.*)<\/a>' -AllMatches | ForEach-Object -Process { $_.Matches } | ForEach-Object -Process {
-                            $TempURL = $_.Groups[1].Value
-                            $Package = $_.Groups[2].Value
-
-                            if ($Package -like "Microsoft.HEVCVideoExtension_*_x64__8wekyb3d8bbwe.appx") {
-                                Write-Verbose -Message $Localization.HEVCDownloading -Verbose
-
-                                [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-
-                                $DownloadsFolder = Get-ItemPropertyValue -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders" -Name "{ 374DE290-123F-4565-9164-39C4925E467B }"
-                                $Parameters = @{
-                                    Uri     = $TempURL
-                                    OutFile = "$DownloadsFolder\$Package"
-                                    Verbose = [switch]::Present
-                                }
-                                Invoke-WebRequest @Parameters
-
-                                # Installing "HEVC Video Extensions from Device Manufacturer"
-                                Add-AppxPackage -Path "$DownloadsFolder\$Package" -Verbose
-
-                                Remove-Item -Path "$DownloadsFolder\$Package" -Force
-                            }
-                        }
-                    }
-                }
-                catch [System.Net.WebException] {
-                    Write-Warning -Message $Localization.NoResponse
-                    Write-Error -Message $Localization.NoResponse -ErrorAction SilentlyContinue
-                    return
-                }
-            }
-        }
-        catch [System.Net.WebException] {
-            Write-Warning -Message $Localization.NoInternetConnection
-            Write-Error -Message $Localization.NoInternetConnection -ErrorAction SilentlyContinue
-            return
-        }
-    }
-
     #Enable Sandboxing for Windows Defender
     setx /M MP_FORCE_USE_SANDBOX 1
 
