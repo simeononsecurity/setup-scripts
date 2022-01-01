@@ -16,6 +16,11 @@ iwr -useb "https://raw.githubusercontent.com/simeononsecurity/setup-scripts/main
 iwr -useb "https://raw.githubusercontent.com/simeononsecurity/setup-scripts/main/windows10-basic.ps1" | iex
 ```
 
+### Windows 10 - Mining Rig:
+```powershell
+iwr -useb "https://raw.githubusercontent.com/simeononsecurity/setup-scripts/main/windows10-miningrig.ps1" | iex
+```
+
 ### Ubuntu - Install and Configure:
 ```bash
 sudo su -c "bash <(wget -qO- https://raw.githubusercontent.com/simeononsecurity/setup-scripts/main/ubuntu.sh)" root
