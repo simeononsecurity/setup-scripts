@@ -96,6 +96,13 @@ Start-Job -Name "Mining Specific Configurations and Optimizations" -ScriptBlock 
     $pagefileset.InitialSize = 32768
     $pagefileset.MaximumSize = 65535
     $pagefileset.Put() | Out-Null
+    
+    #TDR Timeout Fix 
+    New-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\GraphicsDrivers" -Name "TdrDelay" -Type "DWORD" -Value "20" -Force
+    New-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\GraphicsDrivers" -Name "TdrDdiDelay" -Type "DWORD" -Value "10" -Force
+    Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\GraphicsDrivers" -Name "TdrDelay" -Type "DWORD" -Value "20" -Force
+    Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\GraphicsDrivers" -Name "TdrDdiDelay" -Type "DWORD" -Value "10" -Force
+
 }
 Start-Job -Name "Windows Optimizations" -ScriptBlock {
     Write-Host "Windows Optimizations"
