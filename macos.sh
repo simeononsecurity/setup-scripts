@@ -203,7 +203,7 @@ sudo curl -o homebrew/etc/privoxy/user.action https://raw.githubusercontent.com/
 brew services restart privoxy
 
 #Install Dns Crypt
-brew install dnsmasq --with-dnssec
+brew install dnsmasq
 sudo curl -o homebrew/etc/dnsmasq.conf https://raw.githubusercontent.com/drduh/config/master/dnsmasq.conf
 brew services start dnsmasq
 sudo networksetup -setdnsservers "Wi-Fi" 127.0.0.1
