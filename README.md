@@ -33,5 +33,5 @@ sudo su -c "bash <(wget -qO- https://raw.githubusercontent.com/simeononsecurity/
 
 ### MacOS - Install and Configure:
 ```bash
-sudo curl https://raw.githubusercontent.com/simeononsecurity/setup-scripts/main/macos.sh -o macos.sh && sudo bash ./macos.sh
+sudo curl https://raw.githubusercontent.com/simeononsecurity/setup-scripts/main/macos.sh -o macos.sh && bash ./macos.sh
 ```
