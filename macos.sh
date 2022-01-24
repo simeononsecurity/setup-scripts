@@ -196,11 +196,14 @@ sudo defaults write /Library/Preferences/com.apple.mDNSResponder.plist NoMultica
 # Privoxy
 brew install privoxy
 brew services start privoxy
-sudo networksetup -setwebproxy "Wi-Fi" 127.0.0.1 8118
-sudo networksetup -setsecurewebproxy "Wi-Fi" 127.0.0.1 8118
+sudo mkdir homebrew/etc/privoxy/
 sudo curl -o homebrew/etc/privoxy/config https://raw.githubusercontent.com/drduh/config/master/privoxy/config
 sudo curl -o homebrew/etc/privoxy/user.action https://raw.githubusercontent.com/drduh/config/master/privoxy/user.action
 brew services restart privoxy
+sudo networksetup -setwebproxy "Wi-Fi" 127.0.0.1 8118
+sudo networksetup -setsecurewebproxy "Wi-Fi" 127.0.0.1 8118
+#sudo networksetup -setsecurewebproxystate Wi-Fi off  
+#sudo networksetup -setwebproxystate Wi-Fi off  
 
 #Install Dns Crypt
 #brew install dnsmasq
@@ -208,4 +211,4 @@ brew services restart privoxy
 #sudo curl -o homebrew/etc/dnsmasq.conf https://raw.githubusercontent.com/drduh/config/master/dnsmasq.conf
 #brew services start dnsmasq
 #sudo networksetup -setdnsservers "Wi-Fi" 127.0.0.1
-
+#sudo networksetup -setdnsservers "Wi-Fi" 1.1.1.1
