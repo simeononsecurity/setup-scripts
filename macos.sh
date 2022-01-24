@@ -52,25 +52,32 @@ sudo pfctl -e -f pf.rules
 # view filtered packets
 # sudo tcpdump -ni pflog0
 
-
-sudo curl https://github.com/macports/macports-base/releases/download/v2.7.1/MacPorts-2.7.1-12-Monterey.pkg -o MacPorts-2.7.1-12-Monterey.pkg
-sudo installer -pkg ./MacPorts-2.7.1-12-Monterey.pkg -target /
-
-sudo port install opendoas
-
-curl https://raw.githubusercontent.com/drduh/config/master/scripts/pf-blocklist.sh -o "pf-blocklist.sh"
-sudo chmod +x ./pf-blocklist.sh
-sudo /bin/bash -c ./pf-blocklist.sh
-
-
 #Install homebrew
 sudo mkdir homebrew && curl -L https://github.com/Homebrew/brew/tarball/master | tar xz --strip 1 -C homebrew
-echo 'PATH=$PATH:~/homebrew/sbin:~/homebrew/bin' >> .zshrc
+echo 'PATH=$PATH:~/homebrew/sbin:~/homebrew/bin:/opt/local/bin' >> .zshrc
 chsh -s /bin/zsh
 brew update
 export HOMEBREW_NO_ANALYTICS=1
 brew analytics off
 sudo chown -R $(whoami) /usr/local/lib/pkgconfig
+
+#sudo curl https://github.com/macports/macports-base/releases/download/v2.7.1/MacPorts-2.7.1-12-Monterey.pkg -o MacPorts-2.7.1-12-Monterey.pkg
+#sudo installer -pkg MacPorts-2.7.1-12-Monterey.pkg -target /
+sudo curl https://github.com/macports/macports-base/releases/download/v2.7.1/MacPorts-2.7.1.tar.gz -o MacPorts-2.7.1.tar.gz
+tar -xzvf MacPorts-2.7.1.tar.gz
+cd MacPorts-2.7.1
+./configure && make && sudo make install
+cd ../
+rm -rf MacPorts-2.7.1*
+
+export PATH=/opt/local/bin:/opt/local/sbin:$PATH
+export MANPATH=/opt/local/share/man:$MANPATH
+export DISPLAY=:0.0
+sudo port install opendoas
+
+curl https://raw.githubusercontent.com/drduh/config/master/scripts/pf-blocklist.sh -o "pf-blocklist.sh"
+sudo chmod +x ./pf-blocklist.sh
+sudo bash ./pf-blocklist.sh
 
 #Manage Hosts File
 sudo curl https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts | sudo tee -a /etc/hosts
