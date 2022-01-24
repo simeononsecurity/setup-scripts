@@ -70,6 +70,7 @@ chsh -s /bin/zsh
 brew update
 export HOMEBREW_NO_ANALYTICS=1
 brew analytics off
+sudo chown -R $(whoami) /usr/local/lib/pkgconfig
 
 #Manage Hosts File
 sudo curl https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts | sudo tee -a /etc/hosts
@@ -78,26 +79,11 @@ sudo curl https://someonewhocares.org/hosts/zero/hosts | sudo tee -a /etc/hosts
 wc -l /etc/hosts
 egrep -ve "^#|^255.255.255.255|^127.|^0.|^::1|^ff..::|^fe80::" /etc/hosts | sort | uniq | egrep -e "[1,2]|::"
 
-#Install Dns Crypt
-brew install dnsmasq --with-dnssec
-sudo curl -o homebrew/etc/dnsmasq.conf https://raw.githubusercontent.com/drduh/config/master/dnsmasq.conf
-brew services start dnsmasq
-sudo networksetup -setdnsservers "Wi-Fi" 127.0.0.1
-
 #Disable Captive Portal Detection
 sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.captive.control.plist Active -bool false
 
 #Install / Update Curl
 brew install curl
-
-# Privoxy
-brew install privoxy
-brew services start privoxy
-sudo networksetup -setwebproxy "Wi-Fi" 127.0.0.1 8118
-sudo networksetup -setsecurewebproxy "Wi-Fi" 127.0.0.1 8118
-sudo curl -o homebrew/etc/privoxy/config https://raw.githubusercontent.com/drduh/config/master/privoxy/config
-sudo curl -o homebrew/etc/privoxy/user.action https://raw.githubusercontent.com/drduh/config/master/privoxy/user.action
-brew services restart privoxy
 
 #gnupg
 brew install gnupg
@@ -206,3 +192,19 @@ sudo defaults write com.apple.CrashReporter DialogType none
 
 #disable bonjour
 sudo defaults write /Library/Preferences/com.apple.mDNSResponder.plist NoMulticastAdvertisements -bool YES
+
+# Privoxy
+brew install privoxy
+brew services start privoxy
+sudo networksetup -setwebproxy "Wi-Fi" 127.0.0.1 8118
+sudo networksetup -setsecurewebproxy "Wi-Fi" 127.0.0.1 8118
+sudo curl -o homebrew/etc/privoxy/config https://raw.githubusercontent.com/drduh/config/master/privoxy/config
+sudo curl -o homebrew/etc/privoxy/user.action https://raw.githubusercontent.com/drduh/config/master/privoxy/user.action
+brew services restart privoxy
+
+#Install Dns Crypt
+brew install dnsmasq --with-dnssec
+sudo curl -o homebrew/etc/dnsmasq.conf https://raw.githubusercontent.com/drduh/config/master/dnsmasq.conf
+brew services start dnsmasq
+sudo networksetup -setdnsservers "Wi-Fi" 127.0.0.1
+
