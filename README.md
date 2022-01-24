@@ -30,3 +30,8 @@ sudo su -c "bash <(wget -qO- https://raw.githubusercontent.com/simeononsecurity/
 ```bash
 sudo su -c "bash <(wget -qO- https://raw.githubusercontent.com/simeononsecurity/setup-scripts/main/parrot.sh)" root
 ```
+
+### MacOS - Install and Configure:
+```bash
+sudo curl https://raw.githubusercontent.com/simeononsecurity/setup-scripts/main/macos.sh -o macos.sh && sudo bash ./macos.sh
+```
