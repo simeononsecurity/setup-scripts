@@ -88,7 +88,7 @@ sudo networksetup -setdnsservers "Wi-Fi" 127.0.0.1
 sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.captive.control.plist Active -bool false
 
 #Install / Update Curl
-brew install curl --with-openssl
+brew install curl
 
 # Privoxy
 brew install privoxy
