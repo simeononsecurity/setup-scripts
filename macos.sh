@@ -69,7 +69,7 @@ echo 'PATH=$PATH:~/homebrew/sbin:~/homebrew/bin' >> .zshrc
 chsh -s /bin/zsh
 brew update
 export HOMEBREW_NO_ANALYTICS=1
-sudo brew analytics off
+brew analytics off
 
 #Manage Hosts File
 sudo curl https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts | sudo tee -a /etc/hosts
