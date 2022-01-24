@@ -53,13 +53,13 @@ sudo pfctl -e -f pf.rules
 # sudo tcpdump -ni pflog0
 
 
-curl https://github.com/macports/macports-base/releases/download/v2.7.1/MacPorts-2.7.1-12-Monterey.pkg -o MacPorts-2.7.1-12-Monterey.pkg
+sudo curl https://github.com/macports/macports-base/releases/download/v2.7.1/MacPorts-2.7.1-12-Monterey.pkg -o MacPorts-2.7.1-12-Monterey.pkg
 sudo installer -pkg ./MacPorts-2.7.1-12-Monterey.pkg -target /
 
 sudo port install opendoas
 
 curl https://raw.githubusercontent.com/drduh/config/master/scripts/pf-blocklist.sh -o "pf-blocklist.sh"
-chmod +x ./pf-blocklist.sh
+sudo chmod +x ./pf-blocklist.sh
 sudo /bin/bash -c ./pf-blocklist.sh
 
 
@@ -91,8 +91,8 @@ sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.captive.c
 sudo brew install curl --with-openssl
 
 # Privoxy
-brew install privoxy
-brew services start privoxy
+sudo brew install privoxy
+sudo brew services start privoxy
 sudo networksetup -setwebproxy "Wi-Fi" 127.0.0.1 8118
 sudo networksetup -setsecurewebproxy "Wi-Fi" 127.0.0.1 8118
 sudo curl -o homebrew/etc/privoxy/config https://raw.githubusercontent.com/drduh/config/master/privoxy/config
@@ -181,28 +181,28 @@ sudo defaults delete ~/Library/Preferences/com.apple.iTunes.plist WirelessBuddyI
 
 #duti
 sudo brew install duti
-duti -s com.apple.Safari afp
-duti -s com.apple.Safari ftp
-duti -s com.apple.Safari nfs
-duti -s com.apple.Safari smb
-duti -s com.apple.TextEdit public.unix-executable
+sudo duti -s com.apple.Safari afp
+sudo duti -s com.apple.Safari ftp
+sudo duti -s com.apple.Safari nfs
+sudo duti -s com.apple.Safari smb
+sudo duti -s com.apple.TextEdit public.unix-executable
 
 #screenlock
-defaults write com.apple.screensaver askForPassword -int 1
-defaults write com.apple.screensaver askForPasswordDelay -int 0
+sudo defaults write com.apple.screensaver askForPassword -int 1
+sudo defaults write com.apple.screensaver askForPasswordDelay -int 0
 
 #expose hidden files
-defaults write com.apple.finder AppleShowAllFiles -bool true
-chflags nohidden ~/Library
+sudo defaults write com.apple.finder AppleShowAllFiles -bool true
+sudo chflags nohidden ~/Library
 
 #filename extentions
-defaults write NSGlobalDomain AppleShowAllExtensions -bool true
+sudo defaults write NSGlobalDomain AppleShowAllExtensions -bool true
 
 #disable autosave to icloud
-defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool false
+sudo defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool false
 
 #disable crash reporter
-defaults write com.apple.CrashReporter DialogType none
+sudo defaults write com.apple.CrashReporter DialogType none
 
 #disable bonjour
 sudo defaults write /Library/Preferences/com.apple.mDNSResponder.plist NoMulticastAdvertisements -bool YES
