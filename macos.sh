@@ -67,7 +67,7 @@ sudo /bin/bash -c ./pf-blocklist.sh
 sudo mkdir homebrew && curl -L https://github.com/Homebrew/brew/tarball/master | tar xz --strip 1 -C homebrew
 echo 'PATH=$PATH:~/homebrew/sbin:~/homebrew/bin' >> .zshrc
 chsh -s /bin/zsh
-sudo brew update
+brew update
 export HOMEBREW_NO_ANALYTICS=1
 sudo brew analytics off
 
@@ -79,28 +79,28 @@ wc -l /etc/hosts
 egrep -ve "^#|^255.255.255.255|^127.|^0.|^::1|^ff..::|^fe80::" /etc/hosts | sort | uniq | egrep -e "[1,2]|::"
 
 #Install Dns Crypt
-sudo brew install dnsmasq --with-dnssec
+brew install dnsmasq --with-dnssec
 sudo curl -o homebrew/etc/dnsmasq.conf https://raw.githubusercontent.com/drduh/config/master/dnsmasq.conf
-sudo brew services start dnsmasq
+brew services start dnsmasq
 sudo networksetup -setdnsservers "Wi-Fi" 127.0.0.1
 
 #Disable Captive Portal Detection
 sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.captive.control.plist Active -bool false
 
 #Install / Update Curl
-sudo brew install curl --with-openssl
+brew install curl --with-openssl
 
 # Privoxy
-sudo brew install privoxy
-sudo brew services start privoxy
+brew install privoxy
+brew services start privoxy
 sudo networksetup -setwebproxy "Wi-Fi" 127.0.0.1 8118
 sudo networksetup -setsecurewebproxy "Wi-Fi" 127.0.0.1 8118
 sudo curl -o homebrew/etc/privoxy/config https://raw.githubusercontent.com/drduh/config/master/privoxy/config
 sudo curl -o homebrew/etc/privoxy/user.action https://raw.githubusercontent.com/drduh/config/master/privoxy/user.action
-sudo brew services restart privoxy
+brew services restart privoxy
 
 #gnupg
-sudo brew install gnupg
+brew install gnupg
 sudo curl -o ~/.gnupg/gpg.conf https://raw.githubusercontent.com/drduh/config/master/gpg.conf
 
 #Gatekeeper and XProtect
@@ -180,7 +180,7 @@ sudo defaults delete ~/Library/Preferences/com.apple.iTunes.plist StoreUserInfo
 sudo defaults delete ~/Library/Preferences/com.apple.iTunes.plist WirelessBuddyID
 
 #duti
-sudo brew install duti
+brew install duti
 sudo duti -s com.apple.Safari afp
 sudo duti -s com.apple.Safari ftp
 sudo duti -s com.apple.Safari nfs
