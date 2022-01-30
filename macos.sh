@@ -219,3 +219,9 @@ sudo networksetup -setsecurewebproxy "Wi-Fi" 127.0.0.1 8118
 #brew services start dnsmasq
 #sudo networksetup -setdnsservers "Wi-Fi" 127.0.0.1
 #sudo networksetup -setdnsservers "Wi-Fi" 1.1.1.1
+
+# https://github.com/tiiiecherle/osx_install_config
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/tiiiecherle/osx_install_config/master/_config_file/install_config_file.sh)"
+sh -c "$(curl -sL https://raw.githubusercontent.com/tiiiecherle/osx_install_config/master/14_samba/14a_samba.sh)"
+sh -c "$(curl -sL https://raw.githubusercontent.com/tiiiecherle/osx_install_config/master/01_recovery_settings_and_nvram/1b_nvram.sh)"
+sh -c "$(curl -sL https://github.com/tiiiecherle/osx_install_config/raw/master/03_homebrew_casks_and_mas/3f_homebrew_ssh1.sh)"
