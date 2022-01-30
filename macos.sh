@@ -225,3 +225,7 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/tiiiecherle/osx_install_co
 sh -c "$(curl -sL https://raw.githubusercontent.com/tiiiecherle/osx_install_config/master/14_samba/14a_samba.sh)"
 sh -c "$(curl -sL https://raw.githubusercontent.com/tiiiecherle/osx_install_config/master/01_recovery_settings_and_nvram/1b_nvram.sh)"
 sh -c "$(curl -sL https://github.com/tiiiecherle/osx_install_config/raw/master/03_homebrew_casks_and_mas/3f_homebrew_ssh1.sh)"
+
+# Auditing Fixes
+sudo launchctl load -w /System/Library/LaunchDaemons/com.apple.auditd.plist
+sudo /usr/bin/sed -i.bak '/^policy/ s/$/,ahlt/' /etc/security/audit_control; sudo /usr/sbin/audit -s
