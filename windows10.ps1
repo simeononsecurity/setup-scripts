@@ -456,6 +456,11 @@ Start-Job -Name "Configuring Windows - Optimizations, Debloating, and Hardening"
     #netsh interface ipv6 set teredo type=disabled
     #netsh interface ipv6 6to4 set state disabled
     
+    #Hardware accelerated scheduling
+    New-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\GraphicsDrivers" -Name "HwSchMode" -Value 2 -Force
     
-
+    #Get Insider Updates without joining the Insider Program and without having Telemetry enabled
+    New-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" -Name "BranchReadinessLevel" -Value 2 -Force
+    New-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" -Name "ManagePreviewBuilds" -Value 1 -Force
+    New-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" -Name "ManagePreviewBuildsPolicyValue" -Value 2 -Force
 }
