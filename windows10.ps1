@@ -447,4 +447,15 @@ Start-Job -Name "Configuring Windows - Optimizations, Debloating, and Hardening"
     #Enable Sandboxing for Windows Defender
     setx /M MP_FORCE_USE_SANDBOX 1
 
+    #Harden IPv6
+    #https://ernw.de/download/ERNW_Guide_to_Configure_Securely_Windows_Servers_For_IPv6_v1_0.pdf
+    netsh interface ipv6 set global mldlevel=none
+    netsh interface ipv6 set global icmpredirects=disabled
+    netsh interface ipv6 set global defaultcurhoplimit=64
+    netsh interface ipv6 isatap set state disabled
+    #netsh interface ipv6 set teredo type=disabled
+    #netsh interface ipv6 6to4 set state disabled
+    
+    
+
 }
