@@ -230,4 +230,16 @@ Start-Job -Name "Windows Optimizations" -ScriptBlock {
     catch {
         New-ItemProperty -Path $path -Name 'VisualFXSetting' -Value 2 -PropertyType 'DWORD'
         }
+        
+    #Harden IPv6
+    #https://ernw.de/download/ERNW_Guide_to_Configure_Securely_Windows_Servers_For_IPv6_v1_0.pdf
+    netsh interface ipv6 set global mldlevel=none
+    netsh interface ipv6 set global icmpredirects=disabled
+    netsh interface ipv6 set global defaultcurhoplimit=64
+    netsh interface ipv6 isatap set state disabled
+    #netsh interface ipv6 set teredo type=disabled
+    #netsh interface ipv6 6to4 set state disabled
+    
+    #Hardware accelerated scheduling
+    New-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\GraphicsDrivers" -Name "HwSchMode" -Value 2 -Force
 }
