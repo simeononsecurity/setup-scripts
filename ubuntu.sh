@@ -105,7 +105,7 @@ sudo ufw allow 3389
 sudo ufw enable
 
 BLUE "Installing Packages"
-sudo apt-get install -y open-vm-tools curl ubuntu-restricted-extras libdvd-pkg ubuntu-restricted-addons gnome-tweak-tool synaptic net-tools docker.io flatpak gnome-software-plugin-flatpak vlc anydesk teamviewer openjdk-14-jre xrdp wine openssh-server tor git terminator openvpn nmap john hashcat hydra gtk2.0 hydra-gtk ophcrack libssl-dev libssh-dev libidn11-dev libpcre3-dev libgtk2.0-dev libmysqlclient-dev libpq-dev libsvn-dev firebird-dev pinta exiftool python-pil sqlitebrowser wireshark python3-pip binwalk foremost bsdgames sqlite zbar-tools qrencode pdfcrack fcrackzip unrar steghide ffmpeg exiftool unzip zip foremost p7zip-full gimp cmake sshpass tcpflow obs-studio
+sudo apt-get install -y open-vm-tools curl ubuntu-restricted-extras libdvd-pkg ubuntu-restricted-addons gnome-tweak-tool synaptic net-tools docker.io flatpak gnome-software-plugin-flatpak vlc anydesk teamviewer xrdp wine openssh-server tor git terminator openvpn nmap john hashcat hydra gtk2.0 hydra-gtk ophcrack libssl-dev libssh-dev libidn11-dev libpcre3-dev libgtk2.0-dev libmysqlclient-dev libpq-dev libsvn-dev firebird-dev pinta exiftool python-pil sqlitebrowser wireshark python3-pip binwalk foremost bsdgames sqlite zbar-tools qrencode pdfcrack fcrackzip unrar steghide ffmpeg exiftool unzip zip foremost p7zip-full gimp cmake sshpass tcpflow obs-studio
 
 BLUE "Clone konstruktoid/hardening ..."
 BLUE "Must modify ubuntu.cfg in ./hardening ..."
