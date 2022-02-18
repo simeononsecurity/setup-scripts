@@ -57,6 +57,17 @@ Start-Job -Name "Installing Optional Windows Features" -ScriptBlock {
 }
 refreshenv
 
+Start-Job -Name "Windows 11 Specific Changes" -ScriptBlock {
+    #Small Taskbar Icons
+    New-Item -Force "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced\TaskbarSi"
+    Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced\" -Name "TaskbarSi" -Type "DWORD" -Value "0" -Force
+    #Old Context Menu
+    New-Item -Force "HKCU:\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}"
+    New-Item -Force "HKCU:\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\InprocServer32"
+    Set-ItemProperty -Path "HKCU:\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}" -Name "InprocServer32" -Type "String" -Value "" -Force
+    
+}
+
 Start-Job -Name "Installing Software" -Scriptblock { 
     $chocopackages = @("googlechrome", "firefox", "ungoogled-chromium", "brave", "librewolf", "microsoft-edge", "tor-Browser", "putty", "winscp.install", "teamviewer", "anydesk.install", "sysinternals", "driverbooster", "sdio", "etcher", "rufus.install", "veracrypt", "windirstat", "mysql.workbench", "rsat", "sql-server-management-studio", "laps", "wumt", "openvpn", "wireguard", "wireshark", "nmap", "winbox", "tor", "cheatengine", "sleuthkit", "hxd", "ida-free", "ghidra", "ossec-client", "burp-suite-free-edition", "zap", "openstego", "accessenum", "accesschk", "sysmon", "powershell4", "powershell", "powershellhere-elevated", "powershell.portable", "microsoft-windows-terminal", "carbon", "jre8", "openjdk", "openjdk.portable", "hugo", "hugo-extended", "nodejs", "vscode", "vscodium", "vscode-ansible", "vscode-python", "chocolatey-vscode", "vscode-prettier", "vscode-java", "vscode-yaml", "vscode-haskell", "vscode-mongo", "vscode-beautify", "vscode-intellicode", "vscode-pull-request-github", "vscode-kubernetes-tools", "vscode-autofilename", "vscode-codespellchecker", "vscode-icons", "vscode-csharp", "dsc.powershellcommunity", "notepadplusplus.install", "python", "pip", "github-desktop", "gh", "git.install", "git-lfx", "gnupg", "gpg4win", "openssh", "wsl", "wsl2", "adb", "universal-adb-drivers", "windows-adk-all", "dotnetfx", "vcredist-all", "microsoft-visual-cpp-build-tools", "patch-my-pc", "rocketchat", "discord", "pidgin", "signal", "steam", "obs-studio", "obs-ndi", "vlc", "gimp", "k-litecodecpackfull", "audacity", "audacity-lame", "screentogif", "adobereader", "installroot", "7zip.install", "curl", "autohotkey", "teracopy", "cpu-z.install", "eraser", "openstego")
     choco install $chocopackages
