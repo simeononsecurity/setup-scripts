@@ -6,6 +6,11 @@ Set up scripts for various OS'es.
 - **DO NOT** run these commands or scripts directly without knowledge of what these scripts do.
 
 ## Direct Install Scripts:
+### Windows 11 - Install and Configure:
+```powershell
+iwr -useb "https://raw.githubusercontent.com/simeononsecurity/setup-scripts/main/windows11.ps1" | iex
+```
+
 ### Windows 10 - Install and Configure:
 ```powershell
 iwr -useb "https://raw.githubusercontent.com/simeononsecurity/setup-scripts/main/windows10.ps1" | iex
