@@ -463,4 +463,10 @@ Start-Job -Name "Configuring Windows - Optimizations, Debloating, and Hardening"
     New-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" -Name "BranchReadinessLevel" -Value 2 -Force
     New-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" -Name "ManagePreviewBuilds" -Value 1 -Force
     New-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" -Name "ManagePreviewBuildsPolicyValue" -Value 2 -Force
+
+
+  #Auto Update Choco Packages
+  $Sta = New-ScheduledTaskAction -Execute "powershell -Command 'choco upgrade all'"
+  $Stset = New-ScheduledTaskSettingsSet -RunOnlyIfNetworkAvailable -RunOnlyIfIdle -IdleDuration 00:02:00 -IdleWaitTimeout 02:30:00 -ExecutionTimeLimit (New-TimeSpan -Hours 1) -DontStopOnIdleEnd -WakeToRun
+  Register-ScheduledTask Task02 -Action $Sta -Settings $Stset
 }
