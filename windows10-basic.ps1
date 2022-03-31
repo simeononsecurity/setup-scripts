@@ -155,4 +155,9 @@ Start-Job -Name "Customizations" -ScriptBlock {
   }
   Set-ItemProperty -Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\Explorer" -Name "DisableNotificationCenter" -Type DWord -Value 1
   Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\PushNotifications" -Name "ToastEnabled" -Type DWord -Value 0
+
+  #Auto Update Choco Packages
+  $Sta = New-ScheduledTaskAction -Execute "powershell -Command 'choco upgrade all'"
+  $Stset = New-ScheduledTaskSettingsSet -RunOnlyIfNetworkAvailable -RunOnlyIfIdle -IdleDuration 00:02:00 -IdleWaitTimeout 02:30:00 -ExecutionTimeLimit (New-TimeSpan -Hours 1) -DontStopOnIdleEnd -WakeToRun
+  Register-ScheduledTask Task02 -Action $Sta -Settings $Stset
 }
