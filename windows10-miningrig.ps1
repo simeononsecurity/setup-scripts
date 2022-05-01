@@ -26,12 +26,13 @@ Start-Job -Name "Install and Configure Chocolatey" -ScriptBlock {
     Start-Job -Name "Installing Graphics Drivers" -ScriptBlock {
             choco install nvidia-display-driver disable-nvidia-telemetry cuda 
     } 
+    Start-Job -Name "Install Software" -ScriptBlock {
+        Write-Host "Installing  Software"
+        choco install evga-precision-x1 msiafterburner gpu-z hwinfo
+        choco upgrade all
+    }
 }
-Start-Job -Name "Install Software" -ScriptBlock {
-    Write-Host "Installing  Software"
-    choco install evga-precision-x1 msiafterburner gpu-z hwinfo
-    choco upgrade all
-}
+
 Start-Job -Name "Mining Specific Configurations and Optimizations" -ScriptBlock {
     Write-Host "Mining Specific Configurations and Optimizations"
     #Force contiguous memory allocation in the NVIDIA driver
