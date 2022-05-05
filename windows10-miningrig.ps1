@@ -24,11 +24,11 @@ Start-Job -Name "Install and Configure Chocolatey" -ScriptBlock {
         Get-WindowsUpdate –Install
     }
     Start-Job -Name "Installing Graphics Drivers" -ScriptBlock {
-            choco install nvidia-display-driver disable-nvidia-telemetry cuda 
+            choco install nvidia-display-driver cuda 
     } 
     Start-Job -Name "Install Software" -ScriptBlock {
         Write-Host "Installing  Software"
-        choco install evga-precision-x1 msiafterburner gpu-z hwinfo
+        choco install evga-precision-x1 msiafterburner gpu-z hwinfo ddu driverbooster disable-nvidia-telemetry teamviewer
         choco upgrade all
     }
 }
