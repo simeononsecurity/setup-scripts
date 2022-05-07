@@ -61,6 +61,10 @@ Start-Job -Name "Mining Specific Configurations and Optimizations" -ScriptBlock 
     Add-MpPreference -ExclusionPath $env:APPDATA"\AwesomeMiner"
     Add-MpPreference -ExclusionPath $env:APPDATA"\AwesomeMinerService"
     Add-MpPreference -ExclusionPath $env:PROGRAMDATA"\AwesomeMinerService"
+    
+    #NiceHash Miner Windows Defender Exclusions
+    Add-MpPreference -ExclusionPath "C:\NiceHash\"
+    Add-MpPreference -ExclusionPath $env:LOCALAPPDATA"\Programs\NiceHashMiner"
 
     #Disable Windows Updates
     #https://blogs.technet.microsoft.com/jamesone/2009/01/27/managing-windows-update-with-powershell/
