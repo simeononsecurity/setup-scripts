@@ -58,7 +58,7 @@ Start-Job -Name "Installing Optional Windows Features" -ScriptBlock {
 refreshenv
 
 Start-Job -Name "Installing Software" -Scriptblock { 
-    $chocopackages = @("googlechrome", "firefox", "ungoogled-chromium", "brave", "librewolf", "microsoft-edge", "tor-Browser", "putty", "winscp.install", "teamviewer", "anydesk.install", "sysinternals", "driverbooster", "sdio", "etcher", "rufus.install", "veracrypt", "windirstat", "mysql.workbench", "rsat", "sql-server-management-studio", "laps", "wumt", "openvpn", "wireguard", "wireshark", "nmap", "winbox", "tor", "cheatengine", "sleuthkit", "hxd", "ida-free", "ghidra", "ossec-client", "burp-suite-free-edition", "zap", "openstego", "accessenum", "accesschk", "sysmon", "powershell4", "powershell", "powershellhere-elevated", "powershell.portable", "microsoft-windows-terminal", "carbon", "jre8", "openjdk", "openjdk.portable", "hugo", "hugo-extended", "nodejs", "vscode", "vscodium", "vscode-ansible", "vscode-python", "chocolatey-vscode", "vscode-prettier", "vscode-java", "vscode-yaml", "vscode-haskell", "vscode-mongo", "vscode-beautify", "vscode-intellicode", "vscode-pull-request-github", "vscode-kubernetes-tools", "vscode-autofilename", "vscode-codespellchecker", "vscode-icons", "vscode-csharp", "dsc.powershellcommunity", "notepadplusplus.install", "python", "pip", "github-desktop", "gh", "git.install", "git-lfx", "gnupg", "gpg4win", "openssh", "wsl", "wsl2", "adb", "universal-adb-drivers", "windows-adk-all", "dotnetfx", "vcredist-all", "microsoft-visual-cpp-build-tools", "patch-my-pc", "rocketchat", "discord", "pidgin", "signal", "steam", "obs-studio", "obs-ndi", "vlc", "gimp", "k-litecodecpackfull", "audacity", "audacity-lame", "screentogif", "adobereader", "installroot", "7zip.install", "curl", "autohotkey", "teracopy", "cpu-z.install", "eraser", "openstego", "vagrant", "vagrant-manager", "vagrant-vmware-utility", "virtualbox", "tabby")
+    $chocopackages = @("googlechrome", "firefox", "ungoogled-chromium", "brave", "librewolf", "microsoft-edge", "tor-Browser", "putty", "winscp.install", "teamviewer", "anydesk.install", "sysinternals", "driverbooster", "sdio", "etcher", "rufus.install", "veracrypt", "windirstat", "mysql.workbench", "rsat", "sql-server-management-studio", "laps", "wumt", "openvpn", "wireguard", "wireshark", "nmap", "winbox", "tor", "cheatengine", "sleuthkit", "hxd", "ida-free", "ghidra", "ossec-client", "burp-suite-free-edition", "zap", "openstego", "accessenum", "accesschk", "sysmon", "powershell4", "powershell", "powershellhere-elevated", "powershell.portable", "microsoft-windows-terminal", "carbon", "jre8", "openjdk", "openjdk.portable", "hugo", "hugo-extended", "nodejs", "vscode", "vscodium", "vscode-ansible", "vscode-python", "chocolatey-vscode", "vscode-prettier", "vscode-java", "vscode-yaml", "vscode-haskell", "vscode-mongo", "vscode-beautify", "vscode-intellicode", "vscode-pull-request-github", "vscode-kubernetes-tools", "vscode-autofilename", "vscode-codespellchecker", "vscode-icons", "vscode-csharp", "dsc.powershellcommunity", "notepadplusplus.install", "python", "pip", "github-desktop", "gh", "git.install", "git-lfx", "gnupg", "gpg4win", "openssh", "wsl", "wsl2", "adb", "universal-adb-drivers", "windows-adk-all", "dotnetfx", "vcredist-all", "microsoft-visual-cpp-build-tools", "patch-my-pc", "rocketchat", "discord", "pidgin", "signal", "steam", "obs-studio", "obs-ndi", "vlc", "gimp", "k-litecodecpackfull", "audacity", "audacity-lame", "screentogif", "adobereader", "installroot", "7zip.install", "curl", "autohotkey", "teracopy", "cpu-z.install", "eraser", "openstego", "vagrant", "vagrant-manager", "vagrant-vmware-utility", "virtualbox", "tabby", 'nethor')
     choco install $chocopackages
     <# $PSversion = $PSVersionTable.PSVersion.Major
     If ($PSversion -ge "7") {
@@ -234,7 +234,7 @@ Start-Job -Name "Configuring Windows - Optimizations, Debloating, and Hardening"
     powercfg /setactive e9a42b02-d5df-448d-aa00-03f14749eb61
     
     #Process Idle Tasks
-    Rundll32.exe advapi32.dll,ProcessIdleTasks
+    Rundll32.exe advapi32.dll, ProcessIdleTasks
     
     #Enable Num Lock on logon and lock screen
     Set-ItemProperty "HKU:\.DEFAULT\Control Panel\Keyboard" "InitialKeyboardIndicators" 2
@@ -465,8 +465,8 @@ Start-Job -Name "Configuring Windows - Optimizations, Debloating, and Hardening"
     New-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" -Name "ManagePreviewBuildsPolicyValue" -Value 2 -Force
 
 
-  #Auto Update Choco Packages
-  $Sta = New-ScheduledTaskAction -Execute "powershell -Command 'choco upgrade all'"
-  $Stset = New-ScheduledTaskSettingsSet -RunOnlyIfNetworkAvailable -RunOnlyIfIdle -IdleDuration 00:02:00 -IdleWaitTimeout 02:30:00 -ExecutionTimeLimit (New-TimeSpan -Hours 1) -DontStopOnIdleEnd -WakeToRun
-  Register-ScheduledTask Task02 -Action $Sta -Settings $Stset
+    #Auto Update Choco Packages
+    $Sta = New-ScheduledTaskAction -Execute "powershell -Command 'choco upgrade all'"
+    $Stset = New-ScheduledTaskSettingsSet -RunOnlyIfNetworkAvailable -RunOnlyIfIdle -IdleDuration 00:02:00 -IdleWaitTimeout 02:30:00 -ExecutionTimeLimit (New-TimeSpan -Hours 1) -DontStopOnIdleEnd -WakeToRun
+    Register-ScheduledTask Task02 -Action $Sta -Settings $Stset
 }
