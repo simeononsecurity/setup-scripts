@@ -28,7 +28,7 @@ Start-Job -Name "Install and Configure Chocolatey" -ScriptBlock {
 Start-Job -Name "Installing Optional Windows Features" -ScriptBlock {
     #https://www.ghacks.net/2017/07/14/use-windows-powershell-to-install-optional-features/
     #Enable-WindowsOptionalFeature -Online -FeatureName "" -All
-    ForEach ($OptionalFeature in ("Client-ProjFS", "ClientForNFS-Infrastructure", "DataCenterBridging", "DirectoryServices-ADAM-Client", "Microsoft-Windows-Subsystem-Linux", "NFS-Administration", "ServicesForNFS-ClientOnly", "SimpleTCP", "WindowsMediaPlayer")) {
+    ForEach ($OptionalFeature in ("Client-ProjFS", "ClientForNFS-Infrastructure", "DataCenterBridging", "DirectoryServices-ADAM-Client", "NFS-Administration", "ServicesForNFS-ClientOnly", "SimpleTCP", "WindowsMediaPlayer")) {
         Enable-WindowsOptionalFeature -Online -FeatureName "$OptionalFeature" -All -NoRestart -WarningAction SilentlyContinue | Out-Null
     }
     
