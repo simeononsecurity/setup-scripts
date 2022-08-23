@@ -156,6 +156,10 @@ Start-Job -Name "Configuring Windows - Optimizations, Debloating, and Hardening"
     #     iwr -useb 'https://simeononsecurity.ch/scripts/sosautomatesysmon.ps1'|iex
     #}
 
+    #Allow Windows behinc a WSUS Server to auto repair itself
+    #Download repair content and optional features directly from Windows Update instead of Windows Server Update Services (WSUS)
+    Set-ItemProperty -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\Servicing" -Name "RepairContentServerSource" -Type "DWORD" -Value "2" -Force
+
     #Fix high performance timers to get better performance from Windows 10.
     bcdedit /deletevalue useplatformclock
     bcdedit /set useplatformclock false
