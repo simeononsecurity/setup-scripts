@@ -52,7 +52,7 @@ sudo add-apt-repository restricted
 
 BLUE "Update and Upgrade"
 sudo apt-get update
-sudo apt-get install -y full-upgrade
+sudo apt-get full-upgrade -y
 
 BLUE "Configure Firewall"
 #https://github.com/ChrisTitusTech/firewallsetup
