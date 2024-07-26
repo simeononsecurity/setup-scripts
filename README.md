@@ -1,4 +1,7 @@
 # setup-scripts
+
+ [![Sponsor](https://img.shields.io/badge/Sponsor-Click%20Here-ff69b4)](https://github.com/sponsors/simeononsecurity) 
+
 Set up scripts for various OS'es.
 
 ## Notes: 
